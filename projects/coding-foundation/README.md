@@ -7,3 +7,4 @@
 1. Move the slider bar
 3. Repeat!
 
+Link to the github page: [https://iris-666.github.io/abc-student-repo/projects/coding-foundation/](https://iris-666.github.io/abc-student-repo/projects/coding-foundation/)
