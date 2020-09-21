@@ -1,0 +1,115 @@
+#backgroundImg{
+    position: fixed;
+}
+
+.hyperLink:hover{
+    cursor: pointer;
+}
+
+#welcome{
+    position: absolute;
+    top: 250px;
+    left: 1680px;
+    font-size: 24px;
+    
+}
+
+#mini1{
+    position: absolute;
+    top: 360px;
+    left: 180px;
+    writing-mode: vertical-rl;
+    text-orientation: sideways-right;
+    transform: rotate(-50deg);
+    font-size: 18px;
+}
+
+#mini2{
+    position: absolute;
+    top: 360px;
+    left: 290px;
+    writing-mode: vertical-rl;
+    text-orientation: sideways-right;
+    transform: rotate(-50deg);
+    font-size: 18px;
+}
+
+#mini3{
+    position: absolute;
+    top: 360px;
+    left: 400px;
+    writing-mode: vertical-rl;
+    text-orientation: sideways-right;
+    transform: rotate(-50deg);
+    font-size: 18px;
+}
+
+#projectA{
+    position: absolute;
+    top: 360px;
+    left: 510px;
+    writing-mode: vertical-rl;
+    text-orientation: sideways-right;
+    transform: rotate(-50deg);
+    font-size: 28px;
+}
+
+#mini4{
+    position: absolute;
+    top: 360px;
+    left: 620px;
+    writing-mode: vertical-rl;
+    text-orientation: sideways-right;
+    transform: rotate(-50deg);
+    font-size: 18px;
+}
+
+#mini5{
+    position: absolute;
+    top: 360px;
+    left: 730px;
+    writing-mode: vertical-rl;
+    text-orientation: sideways-right;
+    transform: rotate(-50deg);
+    font-size: 18px;
+}
+
+#projectB{
+    position: absolute;
+    top: 360px;
+    left: 840px;
+    writing-mode: vertical-rl;
+    text-orientation: sideways-right;
+    transform: rotate(-50deg);
+    font-size: 28px;
+}
+
+#mini6{
+    position: absolute;
+    top: 360px;
+    left: 950px;
+    writing-mode: vertical-rl;
+    text-orientation: sideways-right;
+    transform: rotate(-50deg);
+    font-size: 18px;
+}
+
+#mini7{
+    position: absolute;
+    top: 360px;
+    left: 1060px;
+    writing-mode: vertical-rl;
+    text-orientation: sideways-right;
+    transform: rotate(-50deg);
+    font-size: 18px;
+}
+
+#projectC{
+    position: absolute;
+    top: 360px;
+    left: 1170px;
+    writing-mode: vertical-rl;
+    text-orientation: sideways-right;
+    transform: rotate(-50deg);
+    font-size: 28px;
+}
