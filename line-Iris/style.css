@@ -113,3 +113,81 @@
     transform: rotate(-50deg);
     font-size: 28px;
 }
+
+.caption {
+    z-index: 3;
+    height: 50px;  
+    position: relative;
+   /* }
+   .example1 h3 { */
+    top: 200px;
+    font-size: 3em;
+    color: red;
+    position: absolute;
+    width: 80%;
+    margin: 0;
+    line-height: 50px;
+    text-align: center;
+    /* Starting position */
+    -moz-transform:translateX(100%);
+    -webkit-transform:translateX(100%);    
+    transform:translateX(100%);
+    /* Apply animation to this element */  
+    -moz-animation: example1 15s linear infinite;
+    -webkit-animation: example1 15s linear infinite;
+    animation: example1 15s linear infinite;
+   }
+   /* Move it (define the animation) */
+   @-moz-keyframes example1 {
+    0%   { -moz-transform: translateX(100%); }
+    100% { -moz-transform: translateX(-100%); }
+   }
+   @-webkit-keyframes example1 {
+    0%   { -webkit-transform: translateX(100%); }
+    100% { -webkit-transform: translateX(-100%); }
+   }
+   @keyframes example1 {
+    0%   { 
+    -moz-transform: translateX(100%); /* Firefox bug fix */
+    -webkit-transform: translateX(100%); /* Firefox bug fix */
+    transform: translateX(100%);       
+    }
+    100% { 
+    -moz-transform: translateX(-100%); /* Firefox bug fix */
+    -webkit-transform: translateX(-100%); /* Firefox bug fix */
+    transform: translateX(-100%); 
+    }
+   }
+
+   /* #captionBackground{
+       position: absolute;
+       top: 230px;
+       background-color: black;
+       height:100px;
+       width: 1010px;
+       margin: auto;
+       z-index: 1;      
+   }
+
+   #captionBoard{
+    position: absolute;
+    top: 220px;
+    border: 10px solid white;
+    height:100px;
+    width: 100vw;
+    z-index: 10;
+} */
+
+#scrollingCaption {
+	font-size: 24px;
+	color: #FF0000;
+	height: 50px;
+	width: 930px;
+	border: 5px ridge #999;
+	background-color: #222;
+    position: absolute;
+    top: 220px;
+    z-index: 100;
+    margin-left: 200px;
+    
+}
