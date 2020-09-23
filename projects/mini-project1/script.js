@@ -5,7 +5,23 @@ let divAmount = 100
 
 
 function start() {
-    document.getElementById('fileInputGoogle').style.display = 'block'
+    let divAmount = 100
+    let divWidth = window.innerWidth / divAmount
+    let rangeValue = rangeInput.value;
+
+    for (let i = 0; i < divAmount; i++) {
+        let rangenewDiv = document.createElement("div");
+        let newDivColor = mapRange(i, 0, divAmount, 0, 360)
+        rangenewDiv.style.width = divWidth + 'px'
+        rangenewDiv.style.height = '50px'
+        rangenewDiv.style.position = "absolute"
+        rangenewDiv.style.top += rangeValue * randomNums[i] + 'px'
+        rangenewDiv.style.left = divWidth * i + 'px'
+        rangenewDiv.style.backgroundColor = 'hsl(' + newDivColor + ', 40%, 70%)'
+        rangenewDiv.id = "div" + i;
+        rangenewDiv.className = "rangenewDiv"
+        document.body.appendChild(rangenewDiv)
+    }
 
 }
 
@@ -162,26 +178,34 @@ let colorCount = 0
 function color1() {
     colorCount += 1
     let colornewDiv = document.createElement("div");
+    let color = colorInput.value
+    var value = color.match(/[A-Za-z0-9]{2}/g);
+    value = value.map(function (v) { return parseInt(v, 16) });
+    let rgb = "rgb(" + value.join(",") + ")"; //transform hex to rgb color
+    // console.log(value)
+    let rgbSum = value[0] + value[1] + value[2]
+    let size = mapRange(rgbSum, 0, 765, 1, 100)
+
     colornewDiv.style.backgroundColor = colorInput.value;
     colornewDiv.style.position = "absolute"
     colornewDiv.style.left = Math.random() * window.innerWidth + 'px';
     colornewDiv.style.top = Math.random() * window.innerHeight + 'px';
-    colornewDiv.style.height = "10px";
-    colornewDiv.style.width = "10px";
+    colornewDiv.style.height = size + "px";
+    colornewDiv.style.width = size + "px";
     colornewDiv.className = 'colornewDiv';
-    colornewDiv.id = 'colornewDiv' + colorCount; 
+    colornewDiv.id = 'colornewDiv' + colorCount;
     document.body.appendChild(colornewDiv);
 
     setInterval(moveColor, 10);
 
-    let randomRotatedeg = Math.random() * 10 -5;
+    let randomRotatedeg = Math.random() * 10 - 5;
     let randomRotateNum = Math.random();
     let randomMovingDis = 0;
     let randomMovingDisHor = 0;
-    let randomMovingSpd = Math.random()*6 - 3
-    let randomMovingSpdHor = Math.random()*6 - 3
+    let randomMovingSpd = Math.random() * 6 - 3
+    let randomMovingSpdHor = Math.random() * 6 - 3
 
-    function moveColor(){
+    function moveColor() {
         if (randomRotatedeg > 45) {
             randomRotateNum = -randomRotateNum
         } else if (randomRotatedeg < -45) {
