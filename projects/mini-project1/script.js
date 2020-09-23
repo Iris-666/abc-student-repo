@@ -45,9 +45,7 @@ let fileInputGoogle = document.getElementById('fileInputGoogle')
 fileInputGoogle.addEventListener('change', fileGoogle)
 
 let dateInput = document.getElementById('dateInput')
-dateInput.addEventListener('change', function () {
-    console.log(dateInput.value)
-})
+dateInput.addEventListener('change', date1)
 
 let colorInput = document.getElementById('colorInput')
 colorInput.addEventListener('change', color1)
@@ -222,6 +220,43 @@ function color1() {
 
         colornewDiv.style.transform = "translate(" + randomMovingDisHor + "px," + randomMovingDis + "px)" + "rotate(" + randomRotatedeg + "deg)"
     }
+
+}
+
+function date1(){
+    let dateArray = dateInput.value.split('-')
+    console.log(parseInt(dateArray[1]))
+    let year = parseInt(dateArray[0])
+    let month = parseInt(dateArray[1])
+    let day = parseInt(dateArray[2])
+    for (let i = 0; i < month; i++) {
+        let newBox = document.createElement("input");
+        newBox.type = "checkBox"
+        newBox.style.width = mapRange(month, 1, 12, 5, 50) + 'px'
+        newBox.style.height = mapRange(month, 1, 12, 5, 50) + 'px'
+        newBox.style.position = "absolute"
+        newBox.style.borderRadius = "10px"
+        newBox.style.left = Math.random()*window.innerWidth + 'px'
+        newBox.style.top = Math.random()*window.innerHeight + 'px'
+        newBox.id = "monthbox" + i;
+        document.body.appendChild(newBox);
+        document.getElementById('monthbox'+i).checked = true;
+    }
+
+    for (let i = 0; i < day; i++) {
+        let newBox = document.createElement("input");
+        newBox.type = "checkBox"
+        newBox.style.width = mapRange(day, 1, 31, 5, 50) + 'px'
+        newBox.style.height = mapRange(day, 1, 31, 5, 50) + 'px'
+        newBox.style.position = "absolute"
+        newBox.style.borderRadius = "10px"
+        newBox.style.left = Math.random()*window.innerWidth + 'px'
+        newBox.style.top = Math.random()*window.innerHeight + 'px'
+        newBox.id = "daybox" + i;
+        document.body.appendChild(newBox);
+        document.getElementById('daybox'+i).checked = false;
+    }
+
 
 }
 
