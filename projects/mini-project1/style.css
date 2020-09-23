@@ -1,0 +1,46 @@
+.input{
+    /* display: none; */
+    margin: 10px;
+    z-index: 2;
+}
+
+#fileInputGoogleContainer{
+    border: solid 0.5px grey;
+    border-radius: 20px;
+    width: 450px;
+}
+
+#googleIcon{
+    width: 400px;
+    margin-left: 25px;
+}
+
+#inputContainer{
+    /* display: flex; */
+}
+div{
+    z-index: -1;
+}
+
+#header{
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 5;
+    background-color: white;
+    font-family: sans-serif;
+    border: 1px solid black;
+    background-color: black;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 20px;
+    box-sizing: border-box;
+    font-weight: bold;
+}
+
+#clearbt{
+    cursor: pointer;
+}
