@@ -20,7 +20,7 @@ function start() {
         rangenewDiv.style.backgroundColor = 'hsl(' + newDivColor + ', 40%, 70%)'
         rangenewDiv.id = "div" + i;
         rangenewDiv.className = "rangenewDiv"
-        document.body.appendChild(rangenewDiv)
+        document.getElementById("colorDivs").appendChild(rangenewDiv)
     }
 
 }
@@ -74,7 +74,7 @@ function range1() {
         rangenewDiv.style.backgroundColor = 'hsl(' + newDivColor + ', 40%, 70%)'
         rangenewDiv.id = "div" + i;
         rangenewDiv.className = "rangenewDiv"
-        document.body.appendChild(rangenewDiv)
+        document.getElementById("colorDivs").appendChild(rangenewDiv)
     }
 
 }
@@ -97,7 +97,7 @@ function file1() {
         filenewDiv.id = 'filenewDiv' + i
         let newContent = document.createTextNode(fileNameArray[i]);
         filenewDiv.appendChild(newContent);
-        document.body.appendChild(filenewDiv)
+        document.getElementById("stuff").appendChild(filenewDiv)
     }
     // document.getElementById("newDiv1").animate([ //experimenting on js animate, but it's a function still in experimentation.
     //     { transform: 'translateY(0px)' }, 
@@ -192,7 +192,7 @@ function color1() {
     colornewDiv.style.width = size + "px";
     colornewDiv.className = 'colornewDiv';
     colornewDiv.id = 'colornewDiv' + colorCount;
-    document.body.appendChild(colornewDiv);
+    document.getElementById("stuff").appendChild(colornewDiv);
 
     setInterval(moveColor, 10);
 
@@ -223,7 +223,7 @@ function color1() {
 
 }
 
-function date1(){
+function date1() {
     let dateArray = dateInput.value.split('-')
     console.log(parseInt(dateArray[1]))
     let year = parseInt(dateArray[0])
@@ -236,11 +236,11 @@ function date1(){
         newBox.style.height = mapRange(month, 1, 12, 5, 50) + 'px'
         newBox.style.position = "absolute"
         newBox.style.borderRadius = "10px"
-        newBox.style.left = Math.random()*window.innerWidth + 'px'
-        newBox.style.top = Math.random()*window.innerHeight + 'px'
+        newBox.style.left = Math.random() * window.innerWidth + 'px'
+        newBox.style.top = Math.random() * window.innerHeight + 'px'
         newBox.id = "monthbox" + i;
-        document.body.appendChild(newBox);
-        document.getElementById('monthbox'+i).checked = true;
+        document.getElementById("stuff").appendChild(newBox);
+        document.getElementById('monthbox' + i).checked = true;
     }
 
     for (let i = 0; i < day; i++) {
@@ -250,11 +250,11 @@ function date1(){
         newBox.style.height = mapRange(day, 1, 31, 5, 50) + 'px'
         newBox.style.position = "absolute"
         newBox.style.borderRadius = "10px"
-        newBox.style.left = Math.random()*window.innerWidth + 'px'
-        newBox.style.top = Math.random()*window.innerHeight + 'px'
+        newBox.style.left = Math.random() * window.innerWidth + 'px'
+        newBox.style.top = Math.random() * window.innerHeight + 'px'
         newBox.id = "daybox" + i;
-        document.body.appendChild(newBox);
-        document.getElementById('daybox'+i).checked = false;
+        document.getElementById("stuff").appendChild(newBox);
+        document.getElementById('daybox' + i).checked = false;
     }
 
 
@@ -274,6 +274,6 @@ function addcheckBox() {
         newBox.style.backgroundColor = 'hsl(' + newDivColor + ', 40%, 70%)'
         newBox.id = "box" + i;
         let currentBox = document.getElementById("div2");
-        document.body.appendChild(newBox);
+        document.getElementById("stuff").appendChild(newBox);
     }
 }

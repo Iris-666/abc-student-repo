@@ -17,8 +17,8 @@
 }
 
 #inputContainer{
-    /* display: flex;
-    flex-wrap: wrap; */
+    display: flex;
+    flex-wrap: wrap;
     /* found a weird bug: when I use display flex for the container, the input inside doesn't work anymore */
 }
 
@@ -78,9 +78,7 @@
 }
 
 #fileInputGoogle{
-    margin: 10px 120px;}
-div{
-    z-index: -1;
+    margin: 10px 120px;
 }
 
 #header{
@@ -112,4 +110,11 @@ div{
 
 span{
     font-size: 20px;
+}
+
+#colorDivs{
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -5;
 }
