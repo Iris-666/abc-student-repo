@@ -1,4 +1,7 @@
 The essay was written in a different form from other readings I normally read before. It’s shown to the reader in the browser. I think it’s a very unique and also appropriate way to write about the vernacular web. Lialina included many gifs and changing backgrounds in her essay. These can only be shown on the web and cannot be printed on paper. 
+
 Another interesting thing I found during reading was that some links in the reading are invalid now. For example, in the part when she talked about the starry night background, she included a link for the readers to check how the website looks now, which is:http://www.video-online.net/. However, when I clicked into this link, it only showed “Invalid URL” on the page. This shows during the development and shifts of websites, many websites were forgotten or abandoned by the developers, just like many vernacular web design styles are not being used in today’s websites.
+
 Also, still in the starry night background part, the author mentioned that http://www.kinoservice.de is the last survivor with starry night background. It’s ironic that when I opened the link, I found it without the stars. Lialina must be upset to find it finally being remade without stars.
+
 Finally, I found that although I didn’t see exactly the same elements that Lialina mentioned on the web when I was a child, the styles of the images and designs are really similar. For example, these blinking gifs, colors with high saturation, which are very different from the trending UI design styles nowadays.
