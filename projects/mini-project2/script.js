@@ -111,7 +111,8 @@ class ColorWindow {
         this.backgroundColor = color;
         this.spdx = Math.random() * 10 - 5;
         this.spdy = Math.random() * 10 - 5;
-        this.myWindow = window.open("", ``, `height=100,width=100,left=${this.randomX},top=${this.randomY}`);
+        this.size = 200
+        this.myWindow = window.open("", ``, `height=${this.size},width=${this.size},left=${this.randomX},top=${this.randomY}`);
         this.value = this.backgroundColor.match(/[A-Za-z0-9]{2}/g);
         this.value = this.value.map(function (v) { return parseInt(v, 16) });
         this.rgb = "rgb(" + this.value.join(",") + ")"; //transform hex to rgb color
@@ -128,6 +129,9 @@ class ColorWindow {
         this.b = Math.floor((this.value[2] + other.value[2]) / 2);
         this.value = [this.r, this.g, this.b]
         this.rgb = "rgb(" + this.value.join(",") + ")";
+        this.size += 10
+        this.myWindow.resizeTo(this.size, this.size) //when bouncing with other windows, both of the windows would be larger
+
     }
 
     move() {
@@ -138,13 +142,16 @@ class ColorWindow {
             //make the window bounce if reaches the edge of the screen.
             if (this.myWindow.screenX >= sw - this.myWindow.innerWidth || this.myWindow.screenX <= 0) {
                 this.spdx = -this.spdx;
+                this.size -= 10 //when bouncing the edge, the window would be smaller
             }
             else if (this.myWindow.screenY >= sh - this.myWindow.innerHeight - 101 || this.myWindow.screenY <= 23) {
                 this.spdy = -this.spdy;
+                this.size -= 10;
             }
             this.randomX += this.spdx;
             this.randomY += this.spdy
             this.myWindow.moveTo(this.randomX, this.randomY)
+            this.myWindow.resizeTo(this.size, this.size)
 
             //window.moveBy() function always cause some unknown bugs. For example, the windows would firstly
             //move to the position (0, 0) from its original generated position.
