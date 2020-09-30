@@ -66,19 +66,24 @@ setInterval(() => {
                     //check if there are two windows collide with each other. if so, mix their background colors 
                     //and change their background color to the mixed color. 
 
-                    if (w.rgb == other.rgb) {
-                        windows.splice(a, 1);
-                        windows.splice(b, 1)
-                        w.myWindow.close();
-                        other.myWindow.close();
-                    }
                     // console.log(w.rgb, other.rgb)
                     w.meet(other)
                     let newr = Math.floor((w.value[0] + other.value[0]) / 2);  //use Math.floor() to avoid super long decimals
                     let newg = Math.floor((w.value[1] + other.value[1]) / 2);
                     let newb = Math.floor((w.value[2] + other.value[2]) / 2);
-                    // w.myWindow.resizeBy(20, 20);
-                    // other.myWindow.resizeBy(20, 20);
+
+
+                    // I tried to make the two collided windows disappear if they have the same background color
+                    //but this always cause some bugs 
+                     // if (w.rgb == other.rgb) {  
+                    //     windows.splice(a, 1);
+                    //     windows.splice(b, 1)
+                    //     w.myWindow.close();
+                    //     other.myWindow.close();
+                    // }
+
+                    // w.myWindow.resizeBy(-10, -10);
+                    // other.myWindow.resizeBy(-10, -10);
                     w.myWindow.document.body.style.backgroundColor = `rgb(${newr}, ${newg}, ${newb})`;
                     other.myWindow.document.body.style.backgroundColor = `rgb(${newr}, ${newg}, ${newb})`;
                     w.myWindow.document.getElementById('newDiv').innerHTML = `rgb(${newr}, ${newg}, ${newb})`
@@ -113,7 +118,6 @@ class ColorWindow {
         this.r = this.value[0]
         this.g = this.value[1]
         this.b = this.value[2]
-        // console.log(this.randomX)
     }
 
     meet(other) {
@@ -130,14 +134,23 @@ class ColorWindow {
         this.myWindow.document.body.style.backgroundColor = colorInput.value;
         this.myWindow.document.head.title = colorInput.value;
         setInterval(() => {
-            // console.log(this.myWindow.screenX, this.myWindow.screenY)
+
+            //make the window bounce if reaches the edge of the screen.
             if (this.myWindow.screenX >= sw - this.myWindow.innerWidth || this.myWindow.screenX <= 0) {
                 this.spdx = -this.spdx;
             }
-            if (this.myWindow.screenY >= sh - this.myWindow.innerHeight - 101 || this.myWindow.screenY <= 23) {
+            else if (this.myWindow.screenY >= sh - this.myWindow.innerHeight - 101 || this.myWindow.screenY <= 23) {
                 this.spdy = -this.spdy;
             }
-            this.myWindow.moveBy(this.spdx, this.spdy);
+            this.randomX += this.spdx;
+            this.randomY += this.spdy
+            this.myWindow.moveTo(this.randomX, this.randomY)
+
+            //window.moveBy() function always cause some unknown bugs. For example, the windows would firstly
+            //move to the position (0, 0) from its original generated position.
+            //Also, when using moveBy, the windows would stop moving when they are behind the main window, which is quite weird.
+            //This issue is not found when using moveTo()
+            // this.myWindow.moveBy(this.spdx, this.spdy);
         }, 25);
     }
 }
