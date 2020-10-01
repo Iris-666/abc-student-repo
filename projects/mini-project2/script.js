@@ -27,37 +27,32 @@ function openWin() {
         newDiv.style.color = 'black'
     }
 
-    console.log(windows)
-
-    // let myWindow;
-    // let randomX = Math.random()*(sw-200);
-    // let randomY = Math.random()*(sh-100);
-    // i+=1;
-    // myWindow = window.open("", `window${i}`, `height=100,width=200,left=${randomX},top=${randomY}`);
-    // console.log(myWindow.name)
-    // myWindow.document.body.style.backgroundColor = colorInput.value;
-    // myWindow.document.head.title = colorInput.value;
-
-    // let moveInterval = setInterval(windowMove, 50);
-    // let spdx = Math.random()*10-5;
-    // let spdy = Math.random()*10-5;
-    // function windowMove(){
-    //     console.log(myWindow.name);
-    //     myWindow.moveBy(spdx,spdy);
-    //     // console.log(myWindow.screenX,myWindow.screenY)
-    //     // console.log(spdx,spdy)
-    //     if(myWindow.screenX >= sw-myWindow.innerWidth || myWindow.screenX <= 0){
-    //         spdx = -spdx;
-    //     }
-    //     if(myWindow.screenY >= sh-myWindow.innerHeight-101 || myWindow.screenY <= 24){
-    //         spdy = -spdy;
-    //     }
+    // for (let a = 0; a < windows.length; a++) {
+    //     let w = windows[a];
+    //     w.myWindow.focus();
+    //     console.log("focusing")
     // }
+
 }
 
 setInterval(() => {
     for (let a = 0; a < windows.length; a++) {
         let w = windows[a];
+        w.myWindow.focus();
+        // if(w.value[0]>=0.1){
+        //     w.value[0] -= 0.1;
+        //     w.value[0] = w.value[0].toFixed(1)
+        // }
+        // if(w.value[1]>=0.1){
+        //     w.value[1] -= 0.1;
+        //     w.value[1] = w.value[1].toFixed(1)
+        // }
+        // if(w.value[2]>=0.1){
+        //     w.value[2] -= 0.1;
+        //     w.value[2] = w.value[2].toFixed(1)
+        // }
+
+        // w.myWindow.document.getElementById('newDiv').innerHTML = `rgb(${w.value[0]}, ${w.value[1]}, ${w.value[2]})`
         for (let b = 0; b < windows.length; b++) {
             let other = windows[b];
             if (a != b) {
@@ -68,9 +63,22 @@ setInterval(() => {
 
                     // console.log(w.rgb, other.rgb)
                     w.meet(other)
-                    let newr = Math.floor((w.value[0] + other.value[0]) / 2);  //use Math.floor() to avoid super long decimals
-                    let newg = Math.floor((w.value[1] + other.value[1]) / 2);
-                    let newb = Math.floor((w.value[2] + other.value[2]) / 2);
+                        let newr = Math.floor((w.value[0] + other.value[0]) / 2);  //use Math.floor() to avoid super long decimals
+                        let newg = Math.floor((w.value[1] + other.value[1]) / 2);
+                        let newb = Math.floor((w.value[2] + other.value[2]) / 2);    
+
+                        w.myWindow.document.body.style.backgroundColor = `rgb(${newr}, ${newg}, ${newb})`;
+                        other.myWindow.document.body.style.backgroundColor = `rgb(${newr}, ${newg}, ${newb})`;
+                        w.myWindow.document.getElementById('newDiv').innerHTML = `rgb(${newr}, ${newg}, ${newb})`
+                        other.myWindow.document.getElementById('newDiv').innerHTML = `rgb(${newr}, ${newg}, ${newb})`
+                        if (w.value[0] + w.value[1] + w.value[2] < 300) {
+                            w.myWindow.document.getElementById('newDiv').style.color = 'white'
+                            other.myWindow.document.getElementById('newDiv').style.color = 'white'
+                        } else {
+                            w.myWindow.document.getElementById('newDiv').style.color = 'black'
+                            other.myWindow.document.getElementById('newDiv').style.color = 'black'
+    
+                        }
 
 
                     // I tried to make the two collided windows disappear if they have the same background color
@@ -82,8 +90,6 @@ setInterval(() => {
                     //     other.myWindow.close();
                     // }
 
-                    // w.myWindow.resizeBy(-10, -10);
-                    // other.myWindow.resizeBy(-10, -10);
                     w.myWindow.document.body.style.backgroundColor = `rgb(${newr}, ${newg}, ${newb})`;
                     other.myWindow.document.body.style.backgroundColor = `rgb(${newr}, ${newg}, ${newb})`;
                     w.myWindow.document.getElementById('newDiv').innerHTML = `rgb(${newr}, ${newg}, ${newb})`
@@ -130,7 +136,8 @@ class ColorWindow {
         this.value = [this.r, this.g, this.b]
         this.rgb = "rgb(" + this.value.join(",") + ")";
         this.size += 10
-        this.myWindow.resizeTo(this.size, this.size) //when bouncing with other windows, both of the windows would be larger
+        this.myWindow.resizeTo(this.size, this.size) 
+        //when bouncing with other windows, both of the windows would be larger
 
     }
 
@@ -138,26 +145,30 @@ class ColorWindow {
         this.myWindow.document.body.style.backgroundColor = colorInput.value;
         this.myWindow.document.head.title = colorInput.value;
         setInterval(() => {
+            this.size -= 0.1;
 
             //make the window bounce if reaches the edge of the screen.
             if (this.myWindow.screenX >= sw - this.myWindow.innerWidth || this.myWindow.screenX <= 0) {
                 this.spdx = -this.spdx;
-                this.size -= 10 //when bouncing the edge, the window would be smaller
+                // this.size -= 10 
+                //when bouncing the edge, the window would be smaller
             }
             else if (this.myWindow.screenY >= sh - this.myWindow.innerHeight - 101 || this.myWindow.screenY <= 23) {
                 this.spdy = -this.spdy;
-                this.size -= 10;
+                // this.size -= 10;
             }
             this.randomX += this.spdx;
             this.randomY += this.spdy
             this.myWindow.moveTo(this.randomX, this.randomY)
-            this.myWindow.resizeTo(this.size, this.size)
 
             //window.moveBy() function always cause some unknown bugs. For example, the windows would firstly
             //move to the position (0, 0) from its original generated position.
             //Also, when using moveBy, the windows would stop moving when they are behind the main window, which is quite weird.
             //This issue is not found when using moveTo()
             // this.myWindow.moveBy(this.spdx, this.spdy);
+
+            this.myWindow.resizeTo(this.size, this.size)
+            //with the time passing, the window size would keep becoming smaller
         }, 25);
     }
 }
