@@ -14,6 +14,8 @@ colorInput.addEventListener('change', () => {
     circle.style.backgroundColor = colorInput.value
     circle.style.top = Math.random() * window.innerHeight + 'px'
     circle.style.left = Math.random() * window.innerWidth + 'px'
+    oscillatorFreq = mapRange(parseInt(circle.style.left), 0, window.innerWidth, 100, 600);
+    oscillatorVolume = mapRange(parseInt(circle.style.top), 0, window.innerHeight, 0.5, 6)
     circle.style.animationName = "resize"
     circle.style.animationDuration = Math.random() * 10 + 's'
     circle.style.animationIterationCount = "infinite"
@@ -26,7 +28,7 @@ colorInput.addEventListener('change', () => {
 
     let oscillator = context.createOscillator()
 
-    if (largestRgb === value[0]) {
+    if (largestRgb === value[0]) { //determine the type of oscillator according to the rgb value
         oscillator.type = 'sine'
     } else if (largestRgb === value[1]) {
         oscillator.type = 'square'
@@ -43,13 +45,13 @@ colorInput.addEventListener('change', () => {
     oscillator.connect(gain);
     gain.connect(context.destination)
 
-
     oscillator.start(0);
 
     gain.gain.value = 1;
 
 
-    dragElement(document.getElementById(`circle${count}`));
+    dragElement(document.getElementById(`circle${count}`)); //make the shapes draggable
+    //learn from https://www.w3schools.com/howto/howto_js_draggable.asp
 
     function dragElement(elmnt) {
         var pos1 = 0,
@@ -57,7 +59,6 @@ colorInput.addEventListener('change', () => {
             pos3 = 0,
             pos4 = 0;
         elmnt.onmousedown = dragMouseDown;
-
 
         function dragMouseDown(e) {
             e = e || window.event;
