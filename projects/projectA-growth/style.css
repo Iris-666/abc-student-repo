@@ -1,0 +1,350 @@
+body {
+    margin: 0;
+}
+
+#treeContainer {
+    margin: auto;
+    width: 200px;
+    height: 100vh;
+    position: relative;
+}
+
+.branches {
+    -webkit-appearance: none;
+    background-color: #e8dacf;
+    height: 7px;
+    /* width: 200px; */
+    outline: none;
+    border-radius: 50px;
+}
+
+.branches::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 15px;
+    width: 15px;
+    background-color: brown;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+#branch1 {
+    /* -webkit-appearance: none;
+    background-color: #e8dacf;
+    outline: none; */
+    height: 10px;
+    width: 200px;
+    border-radius: 50px;
+    transform: rotate(-90deg) translate(-100px, 0px);
+    position: absolute;
+    bottom: 250px;
+}
+
+
+/* #branch1::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 15px;
+    width: 15px;
+    background-color: brown;
+    border-radius: 20px;
+    cursor: pointer;
+} */
+
+#branch1::-webkit-slider-runnable-track {
+    -webkit-appearance: none;
+    /* background-color: brown;
+    height: 5px; */
+}
+
+#branch2 {
+    transform: rotate(-115deg);
+    width: 0px;
+    position: absolute;
+    bottom: 240px;
+    left: 105px;
+    opacity: 0;
+    height: 8px;
+}
+
+#branch3 {
+    position: absolute;
+    width: 0px;
+    bottom: 240px;
+    transform: rotate(-40deg);
+    left: 94px;
+    opacity: 0;
+    height: 8px;
+}
+
+#branch4 {
+    position: absolute;
+    width: 0px;
+    bottom: 360px;
+    transform: rotate(-140deg);
+    left: 45px;
+    height: 7px;
+}
+
+#branch5 {
+    position: absolute;
+    width: 0px;
+    bottom: 357px;
+    transform: rotate(-80deg);
+    left: 40px;
+    height: 7px;
+    opacity: 0;
+}
+
+#branch6 {
+    position: absolute;
+    width: 0px;
+    bottom: 325px;
+    transform: rotate(-100deg);
+    left: 205px;
+    height: 7px;
+    opacity: 0;
+}
+
+#branch7 {
+    position: absolute;
+    width: 0px;
+    bottom: 332px;
+    transform: rotate(-20deg);
+    left: 197px;
+    height: 7px;
+}
+
+#branch8 {
+    position: absolute;
+    width: 0px;
+    bottom: 417px;
+    transform: rotate(-170deg);
+    left: -15px;
+    height: 6px;
+}
+
+#branch9 {
+    position: absolute;
+    width: 0px;
+    bottom: 448px;
+    transform: rotate(-130deg);
+    left: 62px;
+    height: 6px;
+}
+
+#branch10 {
+    position: absolute;
+    width: 0px;
+    bottom: 448px;
+    transform: rotate(-40deg);
+    left: 52px;
+    height: 6px;
+}
+
+#branch11 {
+    position: absolute;
+    width: 0px;
+    bottom: 412px;
+    transform: rotate(-120deg);
+    left: 190px;
+    height: 6px;
+}
+
+#branch12 {
+    position: absolute;
+    width: 0px;
+    bottom: 414px;
+    transform: rotate(-50deg);
+    left: 183px;
+    height: 6px;
+}
+
+#branch13 {
+    position: absolute;
+    width: 0px;
+    bottom: 355px;
+    transform: rotate(-70deg);
+    left: 282px;
+    height: 6px;
+}
+
+#branch14 {
+    position: absolute;
+    width: 0px;
+    bottom: 295px;
+    transform: rotate(-70deg);
+    left: 70px;
+    height: 6px;
+}
+
+.leaves {
+    /* background-color: rgb(83 162 83); */
+    /* width: 15px;
+    height: 15px; */
+    border-radius: 20px;
+    position: absolute;
+}
+
+#leavesContainer1 {
+    width: 150px;
+    height: 20px;
+    position: absolute;
+    background-color: transparent;
+    pointer-events: none;
+    left: 0px;
+    top: 465px;
+    transform: rotate(65deg);
+}
+
+#leavesContainer2 {
+    width: 150px;
+    height: 20px;
+    position: absolute;
+    background-color: transparent;
+    pointer-events: none;
+    left: 75px;
+    top: 480px;
+    transform: rotate(-40deg);
+}
+
+#leavesContainer3 {
+    width: 100px;
+    height: 18px;
+    position: absolute;
+    background-color: transparent;
+    pointer-events: none;
+    left: -40px;
+    top: 390px;
+    transform: rotate(-140deg);
+}
+
+#leavesContainer4 {
+    width: 100px;
+    height: 18px;
+    position: absolute;
+    background-color: transparent;
+    pointer-events: none;
+    left: 0px;
+    top: 365px;
+    transform: rotate(-80deg);
+}
+
+#leavesContainer5 {
+    width: 100px;
+    height: 18px;
+    position: absolute;
+    background-color: transparent;
+    pointer-events: none;
+    left: 142px;
+    top: 400px;
+    transform: rotate(-100deg);
+}
+
+#leavesContainer6 {
+    width: 100px;
+    height: 18px;
+    position: absolute;
+    background-color: transparent;
+    pointer-events: none;
+    left: 200px;
+    top: 425px;
+    transform: rotate(-20deg);
+}
+
+#leavesContainer7 {
+    width: 90px;
+    height: 18px;
+    position: absolute;
+    background-color: transparent;
+    pointer-events: none;
+    left: 35px;
+    top: 435px;
+    transform: rotate(-70deg);
+}
+
+#leavesContainer8 {
+    width: 90px;
+    height: 18px;
+    position: absolute;
+    background-color: transparent;
+    pointer-events: none;
+    left: -110px;
+    top: 350px;
+    transform: rotate(-170deg);
+}
+
+#leavesContainer9 {
+    width: 80px;
+    height: 18px;
+    position: absolute;
+    background-color: transparent;
+    pointer-events: none;
+    left: 0px;
+    top: 295px;
+    transform: rotate(-130deg);
+}
+
+#leavesContainer10 {
+    width: 80px;
+    height: 18px;
+    position: absolute;
+    background-color: transparent;
+    pointer-events: none;
+    left: 45px;
+    top: 300px;
+    transform: rotate(-40deg);
+}
+
+#leavesContainer11 {
+    width: 80px;
+    height: 18px;
+    position: absolute;
+    background-color: transparent;
+    pointer-events: none;
+    left: 125px;
+    top: 333px;
+    transform: rotate(-120deg);
+}
+
+#leavesContainer12 {
+    width: 80px;
+    height: 18px;
+    position: absolute;
+    background-color: transparent;
+    pointer-events: none;
+    left: 180px;
+    top: 315px;
+    transform: rotate(-50deg);
+}
+
+#leavesContainer13 {
+    width: 80px;
+    height: 18px;
+    position: absolute;
+    background-color: transparent;
+    pointer-events: none;
+    left: 265px;
+    top: 375px;
+    transform: rotate(-70deg);
+}
+
+#leavesContainer14 {
+    width: 150px;
+    height: 40px;
+    position: absolute;
+    background-color: transparent;
+    pointer-events: none;
+    left: 0px;
+    top: 465px;
+    transform: rotate(65deg);
+}
+
+#leavesContainer15 {
+    width: 150px;
+    height: 40px;
+    position: absolute;
+    background-color: transparent;
+    pointer-events: none;
+    left: 85px;
+    top: 470px;
+    transform: rotate(-40deg);
+}
