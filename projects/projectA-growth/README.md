@@ -1,17 +1,17 @@
 #### Growth
 
-This project is about a growing tree. 
-The tree will firstly grow branches, 
-Then some leaves, 
-And some more leaves, 
-Finally flowers and fruits. 
-Some leaves may fall down. 
-Some leaves will turn yellow slowly. 
-However, if you try to speed up the growing,
-If you move the slider on the branches,
-The tree will no longer blossom and bear fruit.
-So please be patient,
-Wait for the tree to grow, to bloom, to fruit.
+This project is about a growing tree. <br />
+The tree will firstly grow branches, <br />
+Then some leaves, <br />
+And some more leaves, <br />
+Finally flowers and fruits. <br />
+Some leaves may fall down. <br />
+Some leaves will turn yellow slowly. <br />
+However, if you try to speed up the growing,<br />
+If you move the slider on the branches,<br />
+The tree will no longer blossom and bear fruit.<br />
+So please be patient,<br />
+Wait for the tree to grow, to bloom, to fruit.<br />
 
 ![blooming tree](blooming-tree.png)
 ![withered tree](withered-tree.png)
