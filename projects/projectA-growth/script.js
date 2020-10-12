@@ -79,12 +79,13 @@ let fallLeaves = [];
 
 setInterval(() => {
     branch1.value = Number(branch1.value) + 0.2
-    document.getElementById('branch1Color').style.height = branch1.value * 2 + 'px'
-        // console.log(branch1.value)
+        // document.getElementById('branch1Color').style.height = branch1.value * 2 + 'px'
 
     if (branch1.value == 100) {
         branch2.value = Number(branch2.value) + 0.4
-        document.getElementById('branch2Color').style.height = branch2.value * 1.5 + 'px'
+            // document.getElementById('branch2Color').style.height = branch2.value * 1.5 + 'px'
+            //I tried to use the div to cover the range input. However, since the div is rotated, its position will move
+            //as it grow. The positioning would be very hard.
         branch3.value = Number(branch3.value) + 0.4
     }
     if (branch2.value == 100) {
@@ -126,6 +127,8 @@ setInterval(() => {
     branch13.style.opacity = mapRange(branch7.value, 25, 50, 0, 1)
     branch14.style.opacity = mapRange(branch2.value, 35, 50, 0, 1)
 
+    //make the branches (input) grow out gradually. Since they are rotated, their position would move when growing.
+    //Therefore, I used the map range to keep it stay in the same position.
     if (branch1.value > 50 && branch2Width <= 150) {
         branch2Width = mapRange(branch1.value, 50, 100, 0, 150)
         branch2Bottom = mapRange(branch1.value, 50, 100, 240, 305)
@@ -246,6 +249,12 @@ setInterval(() => {
 
 }, 50);
 
+//Here, I experiment with the falling down effect of the leaves.
+//I tried to firstly create some fake leaves which are transparent and get their absolute position on the page with getBoundingClientRect() function.
+//Then create the real colored leaves on that position. In this way, I can simply add the positioning data on y-axis to make the leaves fall down
+//However, I found that in this way, the leaves will move away from the branches if the window size changes. 
+//Therefore, I give up this method.
+
 // setInterval(() => {
 //     if (branch4.value > 0 && leavesCount1 < 50) {
 //         let newLeaf = document.createElement('div')
@@ -286,6 +295,7 @@ setInterval(() => {
 //     }
 // }, Math.random() * 2000 + 500);
 
+//append leaves with random time interval
 setInterval(() => {
     if (branch4.value > 0 && leavesCount1 < 50) {
         let newLeaf = document.createElement('div')
@@ -304,7 +314,6 @@ setInterval(() => {
         leafColorS = Math.random() * (61 - 46) + 46
         leafColorL = Math.random() * (55 - 42) + 42
         newLeaf.style.backgroundColor = "hsl(124, " + leafColorS + "%," + leafColorL + "%)"
-
     }
 }, Math.random() * 2000 + 500);
 
@@ -641,30 +650,35 @@ setInterval(() => {
             newFlower.style.animationName = `grow${flowerSize}`
             newFlowerColor = Math.random() * 360
             newFlower.style.backgroundColor = "hsl( " + newFlowerColor + ", 40%, 70%)"
-                // newColorInput = window.open("", ``, `height=100,width=100,left=${Math.random()*window.innerWidth},top=${Math.random()*window.innerHeight}`)
-                // colorInput = document.createElement('input')
-                // colorInput.type = 'color'
-                // colorInput.style.width = "140px"
-                // colorInput.style.height = "85px"
-                // newColorInput.document.body.appendChild(colorInput)
-                // colorInput.addEventListener('input', () => {
-                //     newFlower.style.backgroundColor = colorInput.value //let the user change flower colors
-                // })
-                // setTimeout(() => {
-                //     newColorInput.close()
-                // }, 3000);
+
+            //I was thinking about let the users choose the colors of the flowers by color input in the pop up window.
+            //But I think this will still damage the aesthetic. So I delete this function.
+
+            // newColorInput = window.open("", ``, `height=100,width=100,left=${Math.random()*window.innerWidth},top=${Math.random()*window.innerHeight}`)
+            // colorInput = document.createElement('input')
+            // colorInput.type = 'color'
+            // colorInput.style.width = "140px"
+            // colorInput.style.height = "85px"
+            // newColorInput.document.body.appendChild(colorInput)
+            // colorInput.addEventListener('input', () => {
+            //     newFlower.style.backgroundColor = colorInput.value //let the user change flower colors
+            // })
+            // setTimeout(() => {
+            //     newColorInput.close()
+            // }, 3000);
         }
     }
 }, Math.random() * 3000 + 3000);
 
+//make the leaves fall down
 setInterval(() => {
     let fallLeafIndex = Math.floor(Math.random() * fallLeaves.length);
     let fallLeaf = fallLeaves[fallLeafIndex];
-    // let fallLeafPosTop = fallLeaf.getBoundingClientRect().top
     let fallLeafSize = fallLeaf.style.width
     fallLeafSize = parseInt(fallLeafSize.slice(0, -2))
     fallToPos = 290 - fallLeafSize
     console.log(fallLeafSize)
+        //I create the css animation here since I need to use the data in js.
     let keyframes = `@keyframes fall{
             from {
                 top: ${fallLeaf.offsetTop}px
@@ -683,6 +697,7 @@ setInterval(() => {
     fallLeaf.style.animationFillMode = "forwards";
 }, Math.random() * 4000 + 3000);
 
+//change the color of the leaves with hsl color.
 setInterval(() => {
     for (let i = 0; i < leaves.length; i++) {
         let leaf = leaves[i];
@@ -761,7 +776,6 @@ function mapRange(value, a, b, c, d) { //this function simulate the map function
     return c + value * (d - c);
 }
 
-// console.log(rgbToHsl("rgb(89, 34, 5)"))
 
 function rgbToHsl(rgb) {
     arrayrgb = rgb.split(',')
