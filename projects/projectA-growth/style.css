@@ -11,7 +11,7 @@ body {
 
 .branches {
     -webkit-appearance: none;
-    background-color: #e8dacf;
+    background-color: #7f5934;
     height: 7px;
     /* width: 200px; */
     outline: none;
@@ -22,10 +22,26 @@ body {
     -webkit-appearance: none;
     height: 15px;
     width: 15px;
-    background-color: brown;
+    background-color: #76471a;
     border-radius: 20px;
     cursor: pointer;
 }
+
+
+/* .branches::-webkit-slider-runnable-track {
+    height: 10px;
+    -webkit-appearance: none;
+    color: #13bba4;
+    margin-top: -1px;
+} */
+
+
+/* input[type='range']::-webkit-slider-runnable-track {
+    height: 10px;
+    -webkit-appearance: none;
+    color: #13bba4;
+    margin-top: -1px;
+} */
 
 #branch1 {
     /* -webkit-appearance: none;
@@ -38,6 +54,18 @@ body {
     position: absolute;
     bottom: 250px;
 }
+
+
+/* #branch1Color {
+    width: 10px;
+    height: 0px;
+    border-radius: 50px;
+    position: absolute;
+    bottom: 58px;
+    left: 97px;
+    z-index: 3;
+    background-color: brown;
+} */
 
 
 /* #branch1::-webkit-slider-thumb {
@@ -64,6 +92,19 @@ body {
     opacity: 0;
     height: 8px;
 }
+
+
+/* #branch2Color {
+    transform: rotate(-115deg);
+    width: 10px;
+    height: 0px;
+    border-radius: 50px;
+    position: absolute;
+    bottom: 58px;
+    left: 9px;
+    z-index: 3;
+    background-color: brown;
+} */
 
 #branch3 {
     position: absolute;
@@ -182,6 +223,27 @@ body {
     height: 15px; */
     border-radius: 20px;
     position: absolute;
+    /* animation-name: grow; */
+    animation-iteration-count: 1;
+    animation-duration: 2s;
+}
+
+.leavesReal {
+    /* background-color: rgb(83 162 83); */
+    /* width: 15px;
+    height: 15px; */
+    border-radius: 20px;
+    position: absolute;
+    /* animation-name: grow; */
+    animation-iteration-count: 1;
+    animation-duration: 2s;
+}
+
+.flowers {
+    border-radius: 20px;
+    position: absolute;
+    animation-iteration-count: 1;
+    animation-duration: 2s;
 }
 
 #leavesContainer1 {
@@ -191,7 +253,8 @@ body {
     background-color: transparent;
     pointer-events: none;
     left: 0px;
-    top: 465px;
+    /* top: 465px; */
+    bottom: 300px;
     transform: rotate(65deg);
 }
 
@@ -202,7 +265,8 @@ body {
     background-color: transparent;
     pointer-events: none;
     left: 75px;
-    top: 480px;
+    /* top: 480px; */
+    bottom: 300px;
     transform: rotate(-40deg);
 }
 
@@ -213,7 +277,8 @@ body {
     background-color: transparent;
     pointer-events: none;
     left: -40px;
-    top: 390px;
+    /* top: 390px; */
+    bottom: 380px;
     transform: rotate(-140deg);
 }
 
@@ -224,7 +289,8 @@ body {
     background-color: transparent;
     pointer-events: none;
     left: 0px;
-    top: 365px;
+    /* top: 365px; */
+    bottom: 400px;
     transform: rotate(-80deg);
 }
 
@@ -235,7 +301,8 @@ body {
     background-color: transparent;
     pointer-events: none;
     left: 142px;
-    top: 400px;
+    /* top: 400px; */
+    bottom: 370px;
     transform: rotate(-100deg);
 }
 
@@ -246,7 +313,8 @@ body {
     background-color: transparent;
     pointer-events: none;
     left: 200px;
-    top: 425px;
+    /* top: 425px; */
+    bottom: 350px;
     transform: rotate(-20deg);
 }
 
@@ -257,7 +325,8 @@ body {
     background-color: transparent;
     pointer-events: none;
     left: 35px;
-    top: 435px;
+    /* top: 435px; */
+    bottom: 335px;
     transform: rotate(-70deg);
 }
 
@@ -268,7 +337,8 @@ body {
     background-color: transparent;
     pointer-events: none;
     left: -110px;
-    top: 350px;
+    /* top: 350px; */
+    bottom: 420px;
     transform: rotate(-170deg);
 }
 
@@ -279,7 +349,8 @@ body {
     background-color: transparent;
     pointer-events: none;
     left: 0px;
-    top: 295px;
+    /* top: 295px; */
+    bottom: 470px;
     transform: rotate(-130deg);
 }
 
@@ -290,7 +361,8 @@ body {
     background-color: transparent;
     pointer-events: none;
     left: 45px;
-    top: 300px;
+    /* top: 300px; */
+    bottom: 470px;
     transform: rotate(-40deg);
 }
 
@@ -301,7 +373,8 @@ body {
     background-color: transparent;
     pointer-events: none;
     left: 125px;
-    top: 333px;
+    /* top: 333px; */
+    bottom: 440px;
     transform: rotate(-120deg);
 }
 
@@ -312,7 +385,8 @@ body {
     background-color: transparent;
     pointer-events: none;
     left: 180px;
-    top: 315px;
+    /* top: 315px; */
+    bottom: 455px;
     transform: rotate(-50deg);
 }
 
@@ -323,7 +397,8 @@ body {
     background-color: transparent;
     pointer-events: none;
     left: 265px;
-    top: 375px;
+    /* top: 375px; */
+    bottom: 400px;
     transform: rotate(-70deg);
 }
 
@@ -334,7 +409,8 @@ body {
     background-color: transparent;
     pointer-events: none;
     left: 0px;
-    top: 465px;
+    /* top: 465px; */
+    bottom: 280px;
     transform: rotate(65deg);
 }
 
@@ -345,6 +421,163 @@ body {
     background-color: transparent;
     pointer-events: none;
     left: 85px;
-    top: 470px;
+    /* top: 470px; */
+    bottom: 280px;
     transform: rotate(-40deg);
+}
+
+#leavesContainer16 {
+    width: 150px;
+    height: 70px;
+    position: absolute;
+    background-color: transparent;
+    pointer-events: none;
+    left: 45px;
+    /* top: 440px; */
+    bottom: 280px;
+}
+
+#flowerContainer {
+    width: 300px;
+    height: 200px;
+    position: absolute;
+    background-color: transparent;
+    pointer-events: none;
+    left: 0px;
+    /* top: 300px; */
+    bottom: 290px;
+    /* transform: rotate(-40deg); */
+}
+
+@keyframes grow8 {
+    from {
+        width: 0px;
+        height: 0px;
+    }
+    to {
+        width: 8px;
+        height: 8px;
+    }
+}
+
+@keyframes grow9 {
+    from {
+        width: 0px;
+        height: 0px;
+    }
+    to {
+        width: 9px;
+        height: 9px;
+    }
+}
+
+@keyframes grow10 {
+    from {
+        width: 0px;
+        height: 0px;
+    }
+    to {
+        width: 10px;
+        height: 10px;
+    }
+}
+
+@keyframes grow11 {
+    from {
+        width: 0px;
+        height: 0px;
+    }
+    to {
+        width: 11px;
+        height: 11px;
+    }
+}
+
+@keyframes grow12 {
+    from {
+        width: 0px;
+        height: 0px;
+    }
+    to {
+        width: 12px;
+        height: 12px;
+    }
+}
+
+@keyframes grow13 {
+    from {
+        width: 0px;
+        height: 0px;
+    }
+    to {
+        width: 13px;
+        height: 13px;
+    }
+}
+
+@keyframes grow14 {
+    from {
+        width: 0px;
+        height: 0px;
+    }
+    to {
+        width: 14px;
+        height: 14px;
+    }
+}
+
+@keyframes grow15 {
+    from {
+        width: 0px;
+        height: 0px;
+    }
+    to {
+        width: 15px;
+        height: 15px;
+    }
+}
+
+@keyframes grow16 {
+    from {
+        width: 0px;
+        height: 0px;
+    }
+    to {
+        width: 16px;
+        height: 16px;
+    }
+}
+
+@keyframes grow17 {
+    from {
+        width: 0px;
+        height: 0px;
+    }
+    to {
+        width: 17px;
+        height: 17px;
+    }
+}
+
+@keyframes grow18 {
+    from {
+        width: 0px;
+        height: 0px;
+    }
+    to {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+@keyframes wind {
+    0% {
+        transform: rotate(0deg);
+    }
+    40% {
+        transform: rotate(4deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
 }

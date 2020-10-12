@@ -68,13 +68,23 @@ let leavesCount12 = 0
 let leavesCount13 = 0
 let leavesCount14 = 0
 let leavesCount15 = 0
+let leavesCount16 = 0
+
+let flowerCount = 0
+
+let userInput = false;
+
+let leaves = [];
+let fallLeaves = [];
 
 setInterval(() => {
     branch1.value = Number(branch1.value) + 0.2
+    document.getElementById('branch1Color').style.height = branch1.value * 2 + 'px'
         // console.log(branch1.value)
 
     if (branch1.value == 100) {
         branch2.value = Number(branch2.value) + 0.4
+        document.getElementById('branch2Color').style.height = branch2.value * 1.5 + 'px'
         branch3.value = Number(branch3.value) + 0.4
     }
     if (branch2.value == 100) {
@@ -236,18 +246,61 @@ setInterval(() => {
 
 }, 50);
 
+// setInterval(() => {
+//     if (branch4.value > 0 && leavesCount1 < 50) {
+//         let newLeaf = document.createElement('div')
+//         newLeaf.className = "leaves"
+//         document.getElementById('leavesContainer1').appendChild(newLeaf)
+//         leavesCount1 += 1
+
+//         newLeaf.id = `group1Leaves${leavesCount1}`
+//         thisleaf = document.getElementById(`group1Leaves${leavesCount1}`)
+
+//         newLeafPosLeft = Math.random() * 150;
+//         newLeafPosTop = Math.random() * 20;
+//         newLeaf.style.left = newLeafPosLeft + 'px'
+//         newLeaf.style.top = newLeafPosTop + 'px'
+//         newLeafPosLeftPage = thisleaf.getBoundingClientRect().left;
+//         newLeafPosTopPage = thisleaf.getBoundingClientRect().top;
+
+//         let newLeafReal = document.createElement('div')
+//         newLeafReal.className = "leavesReal"
+//         document.body.appendChild(newLeafReal);
+//         newLeafReal.style.left = newLeafPosLeftPage + 'px'
+//         newLeafReal.style.top = newLeafPosTopPage + 'px'
+
+
+//         newLeafReal.id = `group1RealLeaves${leavesCount1}`
+//         thisleafReal = document.getElementById(`group1RealLeaves${leavesCount1}`)
+//         leaves.push(thisleafReal)
+
+//         leafSize = Math.floor(Math.random() * 10 + 8)
+//         newLeafReal.style.width = leafSize + 'px'
+//         newLeafReal.style.height = leafSize + 'px'
+
+//         newLeafReal.style.animationName = `grow${leafSize}`
+//         leafColorS = Math.random() * (61 - 46) + 46
+//         leafColorL = Math.random() * (55 - 42) + 42
+//         newLeafReal.style.backgroundColor = "hsl(124, " + leafColorS + "%," + leafColorL + "%)" //get a random green for the leaf
+
+//     }
+// }, Math.random() * 2000 + 500);
+
 setInterval(() => {
     if (branch4.value > 0 && leavesCount1 < 50) {
-        // console.log('append leaves')
         let newLeaf = document.createElement('div')
         newLeaf.className = "leaves"
         document.getElementById('leavesContainer1').appendChild(newLeaf)
         leavesCount1 += 1
+        newLeaf.id = `group1Leaves${leavesCount1}`
+        thisleaf = document.getElementById(`group1Leaves${leavesCount1}`)
+        leaves.push(thisleaf)
         newLeaf.style.left = Math.random() * 150 + 'px'
         newLeaf.style.top = Math.random() * 20 + 'px'
-        leafSize = Math.random() * 10 + 8
+        leafSize = Math.floor(Math.random() * 10 + 8)
         newLeaf.style.width = leafSize + 'px'
         newLeaf.style.height = leafSize + 'px'
+        newLeaf.style.animationName = `grow${leafSize}`
         leafColorS = Math.random() * (61 - 46) + 46
         leafColorL = Math.random() * (55 - 42) + 42
         newLeaf.style.backgroundColor = "hsl(124, " + leafColorS + "%," + leafColorL + "%)"
@@ -261,11 +314,15 @@ setInterval(() => {
         newLeaf.className = "leaves"
         document.getElementById('leavesContainer2').appendChild(newLeaf)
         leavesCount2 += 1
+        newLeaf.id = `group2Leaves${leavesCount2}`
+        thisleaf = document.getElementById(`group2Leaves${leavesCount2}`)
+        leaves.push(thisleaf)
         newLeaf.style.left = Math.random() * 150 + 'px'
         newLeaf.style.top = Math.random() * 20 + 'px'
-        leafSize = Math.random() * 10 + 8
+        leafSize = Math.floor(Math.random() * 10 + 8)
         newLeaf.style.width = leafSize + 'px'
         newLeaf.style.height = leafSize + 'px'
+        newLeaf.style.animationName = `grow${leafSize}`
         leafColorS = Math.random() * (61 - 46) + 46
         leafColorL = Math.random() * (55 - 42) + 42
         newLeaf.style.backgroundColor = "hsl(124, " + leafColorS + "%," + leafColorL + "%)"
@@ -279,11 +336,15 @@ setInterval(() => {
         newLeaf.className = "leaves"
         document.getElementById('leavesContainer3').appendChild(newLeaf)
         leavesCount3 += 1
+        newLeaf.id = `group3Leaves${leavesCount3}`
+        thisleaf = document.getElementById(`group3Leaves${leavesCount3}`)
+        leaves.push(thisleaf)
         newLeaf.style.left = Math.random() * 100 + 'px'
         newLeaf.style.top = Math.random() * 18 + 'px'
-        leafSize = Math.random() * 10 + 8
+        leafSize = Math.floor(Math.random() * 10 + 8)
         newLeaf.style.width = leafSize + 'px'
         newLeaf.style.height = leafSize + 'px'
+        newLeaf.style.animationName = `grow${leafSize}`
         leafColorS = Math.random() * (61 - 46) + 46
         leafColorL = Math.random() * (55 - 42) + 42
         newLeaf.style.backgroundColor = "hsl(124, " + leafColorS + "%," + leafColorL + "%)"
@@ -297,11 +358,15 @@ setInterval(() => {
         newLeaf.className = "leaves"
         document.getElementById('leavesContainer4').appendChild(newLeaf)
         leavesCount4 += 1
+        newLeaf.id = `group4Leaves${leavesCount4}`
+        thisleaf = document.getElementById(`group4Leaves${leavesCount4}`)
+        leaves.push(thisleaf)
         newLeaf.style.left = Math.random() * 100 + 'px'
         newLeaf.style.top = Math.random() * 18 + 'px'
-        leafSize = Math.random() * 10 + 8
+        leafSize = Math.floor(Math.random() * 10 + 8)
         newLeaf.style.width = leafSize + 'px'
         newLeaf.style.height = leafSize + 'px'
+        newLeaf.style.animationName = `grow${leafSize}`
         leafColorS = Math.random() * (61 - 46) + 46
         leafColorL = Math.random() * (55 - 42) + 42
         newLeaf.style.backgroundColor = "hsl(124, " + leafColorS + "%," + leafColorL + "%)"
@@ -314,11 +379,15 @@ setInterval(() => {
         newLeaf.className = "leaves"
         document.getElementById('leavesContainer5').appendChild(newLeaf)
         leavesCount5 += 1
+        newLeaf.id = `group5Leaves${leavesCount5}`
+        thisleaf = document.getElementById(`group5Leaves${leavesCount5}`)
+        leaves.push(thisleaf)
         newLeaf.style.left = Math.random() * 100 + 'px'
         newLeaf.style.top = Math.random() * 18 + 'px'
-        leafSize = Math.random() * 10 + 8
+        leafSize = Math.floor(Math.random() * 10 + 8)
         newLeaf.style.width = leafSize + 'px'
         newLeaf.style.height = leafSize + 'px'
+        newLeaf.style.animationName = `grow${leafSize}`
         leafColorS = Math.random() * (61 - 46) + 46
         leafColorL = Math.random() * (55 - 42) + 42
         newLeaf.style.backgroundColor = "hsl(124, " + leafColorS + "%," + leafColorL + "%)"
@@ -331,11 +400,15 @@ setInterval(() => {
         newLeaf.className = "leaves"
         document.getElementById('leavesContainer6').appendChild(newLeaf)
         leavesCount6 += 1
+        newLeaf.id = `group6Leaves${leavesCount6}`
+        thisleaf = document.getElementById(`group6Leaves${leavesCount6}`)
+        leaves.push(thisleaf)
         newLeaf.style.left = Math.random() * 90 + 'px'
         newLeaf.style.top = Math.random() * 18 + 'px'
-        leafSize = Math.random() * 10 + 8
+        leafSize = Math.floor(Math.random() * 10 + 8)
         newLeaf.style.width = leafSize + 'px'
         newLeaf.style.height = leafSize + 'px'
+        newLeaf.style.animationName = `grow${leafSize}`
         leafColorS = Math.random() * (61 - 46) + 46
         leafColorL = Math.random() * (55 - 42) + 42
         newLeaf.style.backgroundColor = "hsl(124, " + leafColorS + "%," + leafColorL + "%)"
@@ -348,11 +421,15 @@ setInterval(() => {
         newLeaf.className = "leaves"
         document.getElementById('leavesContainer7').appendChild(newLeaf)
         leavesCount7 += 1
+        newLeaf.id = `group7Leaves${leavesCount7}`
+        thisleaf = document.getElementById(`group7Leaves${leavesCount7}`)
+        leaves.push(thisleaf)
         newLeaf.style.left = Math.random() * 100 + 'px'
         newLeaf.style.top = Math.random() * 18 + 'px'
-        leafSize = Math.random() * 10 + 8
+        leafSize = Math.floor(Math.random() * 10 + 8)
         newLeaf.style.width = leafSize + 'px'
         newLeaf.style.height = leafSize + 'px'
+        newLeaf.style.animationName = `grow${leafSize}`
         leafColorS = Math.random() * (61 - 46) + 46
         leafColorL = Math.random() * (55 - 42) + 42
         newLeaf.style.backgroundColor = "hsl(124, " + leafColorS + "%," + leafColorL + "%)"
@@ -365,11 +442,15 @@ setInterval(() => {
         newLeaf.className = "leaves"
         document.getElementById('leavesContainer8').appendChild(newLeaf)
         leavesCount8 += 1
+        newLeaf.id = `group8Leaves${leavesCount8}`
+        thisleaf = document.getElementById(`group8Leaves${leavesCount8}`)
+        leaves.push(thisleaf)
         newLeaf.style.left = Math.random() * 90 + 'px'
         newLeaf.style.top = Math.random() * 18 + 'px'
-        leafSize = Math.random() * 10 + 8
+        leafSize = Math.floor(Math.random() * 10 + 8)
         newLeaf.style.width = leafSize + 'px'
         newLeaf.style.height = leafSize + 'px'
+        newLeaf.style.animationName = `grow${leafSize}`
         leafColorS = Math.random() * (61 - 46) + 46
         leafColorL = Math.random() * (55 - 42) + 42
         newLeaf.style.backgroundColor = "hsl(124, " + leafColorS + "%," + leafColorL + "%)"
@@ -382,11 +463,15 @@ setInterval(() => {
         newLeaf.className = "leaves"
         document.getElementById('leavesContainer9').appendChild(newLeaf)
         leavesCount9 += 1
+        newLeaf.id = `group9Leaves${leavesCount9}`
+        thisleaf = document.getElementById(`group9Leaves${leavesCount9}`)
+        leaves.push(thisleaf)
         newLeaf.style.left = Math.random() * 80 + 'px'
         newLeaf.style.top = Math.random() * 18 + 'px'
-        leafSize = Math.random() * 10 + 8
+        leafSize = Math.floor(Math.random() * 10 + 8)
         newLeaf.style.width = leafSize + 'px'
         newLeaf.style.height = leafSize + 'px'
+        newLeaf.style.animationName = `grow${leafSize}`
         leafColorS = Math.random() * (61 - 46) + 46
         leafColorL = Math.random() * (55 - 42) + 42
         newLeaf.style.backgroundColor = "hsl(124, " + leafColorS + "%," + leafColorL + "%)"
@@ -399,11 +484,15 @@ setInterval(() => {
         newLeaf.className = "leaves"
         document.getElementById('leavesContainer10').appendChild(newLeaf)
         leavesCount10 += 1
+        newLeaf.id = `group10Leaves${leavesCount10}`
+        thisleaf = document.getElementById(`group10Leaves${leavesCount10}`)
+        leaves.push(thisleaf)
         newLeaf.style.left = Math.random() * 80 + 'px'
         newLeaf.style.top = Math.random() * 18 + 'px'
-        leafSize = Math.random() * 10 + 8
+        leafSize = Math.floor(Math.random() * 10 + 8)
         newLeaf.style.width = leafSize + 'px'
         newLeaf.style.height = leafSize + 'px'
+        newLeaf.style.animationName = `grow${leafSize}`
         leafColorS = Math.random() * (61 - 46) + 46
         leafColorL = Math.random() * (55 - 42) + 42
         newLeaf.style.backgroundColor = "hsl(124, " + leafColorS + "%," + leafColorL + "%)"
@@ -416,11 +505,15 @@ setInterval(() => {
         newLeaf.className = "leaves"
         document.getElementById('leavesContainer11').appendChild(newLeaf)
         leavesCount11 += 1
+        newLeaf.id = `group11Leaves${leavesCount11}`
+        thisleaf = document.getElementById(`group11Leaves${leavesCount11}`)
+        leaves.push(thisleaf)
         newLeaf.style.left = Math.random() * 80 + 'px'
         newLeaf.style.top = Math.random() * 18 + 'px'
-        leafSize = Math.random() * 10 + 8
+        leafSize = Math.floor(Math.random() * 10 + 8)
         newLeaf.style.width = leafSize + 'px'
         newLeaf.style.height = leafSize + 'px'
+        newLeaf.style.animationName = `grow${leafSize}`
         leafColorS = Math.random() * (61 - 46) + 46
         leafColorL = Math.random() * (55 - 42) + 42
         newLeaf.style.backgroundColor = "hsl(124, " + leafColorS + "%," + leafColorL + "%)"
@@ -433,11 +526,15 @@ setInterval(() => {
         newLeaf.className = "leaves"
         document.getElementById('leavesContainer12').appendChild(newLeaf)
         leavesCount12 += 1
+        newLeaf.id = `group12Leaves${leavesCount12}`
+        thisleaf = document.getElementById(`group12Leaves${leavesCount12}`)
+        leaves.push(thisleaf)
         newLeaf.style.left = Math.random() * 80 + 'px'
         newLeaf.style.top = Math.random() * 18 + 'px'
-        leafSize = Math.random() * 10 + 8
+        leafSize = Math.floor(Math.random() * 10 + 8)
         newLeaf.style.width = leafSize + 'px'
         newLeaf.style.height = leafSize + 'px'
+        newLeaf.style.animationName = `grow${leafSize}`
         leafColorS = Math.random() * (61 - 46) + 46
         leafColorL = Math.random() * (55 - 42) + 42
         newLeaf.style.backgroundColor = "hsl(124, " + leafColorS + "%," + leafColorL + "%)"
@@ -450,11 +547,15 @@ setInterval(() => {
         newLeaf.className = "leaves"
         document.getElementById('leavesContainer13').appendChild(newLeaf)
         leavesCount13 += 1
+        newLeaf.id = `group13Leaves${leavesCount13}`
+        thisleaf = document.getElementById(`group13Leaves${leavesCount13}`)
+        leaves.push(thisleaf)
         newLeaf.style.left = Math.random() * 80 + 'px'
         newLeaf.style.top = Math.random() * 18 + 'px'
-        leafSize = Math.random() * 10 + 8
+        leafSize = Math.floor(Math.random() * 10 + 8)
         newLeaf.style.width = leafSize + 'px'
         newLeaf.style.height = leafSize + 'px'
+        newLeaf.style.animationName = `grow${leafSize}`
         leafColorS = Math.random() * (61 - 46) + 46
         leafColorL = Math.random() * (55 - 42) + 42
         newLeaf.style.backgroundColor = "hsl(124, " + leafColorS + "%," + leafColorL + "%)"
@@ -467,11 +568,15 @@ setInterval(() => {
         newLeaf.className = "leaves"
         document.getElementById('leavesContainer14').appendChild(newLeaf)
         leavesCount14 += 1
+        newLeaf.id = `group14Leaves${leavesCount14}`
+        thisleaf = document.getElementById(`group14Leaves${leavesCount14}`)
+        leaves.push(thisleaf)
         newLeaf.style.left = Math.random() * 100 + 'px'
         newLeaf.style.top = Math.random() * 40 + 'px'
-        leafSize = Math.random() * 10 + 8
+        leafSize = Math.floor(Math.random() * 10 + 8)
         newLeaf.style.width = leafSize + 'px'
         newLeaf.style.height = leafSize + 'px'
+        newLeaf.style.animationName = `grow${leafSize}`
         leafColorS = Math.random() * (61 - 46) + 46
         leafColorL = Math.random() * (55 - 42) + 42
         newLeaf.style.backgroundColor = "hsl(124, " + leafColorS + "%," + leafColorL + "%)"
@@ -484,18 +589,211 @@ setInterval(() => {
         newLeaf.className = "leaves"
         document.getElementById('leavesContainer15').appendChild(newLeaf)
         leavesCount15 += 1
+        newLeaf.id = `group15Leaves${leavesCount15}`
+        thisleaf = document.getElementById(`group15Leaves${leavesCount15}`)
+        leaves.push(thisleaf)
         newLeaf.style.left = Math.random() * 100 + 'px'
         newLeaf.style.top = Math.random() * 40 + 'px'
-        leafSize = Math.random() * 10 + 8
+        leafSize = Math.floor(Math.random() * 10 + 8)
         newLeaf.style.width = leafSize + 'px'
         newLeaf.style.height = leafSize + 'px'
+        newLeaf.style.animationName = `grow${leafSize}`
         leafColorS = Math.random() * (61 - 46) + 46
         leafColorL = Math.random() * (55 - 42) + 42
         newLeaf.style.backgroundColor = "hsl(124, " + leafColorS + "%," + leafColorL + "%)"
     }
 }, Math.random() * 2000 + 500);
 
+setInterval(() => {
+    if (leaves.length > 10 && leavesCount16 < 70) {
+        let newLeaf = document.createElement('div')
+        newLeaf.className = "leaves"
+        document.getElementById('leavesContainer16').appendChild(newLeaf)
+        leavesCount16 += 1
+        newLeaf.id = `group16Leaves${leavesCount16}`
+        thisleaf = document.getElementById(`group16Leaves${leavesCount16}`)
+        leaves.push(thisleaf)
+        fallLeaves.push(thisleaf)
+        newLeaf.style.left = Math.random() * 150 + 'px'
+        newLeaf.style.top = Math.random() * 70 + 'px'
+        leafSize = Math.floor(Math.random() * 10 + 8)
+        newLeaf.style.width = leafSize + 'px'
+        newLeaf.style.height = leafSize + 'px'
+        newLeaf.style.animationName = `grow${leafSize}`
+        leafColorS = Math.random() * (61 - 46) + 46
+        leafColorL = Math.random() * (55 - 42) + 42
+        newLeaf.style.backgroundColor = "hsl(124, " + leafColorS + "%," + leafColorL + "%)"
+    }
+}, Math.random() * 2000 + 500);
+
+setInterval(() => {
+    if (userInput == false) {
+        if (leaves.length > 200 && flowerCount < 20) {
+            let newFlower = document.createElement('div')
+            newFlower.className = "flowers"
+            document.getElementById('flowerContainer').appendChild(newFlower)
+            flowerCount += 1
+            newFlower.style.left = Math.random() * 300 + 'px'
+            newFlower.style.top = Math.random() * 200 + 'px'
+            flowerSize = Math.floor(Math.random() * 10 + 8)
+            newFlower.style.width = flowerSize + 'px'
+            newFlower.style.height = flowerSize + 'px'
+            newFlower.style.animationName = `grow${flowerSize}`
+            newFlowerColor = Math.random() * 360
+            newFlower.style.backgroundColor = "hsl( " + newFlowerColor + ", 40%, 70%)"
+                // newColorInput = window.open("", ``, `height=100,width=100,left=${Math.random()*window.innerWidth},top=${Math.random()*window.innerHeight}`)
+                // colorInput = document.createElement('input')
+                // colorInput.type = 'color'
+                // colorInput.style.width = "140px"
+                // colorInput.style.height = "85px"
+                // newColorInput.document.body.appendChild(colorInput)
+                // colorInput.addEventListener('input', () => {
+                //     newFlower.style.backgroundColor = colorInput.value //let the user change flower colors
+                // })
+                // setTimeout(() => {
+                //     newColorInput.close()
+                // }, 3000);
+        }
+    }
+}, Math.random() * 3000 + 3000);
+
+setInterval(() => {
+    let fallLeafIndex = Math.floor(Math.random() * fallLeaves.length);
+    let fallLeaf = fallLeaves[fallLeafIndex];
+    // let fallLeafPosTop = fallLeaf.getBoundingClientRect().top
+    let fallLeafSize = fallLeaf.style.width
+    fallLeafSize = parseInt(fallLeafSize.slice(0, -2))
+    fallToPos = 290 - fallLeafSize
+    console.log(fallLeafSize)
+    let keyframes = `@keyframes fall{
+            from {
+                top: ${fallLeaf.offsetTop}px
+            }
+            to {
+                top: 283px
+            }
+        }`
+    let s = document.createElement('style');
+    s.innerHTML = keyframes;
+    document.head.appendChild(s)
+    fallLeaf.style.animationName = "fall";
+    fallLeaf.style.animationDuration = "3s"
+    fallLeaf.style.animationIterationCount = '1'
+    fallLeaf.style.animationTimingFunction = 'linear'
+    fallLeaf.style.animationFillMode = "forwards";
+}, Math.random() * 4000 + 3000);
+
+setInterval(() => {
+    for (let i = 0; i < leaves.length; i++) {
+        let leaf = leaves[i];
+        leafColorH = rgbToHsl(leaf.style.backgroundColor)[0];
+        leafColorS = rgbToHsl(leaf.style.backgroundColor)[1];
+        leafColorL = rgbToHsl(leaf.style.backgroundColor)[2];
+
+        if (leafColorH > 55 && userInput == false) {
+            leafColorH = leafColorH - 0.2
+        }
+        if (leafColorH > 55 && userInput == true) {
+            leafColorH = leafColorH - 1
+        }
+
+        leaf.style.backgroundColor = `hsl(${leafColorH}, ${leafColorS}%, ${leafColorL}%)`
+    }
+}, 50);
+
+
+branch1.addEventListener('input', () => {
+    userInput = true;
+})
+branch2.addEventListener('input', () => {
+    userInput = true;
+})
+branch3.addEventListener('input', () => {
+    userInput = true;
+})
+branch4.addEventListener('input', () => {
+    userInput = true;
+})
+branch5.addEventListener('input', () => {
+    userInput = true;
+})
+branch6.addEventListener('input', () => {
+    userInput = true;
+})
+branch7.addEventListener('input', () => {
+    userInput = true;
+})
+branch8.addEventListener('input', () => {
+    userInput = true;
+})
+branch9.addEventListener('input', () => {
+    userInput = true;
+})
+branch10.addEventListener('input', () => {
+    userInput = true;
+})
+branch11.addEventListener('input', () => {
+    userInput = true;
+})
+branch12.addEventListener('input', () => {
+    userInput = true;
+})
+branch13.addEventListener('input', () => {
+    userInput = true;
+})
+branch14.addEventListener('input', () => {
+    userInput = true;
+})
+
+
+
+// setInterval(() => {
+//     document.getElementById('treeContainer').style.animationName = 'wind'
+//     document.getElementById('treeContainer').style.animationDuration = '3s'
+//     document.getElementById('treeContainer').style.animationIterationCount = '1'
+//     console.log('shake')
+
+
+// }, Math.random() * 4000 + 3000);
+
 function mapRange(value, a, b, c, d) { //this function simulate the map function in p5js
     value = (value - a) / (b - a);
     return c + value * (d - c);
+}
+
+// console.log(rgbToHsl("rgb(89, 34, 5)"))
+
+function rgbToHsl(rgb) {
+    arrayrgb = rgb.split(',')
+    r = parseInt(arrayrgb[0].slice(4))
+    g = parseInt(arrayrgb[1])
+    b = parseInt(arrayrgb[2].slice(0, -1))
+        // console.log(b)
+    r /= 255, g /= 255, b /= 255;
+
+
+    var max = Math.max(r, g, b),
+        min = Math.min(r, g, b);
+    var h, s, l = (max + min) / 2;
+
+    if (max == min) {
+        h = s = 0; // achromatic
+    } else {
+        var d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch (max) {
+            case r:
+                h = (g - b) / d + (g < b ? 6 : 0);
+                break;
+            case g:
+                h = (b - r) / d + 2;
+                break;
+            case b:
+                h = (r - g) / d + 4;
+                break;
+        }
+        h /= 6;
+    }
+
+    return [Math.floor(h * 360), Math.floor(s * 100), Math.floor(l * 100)];
 }
