@@ -13,6 +13,10 @@ let branch12 = document.getElementById('branch12');
 let branch13 = document.getElementById('branch13');
 let branch14 = document.getElementById('branch14');
 
+// for(let i = 0; i< 15; i++){
+//     let 
+// }
+
 let branch2Width = 0;
 let branch2Left = 105;
 let branch2Bottom = 240;
