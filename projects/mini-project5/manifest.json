@@ -1,7 +1,7 @@
 {
-    "name": "Cat",
+    "name": "Don't open too many tabs",
     "version": "1.0",
-    "description": "Increase by every click",
+    "description": "The tabs will fall down when too many tabs are opened",
     "manifest_version": 2,
     "permissions": [
         "activeTab",
