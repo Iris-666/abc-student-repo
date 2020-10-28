@@ -16,9 +16,9 @@ function gotMessage(message, sender, sendResponse) {
         newDiv.style.zIndex = "100";
         // let leftDistance = mapRange(i - remainTab + 1, 0, message.tabIcons.length, 0, window.innerWidth)
         let leftDistance = Math.random() * window.innerWidth
-        console.log(leftDistance)
+        console.log(message.tabIcons[i])
         newDiv.style.left = `${leftDistance}px`
-        if (message.tabIcons[i] != "") {
+        if (message.tabIcons[i] != null) {
             newDiv.style.backgroundImage = `url(${message.tabIcons[i]})`
         } else {
             newDiv.style.backgroundColor = "black"

@@ -24,8 +24,17 @@ chrome.tabs.onActivated.addListener(function(tabId, changeInfo, tab) {
                 tabIcons[i] = tabs[i].favIconUrl
             }
             console.log(tabIcons)
-            chrome.tabs.sendMessage(tabs[remainTab - 1].id, { tabIcons: tabIcons })
-                // chrome.runtime.sendMessage({ tabIcons: tabIcons })
+                // chrome.tabs.reload(tabs[remainTab - 1].id)
+            setTimeout(() => {
+                chrome.tabs.sendMessage(tabs[remainTab - 1].id, { tabIcons: tabIcons })
+                console.log('message sent')
+            }, 2000);
+            // setInterval(() => {
+            //     chrome.tabs.sendMessage(tabs[remainTab - 1].id, { tabIcons: tabIcons })
+            //     console.log('message sent')
+
+            // }, 2000);
+            // chrome.tabs.sendMessage(tabs[remainTab - 1].id, { tabIcons: tabIcons })
             for (let j = remainTab; j < tabs.length; j++) {
                 deleteTabs.push(tabs[j].id)
                 chrome.tabs.remove([tabs[j].id])
