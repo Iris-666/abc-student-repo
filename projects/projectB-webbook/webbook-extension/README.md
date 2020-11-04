@@ -18,7 +18,7 @@ Webbook, as the name implies, turns your web page into a book. Your web page wou
 
 ![bookmark](bookmark.gif)
 
-
+Add bookmark ⬆️
 
 # TECHNICAL CHALLENGES
 
