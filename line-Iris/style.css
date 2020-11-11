@@ -1,124 +1,146 @@
-#backgroundImg{
+#backgroundImg {
     position: fixed;
 }
 
-.hyperLink:hover{
+.hyperLink:hover {
     cursor: pointer;
 }
 
-#welcome{
+.hyperLink {
+    position: absolute;
+    /* top: 47vh; */
+    bottom: 38vh;
+    writing-mode: vertical-rl;
+    text-orientation: sideways-right;
+    transform: rotate(-50deg);
+    font-size: 18px;
+}
+
+.stopCircle {
+    width: 24px;
+    height: 24px;
+    border-radius: 24px;
+    background-color: white;
+    position: absolute;
+    top: 8px;
+}
+
+#welcome {
     position: absolute;
     top: 250px;
     left: 1680px;
     font-size: 24px;
-    
 }
 
-#mini1{
+#lineMapContainer {
     position: absolute;
-    top: 360px;
-    left: 180px;
-    writing-mode: vertical-rl;
-    text-orientation: sideways-right;
-    transform: rotate(-50deg);
-    font-size: 18px;
+    top: 65vh;
+    left: 5vw;
 }
 
-#mini2{
-    position: absolute;
-    top: 360px;
-    left: 290px;
-    writing-mode: vertical-rl;
-    text-orientation: sideways-right;
-    transform: rotate(-50deg);
-    font-size: 18px;
+#lineMap {
+    width: 90vw;
+    height: 40px;
+    background-color: indianred;
+    /* position: absolute;
+    top: 65vh;
+    left: 5vw; */
 }
 
-#mini3{
-    position: absolute;
-    top: 360px;
-    left: 400px;
-    writing-mode: vertical-rl;
-    text-orientation: sideways-right;
-    transform: rotate(-50deg);
-    font-size: 18px;
+#mini1 {
+    left: 10vw;
 }
 
-#projectA{
-    position: absolute;
-    top: 360px;
-    left: 510px;
-    writing-mode: vertical-rl;
-    text-orientation: sideways-right;
-    transform: rotate(-50deg);
-    font-size: 28px;
+#stop1 {
+    left: 8vw;
 }
 
-#mini4{
-    position: absolute;
-    top: 360px;
-    left: 620px;
-    writing-mode: vertical-rl;
-    text-orientation: sideways-right;
-    transform: rotate(-50deg);
-    font-size: 18px;
+#mini2 {
+    left: 18.3vw;
 }
 
-#mini5{
-    position: absolute;
-    top: 360px;
-    left: 730px;
-    writing-mode: vertical-rl;
-    text-orientation: sideways-right;
-    transform: rotate(-50deg);
-    font-size: 18px;
+#stop2 {
+    left: 16.3vw;
 }
 
-#projectB{
-    position: absolute;
-    top: 360px;
-    left: 840px;
-    writing-mode: vertical-rl;
-    text-orientation: sideways-right;
-    transform: rotate(-50deg);
-    font-size: 28px;
+#mini3 {
+    left: 26.6vw;
 }
 
-#mini6{
-    position: absolute;
-    top: 360px;
-    left: 950px;
-    writing-mode: vertical-rl;
-    text-orientation: sideways-right;
-    transform: rotate(-50deg);
-    font-size: 18px;
+#stop3 {
+    left: 23.6vw;
 }
 
-#mini7{
-    position: absolute;
-    top: 360px;
-    left: 1060px;
-    writing-mode: vertical-rl;
-    text-orientation: sideways-right;
-    transform: rotate(-50deg);
-    font-size: 18px;
+#projectA {
+    left: 34.9vw;
+    font-size: 24px;
 }
 
-#projectC{
-    position: absolute;
-    top: 360px;
-    left: 1170px;
-    writing-mode: vertical-rl;
-    text-orientation: sideways-right;
-    transform: rotate(-50deg);
-    font-size: 28px;
+#stop4 {
+    left: 31.9vw;
+    height: 50px;
+    border: indianred solid 5px;
+}
+
+#mini4 {
+    left: 43.2vw;
+}
+
+#stop5 {
+    left: 40.2vw;
+}
+
+#mini5 {
+    left: 51.5vw;
+}
+
+#stop6 {
+    left: 48.5vw;
+}
+
+#projectB {
+    left: 59.8vw;
+    font-size: 24px;
+}
+
+#stop7 {
+    left: 56.8vw;
+    height: 50px;
+    border: indianred solid 5px;
+}
+
+#mini6 {
+    left: 68.1vw;
+}
+
+#stop8 {
+    left: 66.1vw;
+}
+
+#mini7 {
+    left: 76.4vw;
+}
+
+#stop9 {
+    left: 73.4vw;
+}
+
+#projectC {
+    left: 84.7vw;
+    font-size: 24px;
+}
+
+#stop10 {
+    left: 82.7vw;
+    height: 50px;
+    border: indianred solid 5px;
 }
 
 .caption {
     z-index: 3;
-    height: 50px;  
+    height: 50px;
     position: relative;
-   /* }
+    /* }
    .example1 h3 { */
     top: 200px;
     font-size: 3em;
@@ -129,37 +151,55 @@
     line-height: 50px;
     text-align: center;
     /* Starting position */
-    -moz-transform:translateX(100%);
-    -webkit-transform:translateX(100%);    
-    transform:translateX(100%);
-    /* Apply animation to this element */  
+    -moz-transform: translateX(100%);
+    -webkit-transform: translateX(100%);
+    transform: translateX(100%);
+    /* Apply animation to this element */
     -moz-animation: example1 15s linear infinite;
     -webkit-animation: example1 15s linear infinite;
     animation: example1 15s linear infinite;
-   }
-   /* Move it (define the animation) */
-   @-moz-keyframes example1 {
-    0%   { -moz-transform: translateX(100%); }
-    100% { -moz-transform: translateX(-100%); }
-   }
-   @-webkit-keyframes example1 {
-    0%   { -webkit-transform: translateX(100%); }
-    100% { -webkit-transform: translateX(-100%); }
-   }
-   @keyframes example1 {
-    0%   { 
-    -moz-transform: translateX(100%); /* Firefox bug fix */
-    -webkit-transform: translateX(100%); /* Firefox bug fix */
-    transform: translateX(100%);       
-    }
-    100% { 
-    -moz-transform: translateX(-100%); /* Firefox bug fix */
-    -webkit-transform: translateX(-100%); /* Firefox bug fix */
-    transform: translateX(-100%); 
-    }
-   }
+}
 
-   /* #captionBackground{
+
+/* Move it (define the animation) */
+
+@-moz-keyframes example1 {
+    0% {
+        -moz-transform: translateX(100%);
+    }
+    100% {
+        -moz-transform: translateX(-100%);
+    }
+}
+
+@-webkit-keyframes example1 {
+    0% {
+        -webkit-transform: translateX(100%);
+    }
+    100% {
+        -webkit-transform: translateX(-100%);
+    }
+}
+
+@keyframes example1 {
+    0% {
+        -moz-transform: translateX(100%);
+        /* Firefox bug fix */
+        -webkit-transform: translateX(100%);
+        /* Firefox bug fix */
+        transform: translateX(100%);
+    }
+    100% {
+        -moz-transform: translateX(-100%);
+        /* Firefox bug fix */
+        -webkit-transform: translateX(-100%);
+        /* Firefox bug fix */
+        transform: translateX(-100%);
+    }
+}
+
+
+/* #captionBackground{
        position: absolute;
        top: 230px;
        background-color: black;
@@ -179,15 +219,14 @@
 } */
 
 #scrollingCaption {
-	font-size: 24px;
-	color: #FF0000;
-	height: 50px;
-	width: 930px;
-	border: 5px ridge #999;
-	background-color: #222;
+    font-size: 24px;
+    color: #FF0000;
+    height: 50px;
+    width: 930px;
+    border: 5px ridge #999;
+    background-color: #222;
     position: absolute;
     top: 220px;
     z-index: 100;
     margin-left: 200px;
-    
 }
