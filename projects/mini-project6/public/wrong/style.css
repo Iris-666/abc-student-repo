@@ -1,0 +1,8 @@
+@keyframes move {
+    from {
+        right: 0px;
+    }
+    to {
+        right: 1500px;
+    }
+}
