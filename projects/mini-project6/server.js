@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const port = 3002
+let port = process.env.PORT
 
 let animals = ["dog", "cat", "lion"]
 let animal = "dog";
