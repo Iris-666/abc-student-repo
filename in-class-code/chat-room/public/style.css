@@ -1,0 +1,86 @@
+:root {
+    --borderThickness: 4px;
+}
+
+body {
+    margin: 0px;
+    font-weight: bold;
+    font-family: sans-serif;
+    background-color: pink;
+    font-size: 16px;
+}
+
+p {
+    margin: 0px;
+    font-size: 16px;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    box-shadow: 0px 0px 13px 5px black;
+}
+
+.chatwrapper {
+    width: 300px;
+    /* height: 400px; */
+    border: var(--borderThickness) solid black;
+    border-radius: 15px;
+    padding: 15px;
+    background-color: white;
+}
+
+.namebox {
+    border: var(--borderThickness) solid black;
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
+    text-align: right;
+    padding: 10px;
+    margin-bottom: 5px;
+}
+
+.chatbox {
+    border: var(--borderThickness) solid black;
+    margin-bottom: 5px;
+    padding: 10px;
+}
+
+#chat {
+    height: 160px;
+    overflow: scroll;
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+    scroll-behavior: smooth;
+}
+
+#chat li {
+    margin-bottom: 3px;
+}
+
+#chat li:nth-child(odd) {
+    background-color: black;
+    color: white;
+}
+
+#chat li .sender {
+    color: #00e200;
+}
+
+.messagebox {
+    border: var(--borderThickness) solid black;
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    padding: 10px;
+}
+
+#name {
+    font-size: 16px;
+}
+
+#message {
+    font-size: 16px;
+}
