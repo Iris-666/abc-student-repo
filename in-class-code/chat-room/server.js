@@ -24,6 +24,7 @@ io.on('connection', (socket) => {
         console.log(data)
         io.emit("incoming", data)
     })
+
 });
 
 http.listen(3000, () => {
