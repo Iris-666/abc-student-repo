@@ -4,6 +4,7 @@ var http = require('http').createServer(app);
 var io = require('socket.io')(http);
 
 let circles = [];
+let circleInfos = []
 
 app.use(express.static('public'))
 
@@ -11,11 +12,10 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
 });
 
-//general event listener for any socket connection
 io.on('connection', (socket) => {
-    //code inside here is per connection
-    //for each connection we console log this
+    //send the socket id to the newly connected client
     io.to(socket.id).emit("socketid", socket.id);
+    io.emit("someoneConnect", "someoneConnect")
     circles.push(socket.id)
     io.emit('circles', circles)
     socket.on('disconnect', () => {
@@ -27,7 +27,23 @@ io.on('connection', (socket) => {
         }
         io.emit('circles', circles)
 
+        //remove the circle info when the client disconnect
+        for (let i = 0; i < circleInfos.length; i++) {
+            if (circleInfos[i].id == socket.id) {
+                circleInfos.splice(i, 1)
+            }
+        }
+
     });
+
+    socket.on("circleInfo", (data) => {
+        circleInfos.push(data)
+        io.emit("allCircleInfo", circleInfos)
+    })
+
+    socket.on('updatedLocation', (data) => {
+        socket.broadcast.emit('updatedLocationToClients', data);
+    })
 
     socket.on('message', (data) => {
         // console.log(data)

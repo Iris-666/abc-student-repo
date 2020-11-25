@@ -9,34 +9,22 @@ let circleColor = `rgb(${circleColorR},${circleColorG},${circleColorB})`
 circle.style.backgroundColor = circleColor
 let socketid;
 let Allcircles;
+
+let allCircleInfo;
 let thisPageCircles = [];
 
+
 socket.on("socketid", (data) => {
-    console.log(data)
     socketid = data
     circle.id = socketid;
     thisPageCircles.push(socketid)
+    circleInfo = { id: socketid, color: circleColor }
+    socket.emit("circleInfo", circleInfo)
 })
 
 socket.on("circles", (data) => {
-    // console.log(data)
+    console.log(data)
     Allcircles = data
-})
-
-document.addEventListener('mousemove', function(e) {
-    // console.log("mousemove")
-    let left = e.clientX;
-    let top = e.clientY;
-    circle.style.left = left + 'px';
-    circle.style.top = top + 'px';
-    let data = { circleColor: circleColor, circleColorR: circleColorR, circleColorG: circleColorG, circleColorB: circleColorB, socketid: socketid, positionx: left, positiony: top }
-    socket.emit('message', data)
-
-});
-
-
-socket.on("broadcast", (data) => {
-    // console.log(data);
     let circleAppended = false;
     // console.log(data)
     for (let i = 0; i < thisPageCircles.length; i++) {
@@ -68,12 +56,27 @@ socket.on("broadcast", (data) => {
         thisCircle.style.top = data.positiony + 'px';
     }
 
-    for (let i = 0; i < Allcircles.length; i++) {
-        let thisCircle = document.getElementById(Allcircles[i]);
-        // console.log(thisCircle)
+})
+
+document.addEventListener('mousemove', function(e) {
+    // console.log("mousemove")
+    let left = e.clientX;
+    let top = e.clientY;
+    circle.style.left = left + 'px';
+    circle.style.top = top + 'px';
+    let data = { circleColor: circleColor, circleColorR: circleColorR, circleColorG: circleColorG, circleColorB: circleColorB, socketid: socketid, positionx: left, positiony: top }
+    socket.emit('message', data)
+
+});
+
+
+socket.on("broadcast", (data) => {
+
+    for (let i = 0; i < allCircleInfo.length; i++) {
+        let thisCircle = document.getElementById(allCircleInfo[i].id);
         thisCirclePos = thisCircle.getBoundingClientRect();
-        for (let j = 0; j < Allcircles.length; j++) {
-            let otherCircle = document.getElementById(Allcircles[j]);
+        for (let j = 0; j < allCircleInfo.length; j++) {
+            let otherCircle = document.getElementById(allCircleInfo[j].id);
             otherCirclePos = otherCircle.getBoundingClientRect();
             if (i != j) {
                 if (Math.abs(thisCirclePos.left - otherCirclePos.left) < 50 && Math.abs(thisCirclePos.top - otherCirclePos.top) < 50) {
@@ -102,6 +105,7 @@ socket.on("broadcast", (data) => {
             }
         }
     }
+
 })
 
 socket.on("quit", (data) => {
@@ -116,4 +120,37 @@ socket.on("meet", (data) => {
     let otherCircle = document.getElementById(data.meetCircle2)
     thisCircle.style.backgroundColor = `rgb(${data.newColorR}, ${data.newColorG}, ${data.newColorB})`
     otherCircle.style.backgroundColor = `rgb(${data.newColorR}, ${data.newColorG}, ${data.newColorB})`
+})
+
+socket.on("allCircleInfo", (data) => {
+    console.log(data)
+    allCircleInfo = data;
+    for (let i = 0; i < allCircleInfo.length; i++) {
+        if (socketid != allCircleInfo[i].id) {
+            console.log('new circle')
+            let newCircle = document.createElement('div');
+            newCircle.className = "circle";
+            newCircle.style.backgroundColor = allCircleInfo[i].color;
+            newCircle.id = allCircleInfo[i].id;
+            newCircle.style.left = 0 + 'px';
+            newCircle.style.top = 0 + 'px';
+            document.body.appendChild(newCircle)
+        }
+    }
+})
+
+socket.on("someoneConnect", () => {
+    let thisCircle = document.getElementById(socketid);
+    posx = thisCircle.getBoundingClientRect().left
+    posy = thisCircle.getBoundingClientRect().top
+    console.log(posx, posy)
+    posInfo = { socketid: socketid, posx: posx, posy: posy }
+    socket.emit("updatedLocation", posInfo)
+})
+
+socket.on("updatedLocationToClients", (data) => {
+    console.log(data)
+    let thisCircle = document.getElementById(data.socketid);
+    thisCircle.style.left = data.posx + 'px';
+    thisCircle.style.top = data.posy + 'px';
 })
