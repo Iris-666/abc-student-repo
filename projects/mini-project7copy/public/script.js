@@ -24,9 +24,17 @@ socket.on("updatedCircleInfo", (data) => {
         let thisCircle = document.getElementById(data[i].socketid)
         thisCircle.style.left = data[i].posx + 'px';
         thisCircle.style.top = data[i].posy + 'px';
-        thisCircle.style.backgroundColor = data[i].color
+        // thisCircle.style.backgroundColor = data[i].color
     }
 })
+
+// socket.on("meetColorChanged", (data) => {
+//     for (let i = 0; i < data.length; i++) {
+//         let thisCircle = document.getElementById(data[i].socketid)
+//         thisCircle.style.backgroundColor = data[i].color
+//     }
+
+// })
 
 
 document.addEventListener("mousemove", (event) => {

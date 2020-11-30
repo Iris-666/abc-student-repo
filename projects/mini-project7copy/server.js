@@ -52,18 +52,20 @@ io.on('connection', (socket) => {
         // console.log(data)
         for (let i = 0; i < circleInfo.length; i++) {
             if (circleInfo[i].socketid == data.meetCircle1 || circleInfo[i].socketi == data.meetCircle2) {
-                console.log("original", circleInfo)
                 circleInfo[i].color = data.newColor;
-                console.log("updated", circleInfo)
-
                 io.emit("updatedCircleInfo", circleInfo)
+                    // io.emit("meetColorChanged", circleInfo)
             }
+            // if (circleInfo[i].socketi == data.meetCircle2) {
+            //     circleInfo[i].color = data.newColor;
+            //     io.emit("updatedCircleInfo", circleInfo)
+            // }
         }
 
     })
 
 })
 
-http.listen(3001, () => {
-    console.log('listening on *:3001');
+http.listen(3000, () => {
+    console.log('listening on *:3000');
 });
