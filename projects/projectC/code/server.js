@@ -11,6 +11,20 @@ app.get('/', (req, res) => {
 
 io.on('connection', (socket) => {
     console.log('new connection', socket.id)
+    io.to(socket.id).emit("socketid", socket.id);
+
+    socket.on("anotherUserInfo", (data) => {
+        socket.broadcast.emit('newConnection', data); //tell all the other clients that a new user is connected
+    })
+
+    socket.on("keyInfo", (data) => {
+        socket.broadcast.emit("anotherUserKeyInfo", data)
+    })
+    socket.on("disconnect", () => {
+        socket.broadcast.emit("quit", socket.id)
+    })
+
+
 })
 
 http.listen(3001, () => {
