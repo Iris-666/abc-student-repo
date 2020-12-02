@@ -10,6 +10,8 @@ let astronautSize;
 let backgroundImg = document.getElementById("backgroundImg")
 let backgroundImgPos = 0;
 let wreckageCollected = [];
+let wreckageCollectedByAnotherUser = [];
+let wreckageCollectedNum = 0;
 
 let wreckageNum = 6;
 
@@ -103,7 +105,6 @@ class Spring {
         let forcey = distanceY / distance;
         forcey = forcey * mag
         this.ballB.applyForce(-forcex, -forcey)
-
     }
 }
 
@@ -151,12 +152,14 @@ setInterval(() => {
 
     for (let i = 0; i < allWreckages.length; i++) {
         allWreckages[i].update();
-        if (wreckageCollected[i] != undefined) {
+        if (wreckageCollected[i] != undefined || wreckageCollectedByAnotherUser[i] != undefined) {
             // console.log("running spring", i);
             // console.log("wreckageCollected[i]", wreckageCollected[i]);
             // console.log("springs[i]", springs[i]);
             // console.log("----")
+
             springs[i].update();
+            console.log(springs)
 
         }
     }
@@ -177,7 +180,6 @@ setInterval(() => {
 
 
     if (astronaut.getBoundingClientRect().left < 200 && a.posx > 210) {
-        // console.log('move canvas')
         backgroundImgPos += Math.abs(a.velx)
         container.style.left = `${backgroundImgPos}px`
     }
@@ -201,10 +203,20 @@ setInterval(() => {
     }
 
     for (let i = 0; i < allWreckages.length; i++) {
-        if (Math.abs(a.posx - allWreckages[i].posx) < 30 && Math.abs(a.posy - allWreckages[i].posy < 50)) {
-            console.log("close to each other")
-            wreckageCollected[i] = allWreckages[i]
-            springs[i] = new Spring(a, allWreckages[i], 70)
+        if (wreckageCollected[i] == undefined && wreckageCollectedByAnotherUser[i] == undefined) {
+            if (Math.abs(a.posx - allWreckages[i].posx) < 30 && Math.abs(a.posy - allWreckages[i].posy < 50)) {
+                // console.log("close to each other")
+                if (wreckageNum < 4) {
+                    wreckageCollected[i] = allWreckages[i]
+                    springs[i] = new Spring(a, allWreckages[i], 70)
+                    socket.emit("newWreckageCollected", wreckageCollected)
+                    wreckageNum += 1;
+                } else {
+                    let hint = document.createElement('p')
+                    hint.innerHTML = "You can't collect more wreckages."
+                    console.log("you can't collect more wreckages.")
+                }
+            }
         }
     }
 
@@ -214,6 +226,19 @@ setInterval(() => {
         user2.style.height = `${astronaut2Size}px`
         astronaut2.style.left = a2.posx + "px"
         astronaut2.style.top = a2.posy + 'px'
+
+        if (a2.posy < window.innerHeight / 1.89) {
+            a2.vely = 0.0;
+            a2.accy = 0;
+        }
+        if (a2.posy > window.innerHeight - 140) {
+            a2.vely = 0.0;
+            a2.accy = 0;
+        }
+        if (a2.posx < 0) {
+            a2.velx = 0.0;
+            a2.accx = 0;
+        }
 
     }
 
@@ -239,9 +264,41 @@ function mapRange(value, a, b, c, d) { //Simulating the map function in p5.js
 
 
 
-socket.on("socketid", (data) => {
+socket.on("firstUser", (data) => {
     socketid = data;
+    console.log('you are the first user here')
+})
+
+socket.on("secondUser", (data) => {
+    socketid = data;
+    console.log("you are the second user here")
     info = { socketid: socketid, aposx: a.posx, aposy: a.posy, w1podx: w1.posx, w1pody: w1.posy, w2podx: w2.posx, w2pody: w2.posy, w3podx: w3.posx, w3pody: w3.posy, w4podx: w4.posx, w4pody: w4.posy, w5podx: w5.posx, w5pody: w5.posy, w6podx: w6.posx, w6pody: w6.posy }
+    socket.emit("toFirstUser", info)
+    console.log(info)
+
+})
+
+socket.on("secondUserData", (data) => {
+    a2 = new Astronaut(data.aposx, data.aposy)
+    user2 = document.createElement('img');
+    user2.src = "img/astronaut-left.png";
+    user2.id = "astronautImg2"
+    user2.style.height = "150px"
+    console.log(astronaut2.childNodes)
+
+    if (astronaut2.childNodes.length < 2) {
+        astronaut2.appendChild(user2)
+    }
+    astronaut2Size = mapRange(data.aposy, window.innerHeight / 4, window.innerHeight, 20, 200)
+    user2.style.height = `${astronaut2Size}px`
+    astronaut2.style.left = a2.aposx + "px"
+    astronaut2.style.top = a2.aposy + 'px'
+    anotherUser = true;
+
+})
+
+socket.on("sendDataToNewUser", (data) => {
+    info = { socketid: socketid, aposx: a.posx, aposy: a.posy, w1podx: w1.posx, w1pody: w1.posy, w2podx: w2.posx, w2pody: w2.posy, w3podx: w3.posx, w3pody: w3.posy, w4podx: w4.posx, w4pody: w4.posy, w5podx: w5.posx, w5pody: w5.posy, w6podx: w6.posx, w6pody: w6.posy, wreckageCollected: wreckageCollected }
     socket.emit("anotherUserInfo", info)
     console.log(info)
 })
@@ -253,12 +310,24 @@ socket.on("newConnection", (data) => {
     user2.src = "img/astronaut-left.png";
     user2.id = "astronautImg2"
     user2.style.height = "150px"
-    astronaut2.appendChild(user2)
+    console.log(astronaut2.childNodes)
+
+    if (astronaut2.childNodes.length < 2) {
+        astronaut2.appendChild(user2)
+    }
     astronaut2Size = mapRange(data.aposy, window.innerHeight / 4, window.innerHeight, 20, 200)
     user2.style.height = `${astronaut2Size}px`
     astronaut2.style.left = a2.aposx + "px"
     astronaut2.style.top = a2.aposy + 'px'
     anotherUser = true;
+    wreckageCollectedByAnotherUser = data.wreckageCollected
+    for (let i = 0; i < allWreckages.length; i++) {
+        if (wreckageCollectedByAnotherUser[i] != undefined) {
+            springs[i] = new Spring(a2, allWreckages[i], 70)
+            console.log(springs)
+        }
+    }
+
 })
 
 socket.on("anotherUserKeyInfo", (data) => {
@@ -268,28 +337,39 @@ socket.on("anotherUserKeyInfo", (data) => {
             a2.applyForce(-0.5, 0)
         }
     }
-    if (data.key == "ArrowUp") {
+    if (data == "ArrowUp") {
         document.getElementById("astronautImg2").src = "img/astronaut-back.png"
         if (a2.posy > window.innerHeight / 1.82) {
             a2.applyForce(0, -0.6)
         }
     }
-    if (data.key == "ArrowRight") {
+    if (data == "ArrowRight") {
         document.getElementById("astronautImg2").src = "img/astronaut-right.png"
         if (a2.posx < backgroundImg.width) {
             a2.applyForce(0.5, 0)
         }
     }
-    if (data.key == "ArrowDown") {
+    if (data == "ArrowDown") {
         document.getElementById("astronautImg2").src = "img/astronaut-front.png"
         if (a2.posy < window.innerHeight - 150) {
             a2.applyForce(0, 0.6)
         }
     }
+})
 
+socket.on("updateWreckageCollected", (data) => {
+    wreckageCollectedByAnotherUser = data
+    console.log(wreckageCollectedByAnotherUser)
+    for (let i = 0; i < allWreckages.length; i++) {
+        if (wreckageCollectedByAnotherUser[i] != undefined && wreckageCollectedByAnotherUser[i].className == allWreckages[i].className) {
+            springs[i] = new Spring(a2, allWreckages[i], 70)
+            console.log(springs)
+        }
+    }
 })
 
 socket.on("quit", (data) => {
     astronaut2.removeChild(document.getElementById("astronautImg2"))
     anotherUser = false;
+    console.log("you are now the only user here")
 })
