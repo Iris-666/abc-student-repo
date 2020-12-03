@@ -13,7 +13,7 @@ app.get('/', (req, res) => {
 
 io.on('connection', (socket) => {
     userNum += 1;
-    console.log('new connection', socket.id)
+    console.log(userNum, 'new connection', socket.id)
 
     if (userNum == 1) {
         io.to(socket.id).emit("firstUser", socket.id);
@@ -49,6 +49,6 @@ io.on('connection', (socket) => {
     })
 })
 
-http.listen(3001, () => {
-    console.log('listening on *:3001');
+http.listen(3000, () => {
+    console.log('listening on *:3000');
 });

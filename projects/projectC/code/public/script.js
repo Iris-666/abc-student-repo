@@ -13,14 +13,14 @@ let wreckageCollected = [];
 let wreckageCollectedByAnotherUser = [];
 let wreckageCollectedNum = 0;
 
-let wreckageNum = 6;
+let wreckageNum = 0;
 
 let counter = 0
 
 let allWreckages = [];
 let springs = [];
 let allWreckageImgs = [];
-for (let i = 0; i < wreckageNum; i++) {
+for (let i = 0; i < 6; i++) {
     allWreckageImgs[i] = document.getElementById(`w${i+1}Container`)
 }
 
@@ -159,7 +159,7 @@ setInterval(() => {
             // console.log("----")
 
             springs[i].update();
-            console.log(springs)
+            // console.log(springs)
 
         }
     }
@@ -206,11 +206,12 @@ setInterval(() => {
         if (wreckageCollected[i] == undefined && wreckageCollectedByAnotherUser[i] == undefined) {
             if (Math.abs(a.posx - allWreckages[i].posx) < 30 && Math.abs(a.posy - allWreckages[i].posy < 50)) {
                 // console.log("close to each other")
-                if (wreckageNum < 4) {
+                if (wreckageNum < 3) {
                     wreckageCollected[i] = allWreckages[i]
                     springs[i] = new Spring(a, allWreckages[i], 70)
                     socket.emit("newWreckageCollected", wreckageCollected)
                     wreckageNum += 1;
+                    console.log(wreckageNum)
                 } else {
                     let hint = document.createElement('p')
                     hint.innerHTML = "You can't collect more wreckages."
