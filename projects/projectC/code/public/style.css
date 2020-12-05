@@ -35,5 +35,15 @@ body {
 }
 
 #astronautImg {
-    height: 150px;
+    height: 50px;
+}
+
+#CollectLimitationHint {
+    color: white;
+    font-size: 18px;
+    position: absolute;
+    left: 60vw;
+    top: 50vh;
+    display: inline;
+    opacity: 0;
 }

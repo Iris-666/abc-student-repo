@@ -1,0 +1,39 @@
+body {
+    margin: 0;
+    overflow: hidden;
+}
+
+#container {
+    height: 100vh;
+    position: relative;
+}
+
+#backgroundImg {
+    height: 100vh;
+    position: absolute;
+}
+
+.wreckageImg {
+    position: absolute;
+    width: 80px;
+}
+
+#astronautContainer {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    top: 60vh;
+    left: 900px;
+}
+
+#astronautContainer2 {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    top: 60vh;
+    left: 900px;
+}
+
+#astronautImg {
+    height: 50px;
+}
