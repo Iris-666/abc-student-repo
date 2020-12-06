@@ -6,6 +6,7 @@ let astronaut = document.getElementById("astronautContainer")
 let astronaut2 = document.getElementById('astronautContainer2')
 let container = document.getElementById("container")
 let astronautImg = document.getElementById('astronautImg')
+let arrowhint = document.getElementById("arrowHint")
 let astronautSize;
 let backgroundImg = document.getElementById("backgroundImg")
 let backgroundImgPos = 0;
@@ -23,7 +24,7 @@ let allWreckageImgs = [];
 
 let addCollectLimitationHint = false;
 let CollectLimitationHint = document.getElementById("CollectLimitationHint")
-let astronautLandingPos = Math.random() * (8006)
+let astronautLandingPos = Math.random() * (8006 - 2 * window.innerWidth) + window.innerWidth
 console.log(astronautLandingPos)
 
 for (let i = 0; i < 6; i++) {
@@ -143,13 +144,18 @@ let w4 = new Wreckage(4300, 530, 'w4')
 let w5 = new Wreckage(5400, 420, 'w5')
 let w6 = new Wreckage(6500, 600, 'w6')
 allWreckages = [w1, w2, w3, w4, w5, w6]
+arrowhint.style.left = `${astronautLandingPos*(window.innerHeight / 736) - 150}px`;
+
+setTimeout(() => {
+    arrowhint.style.opacity = 0;
+}, 5000);
 
 
 backgroundImgPos = -astronautLandingPos + window.innerWidth / 2;
 if (backgroundImgPos > backgroundImg.width - window.innerWidth) {
     backgroundImgPos = backgroundImg.width - window.innerWidth
 }
-container.style.left = `${backgroundImgPos}px`
+container.style.left = `${backgroundImgPos*(window.innerHeight / 736)}px`
 
 
 
