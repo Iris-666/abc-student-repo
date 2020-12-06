@@ -17,6 +17,7 @@ io.on('connection', (socket) => {
     console.log(userNum, 'new connection', socket.id)
     let thisPushed = false;
     let thisIndex;
+    let roomNumber;
 
     for (let i = 0; i < allUsers.length; i++) {
         // console.log("aaaaaaaa" + allUsers[i])
@@ -55,21 +56,6 @@ io.on('connection', (socket) => {
         socket.to(`room${roomNumber}`).emit('sendDataToNewUser');
 
     }
-
-
-
-
-
-    // if (userNum == 1) {
-    //     io.to(socket.id).emit("firstUser", socket.id);
-    // }
-
-    // if (userNum == 2) {
-    //     console.log('there is another user on this page')
-    //     io.to(socket.id).emit("secondUser", socket.id);
-    //     socket.broadcast.emit("sendDataToNewUser")
-    // }
-
     socket.on("toFirstUser", (data) => {
         socket.to(`room${data.roomNumber}`).emit("secondUserData", data);
         // socket.broadcast.emit("secondUserData", data)
@@ -90,13 +76,25 @@ io.on('connection', (socket) => {
     })
     socket.on("disconnect", () => {
         userNum -= 1
-        socket.to(`room${data.roomNumber}`).emit("quit", socket.id);
-        // socket.broadcast.emit("quit", socket.id)
+        console.log("quit" + allUsers)
+        console.log('quit' + roomNumber)
         for (let i = 0; i < allUsers.length; i++) {
             if (allUsers[i] == socket.id) {
+                console.log("socket.id" + socket.id)
+                thisRoomNumber = Math.floor(thisIndex / 2);
                 allUsers[i] = ""
+                if ((i + 1) % 2 == 1) { //this means the quited user is the first user in that room
+                    allUsers[i] = allUsers[i + 1]
+                    allUsers[i + 1] = ""
+                }
             }
         }
+        console.log("quit2" + allUsers)
+
+        io.to(`room${thisRoomNumber}`).emit("quit", socket.id);
+
+        // socket.to(`room${roomNumber}`).emit("quit", socket.id);
+        // socket.broadcast.emit("quit", socket.id)
     })
 })
 
