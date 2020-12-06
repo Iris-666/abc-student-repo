@@ -20,6 +20,12 @@ let counter = 0
 let allWreckages = [];
 let springs = [];
 let allWreckageImgs = [];
+
+let addCollectLimitationHint = false;
+let CollectLimitationHint = document.getElementById("CollectLimitationHint")
+let astronautLandingPos = Math.random() * (8006)
+console.log(astronautLandingPos)
+
 for (let i = 0; i < 6; i++) {
     allWreckageImgs[i] = document.getElementById(`w${i+1}Container`)
 }
@@ -29,12 +35,21 @@ let biggestSize = mapRange(window.innerHeight, 736, 400, 150, 100)
 let smallestSize = mapRange(window.innerHeight, 736, 400, 50, 30)
 
 
+if (document.images) {
+    img1 = new Image();
+    img1.src = "img/backgroundLongLow.jpg";
+}
+
 class Astronaut {
     constructor(x, y) {
-        // this.posx = x;
-        this.posx = window.innerHeight * x / 736;
-        // this.posy = y;
-        this.posy = window.innerHeight * y / 736
+        //here with calcPosx, I calculate the position of each element on the screen
+        //in a screen with 736 window height
+        //and then calculate the position of each element with the user's window height
+        //Then it would be easier to fit all the users' window size
+        this.calcPosx = x;
+        this.posx = (window.innerHeight / 736) * x;
+        this.calcPosy = y;
+        this.posy = (window.innerHeight / 736) * y
         this.velx = 0;
         this.vely = 0;
         this.accx = 0;
@@ -46,10 +61,10 @@ class Astronaut {
         this.vely = this.vely + this.accy;
         this.velx = this.velx * 0.95
         this.vely = this.vely * 0.95
-        this.posx = this.posx + this.velx;
-        this.posy = this.posy + this.vely;
-        this.posx = window.innerHeight * this.posx / 736
-        this.posy = window.innerHeight * this.posy / 736
+        this.calcPosx = this.calcPosx + this.velx;
+        this.calcPosy = this.calcPosy + this.vely;
+        this.posx = window.innerHeight * this.calcPosx / 736
+        this.posy = window.innerHeight * this.calcPosy / 736
 
         this.accx = 0;
         this.accy = 0;
@@ -64,8 +79,10 @@ class Astronaut {
 class Wreckage {
     constructor(x, y, className, containerName, size, color) {
         this.size = size;
-        this.posx = x;
-        this.posy = y;
+        this.calcPosx = x;
+        this.posx = (window.innerHeight / 736) * x;
+        this.calcPosy = y;
+        this.posy = (window.innerHeight / 736) * y
         this.velx = 0;
         this.vely = 0;
         this.accx = 0;
@@ -79,8 +96,10 @@ class Wreckage {
         this.vely = this.vely + this.accy;
         this.velx = this.velx * 0.95
         this.vely = this.vely * 0.95
-        this.posx = this.posx + this.velx;
-        this.posy = this.posy + this.vely;
+        this.calcPosx = this.calcPosx + this.velx;
+        this.calcPosy = this.calcPosy + this.vely;
+        this.posx = window.innerHeight * this.calcPosx / 736
+        this.posy = window.innerHeight * this.calcPosy / 736
         this.accx = 0;
         this.accy = 0;
     }
@@ -117,42 +136,55 @@ class Spring {
     }
 }
 
-let a = new Astronaut(500, (2 * window.innerHeight / 3) - smallestSize)
-let w1 = new Wreckage(backgroundImg.width * 0.187, window.innerHeight * 0.57, 'w1')
-let w2 = new Wreckage(backgroundImg.width * 0.34, window.innerHeight * 0.67, 'w2')
-let w3 = new Wreckage(backgroundImg.width * 0.72, window.innerHeight * 0.57, 'w3')
-let w4 = new Wreckage(backgroundImg.width * 0.9, window.innerHeight * 0.67, 'w4')
-let w5 = new Wreckage(backgroundImg.width * 0.8, window.innerHeight * 0.57, 'w5')
-let w6 = new Wreckage(backgroundImg.width * 0.46, window.innerHeight * 0.77, 'w6')
 
+//since I used the calcPosx and calcPosy, I can use the fit numbers here
+//although the positions seem to be fit numbers, all the elements will be positioned
+//on each client's screen relative to their screen size
+
+let a = new Astronaut(astronautLandingPos, 490)
+let w1 = new Wreckage(900, 450, 'w1')
+let w2 = new Wreckage(2000, 530, 'w2')
+let w3 = new Wreckage(3100, 450, 'w3')
+let w4 = new Wreckage(4300, 530, 'w4')
+let w5 = new Wreckage(5400, 420, 'w5')
+let w6 = new Wreckage(6500, 600, 'w6')
 allWreckages = [w1, w2, w3, w4, w5, w6]
+
+
+backgroundImgPos = -astronautLandingPos + window.innerWidth / 2;
+if (backgroundImgPos > backgroundImg.width - window.innerWidth) {
+    backgroundImgPos = backgroundImg.width - window.innerWidth
+}
+container.style.left = `${backgroundImgPos}px`
+
+
 
 document.addEventListener("keydown", (data) => {
     if (data.key == "ArrowLeft") {
         astronautImg.src = "img/astronaut-left.png"
-        if (a.posx > 0) {
-            a.applyForce(-0.5, 0)
+        if (a.calcPosx > 10) {
+            a.applyForce(-1, 0)
         }
     }
     if (data.key == "ArrowUp") {
         astronautImg.src = "img/astronaut-back.png"
-        if (a.posy > window.innerHeight / 1.82) {
+        if (a.calcPosy > 465) {
             a.applyForce(0, -0.5)
         }
     }
     if (data.key == "ArrowRight") {
-        if (a.posx < backgroundImg.width) {
-            a.applyForce(0.5, 0)
+        if (a.calcPosx < 8006 - astronautImg.getBoundingClientRect().width) {
+            a.applyForce(1, 0)
         }
         astronautImg.src = "img/astronaut-right.png"
     }
     if (data.key == "ArrowDown") {
         astronautImg.src = "img/astronaut-front.png"
-        if (a.posy < window.innerHeight - 150) {
+        if (a.calcPosy < 736 - 150) {
             a.applyForce(0, 0.5)
         }
     }
-    socket.emit("keyInfo", data.key)
+    socket.emit("keyInfo", { key: data.key, roomNumber: roomNumber })
 
 })
 
@@ -167,13 +199,12 @@ setInterval(() => {
         }
     }
 
+    //make the stars floating up and down
     counter += 0.15
     for (let i = 0; i < allWreckages.length; i++) {
         allWreckages[i].posy = allWreckages[i].posy + Math.sin(counter)
-
     }
-    astronautSize = mapRange(a.posy, (window.innerHeight * 2 / 3) - smallestSize, window.innerHeight - biggestSize, smallestSize, biggestSize)
-    console.log(a.posy, (window.innerHeight * 2 / 3) - 50, astronautSize)
+    astronautSize = mapRange(a.calcPosy, 465, 586, smallestSize, biggestSize)
     astronautImg.style.height = `${astronautSize}px`
     astronaut.style.height = `${astronautSize}px`
     astronaut.style.width = `${astronautImg.getBoundingClientRect().width}px`
@@ -181,87 +212,109 @@ setInterval(() => {
     astronaut.style.top = a.posy + 'px'
 
     for (let i = 0; i < allWreckageImgs.length; i++) {
-        wreckageSize = mapRange(allWreckages[i].posy, (window.innerHeight * 2 / 3) - 50, window.innerHeight - 100, 50, 100)
+        wreckageSize = mapRange(allWreckages[i].calcPosy, 490, 736, 70, 130)
         allWreckageImgs[i].style.width = `${wreckageSize}px`
         allWreckageImgs[i].style.left = allWreckages[i].posx + "px"
         allWreckageImgs[i].style.top = allWreckages[i].posy + "px"
     }
 
 
-    if (astronaut.getBoundingClientRect().left < 200 && a.posx > 210) {
-        backgroundImgPos += Math.abs(a.velx)
+    //move the background image when user approach the edges
+    if (astronaut.getBoundingClientRect().left < 200 && a.calcPosx > 200) {
+        backgroundImgPos += Math.abs(a.velx * window.innerHeight / 736)
         container.style.left = `${backgroundImgPos}px`
     }
-    if (astronaut.getBoundingClientRect().left > window.innerWidth - 200 && a.posx < backgroundImg.width - 210) {
-        backgroundImgPos -= Math.abs(a.velx)
+    if (astronaut.getBoundingClientRect().left > window.innerWidth - 200 && a.calcPosx < 8006 - 200) {
+        backgroundImgPos -= Math.abs(a.velx * window.innerHeight / 736)
         container.style.left = `${backgroundImgPos}px`
 
     }
 
-    if (a.posy < (window.innerHeight * 2 / 3) - astronautImg.getBoundingClientRect().height) {
+    //stop the users when reach the edge of ground
+
+    if (a.calcPosy < 455) {
+        // console.log("stop")
         a.vely = 0.0;
         a.accy = 0;
     }
-    if (a.posy > window.innerHeight - astronautImg.getBoundingClientRect().height) {
+    if (a.calcPosy > 586) {
         a.vely = 0.0;
         a.accy = 0;
     }
-    if (a.posx < 0) {
+    if (a.calcPosx < 0) {
         a.velx = 0.0;
         a.accx = 0;
     }
 
-    if (a.posx > backgroundImg.width - astronautImg.getBoundingClientRect().width) {
-        console.log("stop")
+    if (a.calcPosx > 8006 - astronautImg.getBoundingClientRect().width) {
         a.velx = 0.0;
         a.accx = 0;
     }
 
     for (let i = 0; i < allWreckages.length; i++) {
         if (wreckageCollected[i] == undefined && wreckageCollectedByAnotherUser[i] == undefined) {
-            if (Math.abs(a.posx - allWreckages[i].posx) < 30 && Math.abs(a.posy - allWreckages[i].posy < 50)) {
+            if (Math.abs(a.calcPosx - allWreckages[i].calcPosx) < 30 && Math.abs(a.calcPosy - allWreckages[i].calcPosy < 50)) {
                 // console.log("close to each other")
                 if (wreckageNum < 3) {
                     wreckageCollected[i] = allWreckages[i]
                     springs[i] = new Spring(a, allWreckages[i], 70)
-                    socket.emit("newWreckageCollected", wreckageCollected)
+                    socket.emit("newWreckageCollected", { wreckageCollected: wreckageCollected, roomNumber: roomNumber })
                     wreckageNum += 1;
                     console.log(wreckageNum)
                 } else {
-                    let hint = document.createElement('p')
-                    hint.innerHTML = "You can't collect more wreckages."
-                    console.log("you can't collect more wreckages.")
+                    if (addCollectLimitationHint == false) {
+                        let newCounter = 0;
+                        addCollectLimitationHint = true;
+                        CollectLimitationHint.style.color = "white"
+                        CollectLimitationHint.style.opacity = 1;
+                        CollectLimitationHint.style.left = (allWreckages[i].posx - 100) + 'px'
+                        CollectLimitationHintTop = CollectLimitationHint.getBoundingClientRect().top
+                        setInterval(() => {
+                            newCounter += 0.1
+                            CollectLimitationHintTop = CollectLimitationHintTop + Math.sin(counter)
+                            CollectLimitationHint.style.top = CollectLimitationHintTop + 'px'
+                        }, 50);
+
+                        console.log("you can't collect more wreckages.")
+                        setTimeout(() => {
+                            CollectLimitationHint.style.opacity = 0;
+                            addCollectLimitationHint = false
+                        }, 5000);
+
+
+                    }
                 }
+            } else {
+                // addCollectLimitationHint = false;
             }
         }
     }
 
     if (anotherUser == true) {
         a2.update();
-        astronaut2Size = mapRange(a2.posy, (window.innerHeight * 2 / 3) - smallestSize, window.innerHeight - biggestSize, smallestSize, biggestSize)
+        astronaut2Size = mapRange(a2.calcPosy, 465, 586, smallestSize, biggestSize)
         user2.style.height = `${astronaut2Size}px`
         astronaut2.style.left = a2.posx + "px"
         astronaut2.style.top = a2.posy + 'px'
 
-        if (a2.posy < (window.innerHeight * 2 / 3) - document.getElementById("astronautImg2").getBoundingClientRect().height) {
+        if (a2.calcPosy < 455) {
             a2.vely = 0.0;
             a2.accy = 0;
         }
-        if (a2.posy > window.innerHeight - document.getElementById("astronautImg2").getBoundingClientRect().height) {
+        if (a2.calcPosy > 586) {
             a2.vely = 0.0;
             a2.accy = 0;
         }
-        if (a2.posx < 0) {
+        if (a2.calcPosx < 0) {
             a2.velx = 0.0;
             a2.accx = 0;
         }
-        if (a2.posx > backgroundImg.width - document.getElementById("astronautImg2").getBoundingClientRect().width) {
+
+        if (a2.calcPosx > 8006) {
             console.log("stop")
             a2.velx = 0.0;
             a2.accx = 0;
         }
-
-
     }
 
 }, 50);
@@ -287,23 +340,24 @@ function mapRange(value, a, b, c, d) { //Simulating the map function in p5.js
 
 
 socket.on("firstUser", (data) => {
-    socketid = data;
+    socketid = data.socketid;
+    roomNumber = data.roomNumber;
+    thisIndex = data.thisIndex;
     console.log('you are the first user here')
 })
 
 socket.on("secondUser", (data) => {
-    socketid = data;
+    socketid = data.socketid;
+    roomNumber = data.roomNumber;
+    thisIndex = data.thisIndex;
     console.log("you are the second user here")
-    info = { socketid: socketid, aposx: a.posx, aposy: a.posy, w1podx: w1.posx, w1pody: w1.posy, w2podx: w2.posx, w2pody: w2.posy, w3podx: w3.posx, w3pody: w3.posy, w4podx: w4.posx, w4pody: w4.posy, w5podx: w5.posx, w5pody: w5.posy, w6podx: w6.posx, w6pody: w6.posy, windowWidth: window.innerWidth, windowHeight: window.innerHeight }
+    info = { roomNumber: data.roomNumber, socketid: socketid, acalcPosx: a.calcPosx, acalcPosy: a.calcPosy, aposx: a.posx, aposy: a.posy, w1podx: w1.posx, w1pody: w1.posy, w2podx: w2.posx, w2pody: w2.posy, w3podx: w3.posx, w3pody: w3.posy, w4podx: w4.posx, w4pody: w4.posy, w5podx: w5.posx, w5pody: w5.posy, w6podx: w6.posx, w6pody: w6.posy, windowWidth: window.innerWidth, windowHeight: window.innerHeight }
     socket.emit("toFirstUser", info)
     console.log(info)
-
 })
 
 socket.on("secondUserData", (data) => {
-    let a2posx = window.innerWidth * data.aposx / data.windowWidth
-    let a2posy = window.innerHeight * data.aposy / data.windowHeight
-    a2 = new Astronaut(a2posx, a2posy)
+    a2 = new Astronaut(data.acalcPosx, data.acalcPosy)
     user2 = document.createElement('img');
     user2.src = "img/astronaut-left.png";
     user2.id = "astronautImg2"
@@ -313,23 +367,25 @@ socket.on("secondUserData", (data) => {
     if (astronaut2.childNodes.length < 2) {
         astronaut2.appendChild(user2)
     }
-    astronaut2Size = mapRange(data.posy, (window.innerHeight * 2 / 3) - smallestSize, window.innerHeight - biggestSize, smallestSize, biggestSize)
+    astronaut2Size = mapRange(a2.calcPosy, 465, 586, smallestSize, biggestSize)
     user2.style.height = `${astronaut2Size}px`
-    astronaut2.style.left = a2.aposx + "px"
-    astronaut2.style.top = a2.aposy + 'px'
+    astronaut2.style.left = a2.posx + "px"
+    astronaut2.style.top = a2.posy + 'px'
     anotherUser = true;
 
 })
 
 socket.on("sendDataToNewUser", (data) => {
-    info = { socketid: socketid, aposx: a.posx, aposy: a.posy, w1podx: w1.posx, w1pody: w1.posy, w2podx: w2.posx, w2pody: w2.posy, w3podx: w3.posx, w3pody: w3.posy, w4podx: w4.posx, w4pody: w4.posy, w5podx: w5.posx, w5pody: w5.posy, w6podx: w6.posx, w6pody: w6.posy, wreckageCollected: wreckageCollected, windowWidth: window.innerWidth, windowHeight: window.innerHeight }
+    let wreckagePos = [{ posx: w1.calcPosx, posy: w1.calcPosy }, { posx: w2.calcPosx, posy: w2.calcPosy }, { posx: w3.calcPosx, posy: w3.calcPosy }, { posx: w4.calcPosx, posy: w4.calcPosy }, { posx: w5.calcPosx, posy: w5.calcPosy }, { posx: w6.calcPosx, posy: w6.calcPosy }]
+        // console.log(wreckagePos)
+    info = { roomNumber: roomNumber, socketid: socketid, acalcPosx: a.calcPosx, acalcPosy: a.calcPosy, aposx: a.posx, aposy: a.posy, wreckagePos: wreckagePos, w1posx: w1.calcPosx, w1posy: w1.calcPosy, w2posx: w2.calcPosx, w2posy: w2.calcPosy, w3posx: w3.calcPosx, w3posy: w3.calcPosy, w4posx: w4.calcPosx, w4posy: w4.calcPosy, w5posx: w5.calcPosx, w5posy: w5.calcPosy, w6posx: w6.calcPosx, w6posy: w6.calcPosy, wreckageCollected: wreckageCollected, windowWidth: window.innerWidth, windowHeight: window.innerHeight }
     socket.emit("anotherUserInfo", info)
     console.log(info)
 })
 
-socket.on("newConnection", (data) => {
-    console.log('another user', data)
-    a2 = new Astronaut(data.aposx, data.aposy)
+socket.on("User1Info", (data) => {
+    console.log('another user 1', data)
+    a2 = new Astronaut(data.acalcPosx, data.acalcPosy)
     user2 = document.createElement('img');
     user2.src = "img/astronaut-left.png";
     user2.id = "astronautImg2"
@@ -339,14 +395,21 @@ socket.on("newConnection", (data) => {
     if (astronaut2.childNodes.length < 2) {
         astronaut2.appendChild(user2)
     }
-
-    astronaut2Size = mapRange(data.posy, (window.innerHeight * 2 / 3) - smallestSize, window.innerHeight - biggestSize, smallestSize, biggestSize)
+    astronaut2Size = mapRange(a2.calcPosy, 465, 586, smallestSize, biggestSize)
     user2.style.height = `${astronaut2Size}px`
-    astronaut2.style.left = a2.aposx + "px"
-    astronaut2.style.top = a2.aposy + 'px'
+    astronaut2.style.left = a2.posx + "px"
+    astronaut2.style.top = a2.posy + 'px'
     anotherUser = true;
     wreckageCollectedByAnotherUser = data.wreckageCollected
     for (let i = 0; i < allWreckages.length; i++) {
+        console.log(data)
+        allWreckages[i].calcPosx = data.wreckagePos[i].posx;
+        allWreckages[i].calcPosy = data.wreckagePos[i].posy;
+        wreckageSize = mapRange(allWreckages[i].calcPosy, 490, 736, 70, 130)
+        allWreckageImgs[i].style.width = `${wreckageSize}px`
+        allWreckageImgs[i].style.left = allWreckages[i].posx + "px"
+        allWreckageImgs[i].style.top = allWreckages[i].posy + "px"
+
         if (wreckageCollectedByAnotherUser[i] != undefined) {
             springs[i] = new Spring(a2, allWreckages[i], 70)
             console.log(springs)
@@ -357,25 +420,25 @@ socket.on("newConnection", (data) => {
 socket.on("anotherUserKeyInfo", (data) => {
     if (data == "ArrowLeft") {
         document.getElementById("astronautImg2").src = "img/astronaut-left.png"
-        if (a2.posx > 0) {
-            a2.applyForce(-0.5, 0)
+        if (a2.calcPosx > 0) {
+            a2.applyForce(-1, 0)
         }
     }
     if (data == "ArrowUp") {
         document.getElementById("astronautImg2").src = "img/astronaut-back.png"
-        if (a2.posy > window.innerHeight / 1.82) {
+        if (a2.calcPosy > 465) {
             a2.applyForce(0, -0.5)
         }
     }
     if (data == "ArrowRight") {
         document.getElementById("astronautImg2").src = "img/astronaut-right.png"
-        if (a2.posx < backgroundImg.width) {
-            a2.applyForce(0.5, 0)
+        if (a2.calcPosx < 8006 - document.getElementById("astronautImg2").getBoundingClientRect().width) {
+            a2.applyForce(1, 0)
         }
     }
     if (data == "ArrowDown") {
         document.getElementById("astronautImg2").src = "img/astronaut-front.png"
-        if (a2.posy < window.innerHeight - 150) {
+        if (a2.calcPosy < 736 - 150) {
             a2.applyForce(0, 0.5)
         }
     }
@@ -395,5 +458,6 @@ socket.on("updateWreckageCollected", (data) => {
 socket.on("quit", (data) => {
     astronaut2.removeChild(document.getElementById("astronautImg2"))
     anotherUser = false;
+    wreckageCollectedByAnotherUser = []
     console.log("you are now the only user here")
 })

@@ -1,41 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Astronaut</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Landing on the Moon</title>
     <link rel="stylesheet" href="style.css">
-    <meta name="viewport" content="width=device-width, initial-scale = 1">
-    <script src="/socket.io/socket.io.js"></script>
-
 </head>
 
 <body>
-    <div id="container">
-        <img src="img/backgroundLongLow.jpg" id="backgroundImg">
-        <!-- <img src="img/background8.jpg" id="backgroundImg"> -->
+    <div class="introVideobox">
+        <video id="introVideo">
+        <source src="img/intro_video.mp4" type="video/mp4">
+      </video>
+    </div>
 
-        <div id="astronautContainer">
-            <img src="img/astronaut-left.png" id="astronautImg">
-        </div>
-        <div id="astronautContainer2">
+
+    <div class="upperContainer">
+        <img src="img/wreckage1.png" id="w1container"></img>
+        <p id="clickme">Click me!</p>
+
+        <div id="info">
+            <p>Spacecraft Power:</p>
+            <p> A kind of magic power stored on the spacecraft for fuel use When the spacecraft crashes, the power will be distributed in the universe. </p>
+            <p>What's magic about the magic power is that: <i style="color:#fc7670">you can always collect the power and create a new spacecraft by merging them together!</i></p>
 
         </div>
-        <!-- <div id="w1Container"> -->
-        <!-- </div> -->
-        <!-- <div id="w2Container"> -->
-        <img src="img/wreckage1.png" id="w1Container" class="wreckageImg">
-        <img src="img/wreckage1.png" id="w2Container" class="wreckageImg">
-        <img src="img/wreckage1.png" id="w3Container" class="wreckageImg">
-        <img src="img/wreckage1.png" id="w4Container" class="wreckageImg">
-        <img src="img/wreckage1.png" id="w5Container" class="wreckageImg">
-        <img src="img/wreckage1.png" id="w6Container" class="wreckageImg">
-        <p id="CollectLimitationHint">You can't collect more wreckages.</p>
-        <!-- </div> -->
+
+
+
+        <h1 id="start">Start Your Journey</h1>
 
     </div>
-    <script src="script.js"></script>
+
+    <div class="userInfo">
+        <p id="continue">Click to continue</p>
+        <!-- <div class="userinfobox"> -->
+        <p id="text">Hmm... Where am I? What happened?</p>
+        <p id="text2">Oh the spacecraft energy! I kind of recall what has happened...</p>
+        <p id="text3">We were on a mission to the moon, and then the spacecraft...exploded!!!</p>
+        <p id="text4">Am I the only one who has survived..? What about others?</p>
+        <p id="text5">Anyway... The good news is that there're spacecraft power left</p>
+        <p id="text6">I need to collect the power to make another spaceship and get back to earth!!!</p>
+        <!-- </div> -->
+    </div>
+
+    <script src="script.js" charset="utf-8"></script>
 </body>
 
 </html>
