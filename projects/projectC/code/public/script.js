@@ -23,6 +23,8 @@ let allWreckageImgs = [];
 
 let addCollectLimitationHint = false;
 let CollectLimitationHint = document.getElementById("CollectLimitationHint")
+let astronautLandingPos = Math.random() * (8006)
+console.log(astronautLandingPos)
 
 for (let i = 0; i < 6; i++) {
     allWreckageImgs[i] = document.getElementById(`w${i+1}Container`)
@@ -32,6 +34,11 @@ for (let i = 0; i < 6; i++) {
 let biggestSize = mapRange(window.innerHeight, 736, 400, 150, 100)
 let smallestSize = mapRange(window.innerHeight, 736, 400, 50, 30)
 
+
+if (document.images) {
+    img1 = new Image();
+    img1.src = "img/backgroundLong.jpg";
+}
 
 class Astronaut {
     constructor(x, y) {
@@ -134,20 +141,29 @@ class Spring {
 //although the positions seem to be fit numbers, all the elements will be positioned
 //on each client's screen relative to their screen size
 
-let a = new Astronaut(500, 490)
-let w1 = new Wreckage(1000, 450, 'w1')
-let w2 = new Wreckage(1800, 530, 'w2')
-let w3 = new Wreckage(3900, 450, 'w3')
-let w4 = new Wreckage(4800, 530, 'w4')
-let w5 = new Wreckage(5200, 420, 'w5')
-let w6 = new Wreckage(2500, 600, 'w6')
+let a = new Astronaut(astronautLandingPos, 490)
+let w1 = new Wreckage(900, 450, 'w1')
+let w2 = new Wreckage(2000, 530, 'w2')
+let w3 = new Wreckage(3100, 450, 'w3')
+let w4 = new Wreckage(4300, 530, 'w4')
+let w5 = new Wreckage(5400, 420, 'w5')
+let w6 = new Wreckage(6500, 600, 'w6')
 allWreckages = [w1, w2, w3, w4, w5, w6]
+
+
+backgroundImgPos = -astronautLandingPos + window.innerWidth / 2;
+if (backgroundImgPos > backgroundImg.width - window.innerWidth) {
+    backgroundImgPos = backgroundImg.width - window.innerWidth
+}
+container.style.left = `${backgroundImgPos}px`
+
+
 
 document.addEventListener("keydown", (data) => {
     if (data.key == "ArrowLeft") {
         astronautImg.src = "img/astronaut-left.png"
-        if (a.calcPosx > 0) {
-            a.applyForce(-0.5, 0)
+        if (a.calcPosx > 10) {
+            a.applyForce(-1, 0)
         }
     }
     if (data.key == "ArrowUp") {
@@ -157,8 +173,8 @@ document.addEventListener("keydown", (data) => {
         }
     }
     if (data.key == "ArrowRight") {
-        if (a.calcPosx < 5359 - astronautImg.getBoundingClientRect().width) {
-            a.applyForce(0.5, 0)
+        if (a.calcPosx < 8006 - astronautImg.getBoundingClientRect().width) {
+            a.applyForce(1, 0)
         }
         astronautImg.src = "img/astronaut-right.png"
     }
@@ -204,11 +220,11 @@ setInterval(() => {
 
 
     //move the background image when user approach the edges
-    if (astronaut.getBoundingClientRect().left < 200 && a.calcPosx > 300) {
+    if (astronaut.getBoundingClientRect().left < 200 && a.calcPosx > 200) {
         backgroundImgPos += Math.abs(a.velx * window.innerHeight / 736)
         container.style.left = `${backgroundImgPos}px`
     }
-    if (astronaut.getBoundingClientRect().left > window.innerWidth - 200 && a.calcPosx < 5359 - 210) {
+    if (astronaut.getBoundingClientRect().left > window.innerWidth - 200 && a.calcPosx < 8006 - 200) {
         backgroundImgPos -= Math.abs(a.velx * window.innerHeight / 736)
         container.style.left = `${backgroundImgPos}px`
 
@@ -230,7 +246,7 @@ setInterval(() => {
         a.accx = 0;
     }
 
-    if (a.calcPosx > 5359) {
+    if (a.calcPosx > 8006 - astronautImg.getBoundingClientRect().width) {
         a.velx = 0.0;
         a.accx = 0;
     }
@@ -294,7 +310,7 @@ setInterval(() => {
             a2.accx = 0;
         }
 
-        if (a2.calcPosx > 5359) {
+        if (a2.calcPosx > 8006) {
             console.log("stop")
             a2.velx = 0.0;
             a2.accx = 0;
@@ -405,7 +421,7 @@ socket.on("anotherUserKeyInfo", (data) => {
     if (data == "ArrowLeft") {
         document.getElementById("astronautImg2").src = "img/astronaut-left.png"
         if (a2.calcPosx > 0) {
-            a2.applyForce(-0.5, 0)
+            a2.applyForce(-1, 0)
         }
     }
     if (data == "ArrowUp") {
@@ -416,8 +432,8 @@ socket.on("anotherUserKeyInfo", (data) => {
     }
     if (data == "ArrowRight") {
         document.getElementById("astronautImg2").src = "img/astronaut-right.png"
-        if (a2.calcPosx < 5359 - document.getElementById("astronautImg2").getBoundingClientRect().width) {
-            a2.applyForce(0.5, 0)
+        if (a2.calcPosx < 8006 - document.getElementById("astronautImg2").getBoundingClientRect().width) {
+            a2.applyForce(1, 0)
         }
     }
     if (data == "ArrowDown") {

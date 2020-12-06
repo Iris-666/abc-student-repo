@@ -20,12 +20,12 @@ io.on('connection', (socket) => {
     let roomNumber;
 
     for (let i = 0; i < allUsers.length; i++) {
-        // console.log("aaaaaaaa" + allUsers[i])
+        console.log("aaaaaaaa" + allUsers[i])
         if (allUsers[i] == socket.id) {
             thisPushed = true;
             thisIndex = i;
         }
-        if (allUsers[i] == "" && thisPushed == false) {
+        if ((allUsers[i] == "" || allUsers[i] == undefined) && thisPushed == false) {
             allUsers[i] = socket.id
             thisPushed = true;
             thisIndex = i;
