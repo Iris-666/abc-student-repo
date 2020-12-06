@@ -45,5 +45,6 @@ body {
     left: 60vw;
     top: 50vh;
     display: inline;
+    width: 300px;
     opacity: 0;
 }

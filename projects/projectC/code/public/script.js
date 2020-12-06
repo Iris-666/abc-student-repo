@@ -35,6 +35,10 @@ let smallestSize = mapRange(window.innerHeight, 736, 400, 50, 30)
 
 class Astronaut {
     constructor(x, y) {
+        //here with calcPosx, I calculate the position of each element on the screen
+        //in a screen with 736 window height
+        //and then calculate the position of each element with the user's window height
+        //Then it would be easier to fit all the users' window size
         this.calcPosx = x;
         this.posx = (window.innerHeight / 736) * x;
         this.calcPosy = y;
@@ -125,6 +129,11 @@ class Spring {
     }
 }
 
+
+//since I used the calcPosx and calcPosy, I can use the fit numbers here
+//although the positions seem to be fit numbers, all the elements will be positioned
+//on each client's screen relative to their screen size
+
 let a = new Astronaut(500, 490)
 let w1 = new Wreckage(1000, 450, 'w1')
 let w2 = new Wreckage(1800, 530, 'w2')
@@ -159,7 +168,7 @@ document.addEventListener("keydown", (data) => {
             a.applyForce(0, 0.5)
         }
     }
-    socket.emit("keyInfo", data.key)
+    socket.emit("keyInfo", { key: data.key, roomNumber: roomNumber })
 
 })
 
@@ -174,10 +183,10 @@ setInterval(() => {
         }
     }
 
+    //make the stars floating up and down
     counter += 0.15
     for (let i = 0; i < allWreckages.length; i++) {
         allWreckages[i].posy = allWreckages[i].posy + Math.sin(counter)
-
     }
     astronautSize = mapRange(a.calcPosy, 465, 586, smallestSize, biggestSize)
     astronautImg.style.height = `${astronautSize}px`
@@ -194,6 +203,7 @@ setInterval(() => {
     }
 
 
+    //move the background image when user approach the edges
     if (astronaut.getBoundingClientRect().left < 200 && a.calcPosx > 300) {
         backgroundImgPos += Math.abs(a.velx * window.innerHeight / 736)
         container.style.left = `${backgroundImgPos}px`
@@ -204,8 +214,10 @@ setInterval(() => {
 
     }
 
+    //stop the users when reach the edge of ground
+
     if (a.calcPosy < 455) {
-        console.log("stop")
+        // console.log("stop")
         a.vely = 0.0;
         a.accy = 0;
     }
@@ -219,7 +231,6 @@ setInterval(() => {
     }
 
     if (a.calcPosx > 5359) {
-        console.log("stop")
         a.velx = 0.0;
         a.accx = 0;
     }
@@ -236,7 +247,24 @@ setInterval(() => {
                     console.log(wreckageNum)
                 } else {
                     if (addCollectLimitationHint == false) {
+                        let newCounter = 0;
                         addCollectLimitationHint = true;
+                        CollectLimitationHint.style.color = "white"
+                        CollectLimitationHint.style.opacity = 1;
+                        CollectLimitationHint.style.left = (allWreckages[i].posx - 100) + 'px'
+                        CollectLimitationHintTop = CollectLimitationHint.getBoundingClientRect().top
+                        setInterval(() => {
+                            newCounter += 0.1
+                            CollectLimitationHintTop = CollectLimitationHintTop + Math.sin(counter)
+                            CollectLimitationHint.style.top = CollectLimitationHintTop + 'px'
+                        }, 50);
+
+                        console.log("you can't collect more wreckages.")
+                        setTimeout(() => {
+                            CollectLimitationHint.style.opacity = 0;
+                            addCollectLimitationHint = false
+                        }, 5000);
+
 
                     }
                 }
@@ -244,10 +272,6 @@ setInterval(() => {
                 // addCollectLimitationHint = false;
             }
         }
-    }
-
-    if (addCollectLimitationHint == true) {
-        showCollectLimitationHint()
     }
 
     if (anotherUser == true) {
@@ -258,22 +282,22 @@ setInterval(() => {
         astronaut2.style.top = a2.posy + 'px'
 
         if (a2.calcPosy < 455) {
-            a.vely = 0.0;
-            a.accy = 0;
+            a2.vely = 0.0;
+            a2.accy = 0;
         }
         if (a2.calcPosy > 586) {
-            a.vely = 0.0;
-            a.accy = 0;
+            a2.vely = 0.0;
+            a2.accy = 0;
         }
         if (a2.calcPosx < 0) {
-            a.velx = 0.0;
-            a.accx = 0;
+            a2.velx = 0.0;
+            a2.accx = 0;
         }
 
         if (a2.calcPosx > 5359) {
             console.log("stop")
-            a.velx = 0.0;
-            a.accx = 0;
+            a2.velx = 0.0;
+            a2.accx = 0;
         }
     }
 
@@ -284,17 +308,6 @@ function mapRange(value, a, b, c, d) { //Simulating the map function in p5.js
     return c + value * (d - c);
 }
 
-function showCollectLimitationHint() {
-    CollectLimitationHint.style.color = "white"
-    CollectLimitationHint.style.opacity = 1;
-    CollectLimitationHint.style.left = a.posx + 'px'
-    console.log("you can't collect more wreckages.")
-    setTimeout(() => {
-        CollectLimitationHint.style.opacity = 0;
-        addCollectLimitationHint = false
-    }, 5000);
-
-}
 
 
 
@@ -311,12 +324,16 @@ function showCollectLimitationHint() {
 
 
 socket.on("firstUser", (data) => {
-    socketid = data;
+    socketid = data.socketid;
+    roomNumber = data.roomNumber;
+    thisIndex = data.thisIndex;
     console.log('you are the first user here')
 })
 
 socket.on("secondUser", (data) => {
-    socketid = data;
+    socketid = data.socketid;
+    roomNumber = data.roomNumber;
+    thisIndex = data.thisIndex;
     console.log("you are the second user here")
     info = { socketid: socketid, acalcPosx: a.calcPosx, acalcPosy: a.calcPosy, aposx: a.posx, aposy: a.posy, w1podx: w1.posx, w1pody: w1.posy, w2podx: w2.posx, w2pody: w2.posy, w3podx: w3.posx, w3pody: w3.posy, w4podx: w4.posx, w4pody: w4.posy, w5podx: w5.posx, w5pody: w5.posy, w6podx: w6.posx, w6pody: w6.posy, windowWidth: window.innerWidth, windowHeight: window.innerHeight }
     socket.emit("toFirstUser", info)
@@ -344,14 +361,14 @@ socket.on("secondUserData", (data) => {
 
 socket.on("sendDataToNewUser", (data) => {
     let wreckagePos = [{ posx: w1.calcPosx, posy: w1.calcPosy }, { posx: w2.calcPosx, posy: w2.calcPosy }, { posx: w3.calcPosx, posy: w3.calcPosy }, { posx: w4.calcPosx, posy: w4.calcPosy }, { posx: w5.calcPosx, posy: w5.calcPosy }, { posx: w6.calcPosx, posy: w6.calcPosy }]
-    console.log(wreckagePos)
-    info = { socketid: socketid, acalcPosx: a.calcPosx, acalcPosy: a.calcPosy, aposx: a.posx, aposy: a.posy, wreckagePos: wreckagePos, w1posx: w1.calcPosx, w1posy: w1.calcPosy, w2posx: w2.calcPosx, w2posy: w2.calcPosy, w3posx: w3.calcPosx, w3posy: w3.calcPosy, w4posx: w4.calcPosx, w4posy: w4.calcPosy, w5posx: w5.calcPosx, w5posy: w5.calcPosy, w6posx: w6.calcPosx, w6posy: w6.calcPosy, wreckageCollected: wreckageCollected, windowWidth: window.innerWidth, windowHeight: window.innerHeight }
+        // console.log(wreckagePos)
+    info = { roomNumber: roomNumber, socketid: socketid, acalcPosx: a.calcPosx, acalcPosy: a.calcPosy, aposx: a.posx, aposy: a.posy, wreckagePos: wreckagePos, w1posx: w1.calcPosx, w1posy: w1.calcPosy, w2posx: w2.calcPosx, w2posy: w2.calcPosy, w3posx: w3.calcPosx, w3posy: w3.calcPosy, w4posx: w4.calcPosx, w4posy: w4.calcPosy, w5posx: w5.calcPosx, w5posy: w5.calcPosy, w6posx: w6.calcPosx, w6posy: w6.calcPosy, wreckageCollected: wreckageCollected, windowWidth: window.innerWidth, windowHeight: window.innerHeight }
     socket.emit("anotherUserInfo", info)
     console.log(info)
 })
 
-socket.on("newConnection", (data) => {
-    console.log('another user', data)
+socket.on("User1Info", (data) => {
+    console.log('another user 1', data)
     a2 = new Astronaut(data.acalcPosx, data.acalcPosy)
     user2 = document.createElement('img');
     user2.src = "img/astronaut-left.png";
@@ -399,7 +416,7 @@ socket.on("anotherUserKeyInfo", (data) => {
     }
     if (data == "ArrowRight") {
         document.getElementById("astronautImg2").src = "img/astronaut-right.png"
-        if (a2.calcPosx < 5359 - astronautImg.getBoundingClientRect().width) {
+        if (a2.calcPosx < 5359 - document.getElementById("astronautImg2").getBoundingClientRect().width) {
             a2.applyForce(0.5, 0)
         }
     }
