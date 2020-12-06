@@ -242,7 +242,7 @@ setInterval(() => {
                 if (wreckageNum < 3) {
                     wreckageCollected[i] = allWreckages[i]
                     springs[i] = new Spring(a, allWreckages[i], 70)
-                    socket.emit("newWreckageCollected", wreckageCollected)
+                    socket.emit("newWreckageCollected", { wreckageCollected: wreckageCollected, roomNumber: roomNumber })
                     wreckageNum += 1;
                     console.log(wreckageNum)
                 } else {
@@ -335,7 +335,7 @@ socket.on("secondUser", (data) => {
     roomNumber = data.roomNumber;
     thisIndex = data.thisIndex;
     console.log("you are the second user here")
-    info = { socketid: socketid, acalcPosx: a.calcPosx, acalcPosy: a.calcPosy, aposx: a.posx, aposy: a.posy, w1podx: w1.posx, w1pody: w1.posy, w2podx: w2.posx, w2pody: w2.posy, w3podx: w3.posx, w3pody: w3.posy, w4podx: w4.posx, w4pody: w4.posy, w5podx: w5.posx, w5pody: w5.posy, w6podx: w6.posx, w6pody: w6.posy, windowWidth: window.innerWidth, windowHeight: window.innerHeight }
+    info = { roomNumber: data.roomNumber, socketid: socketid, acalcPosx: a.calcPosx, acalcPosy: a.calcPosy, aposx: a.posx, aposy: a.posy, w1podx: w1.posx, w1pody: w1.posy, w2podx: w2.posx, w2pody: w2.posy, w3podx: w3.posx, w3pody: w3.posy, w4podx: w4.posx, w4pody: w4.posy, w5podx: w5.posx, w5pody: w5.posy, w6podx: w6.posx, w6pody: w6.posy, windowWidth: window.innerWidth, windowHeight: window.innerHeight }
     socket.emit("toFirstUser", info)
     console.log(info)
 })

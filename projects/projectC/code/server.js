@@ -71,7 +71,8 @@ io.on('connection', (socket) => {
     // }
 
     socket.on("toFirstUser", (data) => {
-        socket.broadcast.emit("secondUserData", data)
+        socket.to(`room${data.roomNumber}`).emit("secondUserData", data);
+        // socket.broadcast.emit("secondUserData", data)
     })
 
     socket.on("anotherUserInfo", (data) => {
@@ -85,11 +86,12 @@ io.on('connection', (socket) => {
     })
 
     socket.on("newWreckageCollected", (data) => {
-        socket.broadcast.emit("updateWreckageCollected", data)
+        socket.to(`room${data.roomNumber}`).emit("updateWreckageCollected", data.wreckageCollected);
     })
     socket.on("disconnect", () => {
         userNum -= 1
-        socket.broadcast.emit("quit", socket.id)
+        socket.to(`room${data.roomNumber}`).emit("quit", socket.id);
+        // socket.broadcast.emit("quit", socket.id)
         for (let i = 0; i < allUsers.length; i++) {
             if (allUsers[i] == socket.id) {
                 allUsers[i] = ""
