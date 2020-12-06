@@ -155,13 +155,13 @@ container.style.left = `${backgroundImgPos}px`
 
 document.addEventListener("keydown", (data) => {
     if (data.key == "ArrowLeft") {
-        astronautImg.src = "img/astronaut-left.png"
+        astronautImg.src = "/img/astronaut-left.png"
         if (a.calcPosx > 10) {
             a.applyForce(-1, 0)
         }
     }
     if (data.key == "ArrowUp") {
-        astronautImg.src = "img/astronaut-back.png"
+        astronautImg.src = "/img/astronaut-back.png"
         if (a.calcPosy > 465) {
             a.applyForce(0, -0.5)
         }
@@ -170,10 +170,10 @@ document.addEventListener("keydown", (data) => {
         if (a.calcPosx < 8006 - astronautImg.getBoundingClientRect().width) {
             a.applyForce(1, 0)
         }
-        astronautImg.src = "img/astronaut-right.png"
+        astronautImg.src = "/img/astronaut-right.png"
     }
     if (data.key == "ArrowDown") {
-        astronautImg.src = "img/astronaut-front.png"
+        astronautImg.src = "/img/astronaut-front.png"
         if (a.calcPosy < 736 - 150) {
             a.applyForce(0, 0.5)
         }
@@ -353,7 +353,7 @@ socket.on("secondUser", (data) => {
 socket.on("secondUserData", (data) => {
     a2 = new Astronaut(data.acalcPosx, data.acalcPosy)
     user2 = document.createElement('img');
-    user2.src = "img/astronaut-left.png";
+    user2.src = "/img/astronaut-left.png";
     user2.id = "astronautImg2"
     user2.style.height = "150px"
     console.log(astronaut2.childNodes)
@@ -381,7 +381,7 @@ socket.on("User1Info", (data) => {
     console.log('another user 1', data)
     a2 = new Astronaut(data.acalcPosx, data.acalcPosy)
     user2 = document.createElement('img');
-    user2.src = "img/astronaut-left.png";
+    user2.src = "/img/astronaut-left.png";
     user2.id = "astronautImg2"
     user2.style.height = "150px"
     console.log(astronaut2.childNodes)
@@ -413,25 +413,25 @@ socket.on("User1Info", (data) => {
 
 socket.on("anotherUserKeyInfo", (data) => {
     if (data == "ArrowLeft") {
-        document.getElementById("astronautImg2").src = "img/astronaut-left.png"
+        document.getElementById("astronautImg2").src = "/img/astronaut-left.png"
         if (a2.calcPosx > 0) {
             a2.applyForce(-1, 0)
         }
     }
     if (data == "ArrowUp") {
-        document.getElementById("astronautImg2").src = "img/astronaut-back.png"
+        document.getElementById("astronautImg2").src = "/img/astronaut-back.png"
         if (a2.calcPosy > 465) {
             a2.applyForce(0, -0.5)
         }
     }
     if (data == "ArrowRight") {
-        document.getElementById("astronautImg2").src = "img/astronaut-right.png"
+        document.getElementById("astronautImg2").src = "/img/astronaut-right.png"
         if (a2.calcPosx < 8006 - document.getElementById("astronautImg2").getBoundingClientRect().width) {
             a2.applyForce(1, 0)
         }
     }
     if (data == "ArrowDown") {
-        document.getElementById("astronautImg2").src = "img/astronaut-front.png"
+        document.getElementById("astronautImg2").src = "/img/astronaut-front.png"
         if (a2.calcPosy < 736 - 150) {
             a2.applyForce(0, 0.5)
         }
