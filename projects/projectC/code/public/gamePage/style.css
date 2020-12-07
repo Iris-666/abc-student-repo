@@ -54,3 +54,411 @@ body {
     width: 300px;
     opacity: 0;
 }
+
+.cube {
+    cursor: pointer;
+    position: absolute;
+    /* left: 800px;
+    top: 400px; */
+    width: 100px;
+    height: 100px;
+    transform-style: preserve-3d;
+    transform: translateZ(-100px);
+    transition: transform 1s;
+    animation: rotate 60s linear infinite;
+}
+
+.cube__face {
+    position: absolute;
+    background: #90ee9057;
+    color: black;
+    width: 50px;
+    height: 50px;
+    border: 3px solid white;
+    box-shadow: 0 0 20px 0px lightgreen;
+    border-radius: 3px;
+    line-height: 50px;
+    font-size: 10px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.cube.show-front {
+    transform: translateZ(-100px) rotateY( 0deg);
+}
+
+.cube.show-right {
+    transform: translateZ(-100px) rotateY( -90deg);
+}
+
+.cube.show-back {
+    transform: translateZ(-100px) rotateY(-180deg);
+}
+
+.cube.show-left {
+    transform: translateZ(-100px) rotateY( 90deg);
+}
+
+.cube.show-top {
+    transform: translateZ(-100px) rotateX( -90deg);
+}
+
+.cube.show-bottom {
+    transform: translateZ(-100px) rotateX( 90deg);
+}
+
+.front {
+    transform: rotateY( 0deg) translateZ(27px);
+}
+
+.right {
+    transform: rotateY( 90deg) translateZ(27px);
+}
+
+.back {
+    transform: rotateY(180deg) translateZ(27px);
+}
+
+.left {
+    transform: rotateY(-90deg) translateZ(27px);
+}
+
+.top {
+    transform: rotateX( 90deg) translateZ(27px);
+}
+
+.bottom {
+    transform: rotateX(-90deg) translateZ(27px);
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+    }
+    100% {
+        transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg);
+    }
+}
+
+.infobox {
+    overflow: hidden;
+    word-wrap: nowrap;
+    opacity: 0;
+    position: absolute;
+    width: 300px;
+    height: 60px;
+    border-radius: 10px;
+    /* left: 38%;
+    top: 270px; */
+    background: linear-gradient(#3483bb, #2f8da5, #309493);
+    box-shadow: 3px 3px 7px 0px black;
+    animation: 1s ease-in-out;
+}
+
+@keyframes openbox {
+    from {
+        width: 10px;
+        height: 10px;
+        opacity: 1
+    }
+    to {
+        width: 300px;
+        height: 60px;
+        opacity: 1
+    }
+}
+
+@keyframes closebox {
+    from {
+        width: 300px;
+        height: 60px;
+        opacity: 1
+    }
+    to {
+        width: 10px;
+        height: 10px;
+        opacity: 1
+    }
+}
+
+#messagesNum {
+    position: relative;
+    left: 5%;
+    top: 0%;
+    margin: 0;
+    margin-bottom: 2%;
+    margin-top: 4%;
+    color: white;
+}
+
+#instructions {
+    position: relative;
+    left: 5%;
+    margin: 0;
+    margin-top: 2%;
+    color: white;
+}
+
+#instructions2 {
+    overflow: hidden;
+    position: relative;
+    left: 5%;
+    margin: 0;
+    margin-top: 2%;
+    color: white;
+}
+
+.messageinfobox {
+    position: absolute;
+    bottom: -275px;
+    width: 100%;
+    display: none;
+    background-color: #444448;
+    z-index: 1;
+    animation: 1s 1 ease-in-out;
+}
+
+#messagebox {
+    position: relative;
+    top: -10px;
+    width: 40%;
+    margin: 2%;
+    float: left;
+}
+
+#send {
+    position: relative;
+    right: 7%;
+    top: -25px;
+    background-color: #7b7676;
+    color: white;
+    font-family: monospace;
+}
+
+#messagetitle {
+    position: relative;
+    left: 2%;
+    margin: 0;
+    margin-top: 20px;
+    color: white;
+    font-family: fantasy;
+}
+
+@keyframes popup {
+    to {
+        transform: translateY(-275px)
+    }
+}
+
+@keyframes popdown {
+    to {
+        transform: translateY(275px)
+    }
+}
+
+
+/* https://codepen.io/desandro/pen/KRWjzm */
+
+
+/* https://codepen.io/maxbrunel/pen/eqRqXg */
+
+.historyarea {
+    position: relative;
+    left: 47%;
+    width: 50%;
+    height: 200px;
+}
+
+#historybox {
+    list-style: none;
+    overflow: scroll;
+    word-wrap: break-word;
+    scroll-behavior: smooth;
+    position: relative;
+    background-color: white;
+    width: 100%;
+    height: 200px;
+    margin-top: -30px;
+    top: -260px;
+}
+
+#newMessageBox {
+    position: absolute;
+    width: 98%;
+    height: 20px;
+    margin: 1%;
+}
+
+#newMessages {
+    position: relative;
+    left: 1%;
+    margin: 0;
+}
+
+#historytitle {
+    position: relative;
+    display: inline-block;
+    font-family: cursive;
+    color: white;
+    left: 40%;
+    top: -290px;
+}
+
+#merge {
+    position: absolute;
+    display: none;
+    top: 0%;
+    color: white;
+    font-size: 30px;
+    width: 70vw;
+    font-family: cursive;
+    /* animation: 2s infinite ease-in-out; */
+    color: #fff;
+    text-align: center;
+    /* -webkit-animation: glow 1s ease-in-out infinite alternate;
+    -moz-animation: glow 1s ease-in-out infinite alternate; */
+    animation: glow 1s ease-in-out infinite alternate;
+}
+
+#mergestart {
+    position: absolute;
+    display: none;
+    top: 0%;
+    color: white;
+    font-size: 40px;
+    width: 70vw;
+    font-family: cursive;
+    /* animation: 2s infinite ease-in-out; */
+    color: #fff;
+    text-align: center;
+}
+
+
+/* https://medium.com/@lastseeds/create-text-ellipsis-animation-with-pure-css-7f61acee69cc */
+
+#dot1 {
+    animation: visibility 3s linear infinite;
+}
+
+#dot2 {
+    animation: visibility2 3s linear infinite;
+}
+
+#dot3 {
+    animation: visibility3 3s linear infinite;
+}
+
+@keyframes visibility {
+    0% {
+        opacity: 1;
+    }
+    65% {
+        opacity: 1;
+    }
+    66% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes visibility2 {
+    0% {
+        opacity: 0;
+    }
+    21% {
+        opacity: 0;
+    }
+    22% {
+        opacity: 1;
+    }
+    65% {
+        opacity: 1;
+    }
+    66% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes visibility3 {
+    0% {
+        opacity: 0;
+    }
+    43% {
+        opacity: 0;
+    }
+    44% {
+        opacity: 1;
+    }
+    65% {
+        opacity: 1;
+    }
+    66% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+#spacecraft {
+    display: none;
+    position: absolute;
+    width: 40%;
+    top: 60%;
+    animation: 4s ease-in-out;
+}
+
+@keyframes landing {
+    from {
+        top: 30%;
+        opacity: 0;
+    }
+    to {
+        top: 60%;
+        opacity: 1;
+    }
+}
+
+@keyframes float {
+    50% {
+        top: 55%
+    }
+}
+
+#mergearea {
+    position: absolute;
+    /* left: 400px;
+    top: 550px; */
+    box-shadow: 0 0 20px 0px #2ffff9;
+    /* height: 200px; */
+    /* width: 450px; */
+    border-radius: 50%;
+    opacity: 0;
+}
+
+#mergearea h1 {
+    position: absolute;
+    left: 30%;
+    top: 25%;
+}
+
+#closeMessageBox {
+    position: absolute;
+    width: 20px;
+    left: 97vw;
+    top: 2vh;
+}
+
+#endingVideo {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 1440px;
+    min-height: 100%;
+    z-index: 2;
+}

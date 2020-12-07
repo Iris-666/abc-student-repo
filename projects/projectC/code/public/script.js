@@ -39,12 +39,12 @@ introVideo.addEventListener('click', () => {
 
     setTimeout(() => {
         text.style.animationName = "typing";
-    }, 22000)
+    }, 20000)
 
     setTimeout(() => {
         text.style.opacity = "1";
         clickme.style.opacity = "1";
-    }, 25000)
+    }, 20000)
 })
 
 w1container.addEventListener('click', () => {

@@ -73,13 +73,14 @@ html {
 #text2 {
     position: relative;
     left: 3%;
-    top: 10%;
+    top: 20%;
     font-size: 30px;
     font-family: 'Balsamiq Sans', cursive;
     animation-fill-mode: forwards;
     overflow: hidden;
     /* Ensures the content is not revealed until the animation */
     white-space: nowrap;
+    /* width: 80vw; */
     /* Keeps the content on a single line */
     animation: 3.5s steps(40, end);
     display: none;
@@ -88,7 +89,7 @@ html {
 #text3 {
     position: relative;
     left: 3%;
-    top: 10%;
+    top: 20%;
     font-size: 30px;
     font-family: 'Balsamiq Sans', cursive;
     margin-top: -20px;
@@ -103,8 +104,8 @@ html {
 
 #continue {
     position: absolute;
-    right: 100px;
-    bottom: 150px;
+    right: 2vw;
+    bottom: 23vh;
     animation: blinker 1s linear infinite;
     font-size: 20px;
     opacity: 0;
@@ -161,10 +162,12 @@ html {
     position: relative;
     left: 350px;
     top: 100px;
-    width: 30%;
-    height: 35%;
-    box-shadow: 0px -2px 11px 1px #ffd031;
-    background-color: #d2c4b8;
+    color: white;
+    width: 40vw;
+    padding: 20px;
+    /* height: 35%; */
+    /* box-shadow: 0px -2px 11px 1px #ffd031; */
+    background-color: rgba(0, 0, 0, 0.6);
     border-radius: 20px;
     word-wrap: break-word;
     opacity: 0;

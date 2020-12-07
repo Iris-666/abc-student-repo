@@ -16,7 +16,7 @@ let wreckageCollectedNum = 0;
 
 let wreckageNum = 0;
 
-let counter = 0
+let counter = 0;
 
 let allWreckages = [];
 let springs = [];
@@ -25,15 +25,34 @@ let allWreckageImgs = [];
 let addCollectLimitationHint = false;
 let CollectLimitationHint = document.getElementById("CollectLimitationHint")
 let astronautLandingPos = Math.random() * (8006 - 2 * window.innerWidth) + window.innerWidth
-console.log(astronautLandingPos)
 
 for (let i = 0; i < 6; i++) {
     allWreckageImgs[i] = document.getElementById(`w${i+1}Container`)
 }
 
-
 let biggestSize = mapRange(window.innerHeight, 736, 400, 150, 100)
 let smallestSize = mapRange(window.innerHeight, 736, 400, 50, 30)
+
+//variables for the message box
+let cube = document.getElementsByClassName('cube')[0];
+let messageinfobox = document.getElementsByClassName('messageinfobox')[0];
+let messagebox = document.getElementById('messagebox');
+let sendButton = document.getElementById('send');
+let infobox = document.getElementsByClassName('infobox')[0];
+let messagetitle = document.getElementById('messagetitle');
+let historybox = document.getElementById('historybox');
+
+let clicksNumber = 0;
+// let messageNum = 0;
+// let messagesCount = document.getElementById('messagesCount');
+let closeMessageBox = document.getElementById("closeMessageBox");
+
+let spacecraft = document.getElementById("spacecraft");
+let sendMergeinfo = false;
+
+let mergeinstruction = document.getElementById('merge');
+let mergearea = document.getElementById('mergearea');
+
 
 class Astronaut {
     constructor(x, y) {
@@ -72,7 +91,7 @@ class Astronaut {
 }
 
 class Wreckage {
-    constructor(x, y, className, containerName, size, color) {
+    constructor(x, y, className, size) {
         this.size = size;
         this.calcPosx = x;
         this.posx = (window.innerHeight / 736) * x;
@@ -82,9 +101,7 @@ class Wreckage {
         this.vely = 0;
         this.accx = 0;
         this.accy = 0;
-        this.color = color;
         this.className = className;
-        this.containerName = containerName;
     }
     update() {
         this.velx = this.velx + this.accx;
@@ -145,6 +162,19 @@ let w5 = new Wreckage(5400, 420, 'w5')
 let w6 = new Wreckage(6500, 600, 'w6')
 allWreckages = [w1, w2, w3, w4, w5, w6]
 arrowhint.style.left = `${astronautLandingPos*(window.innerHeight / 736) - 150}px`;
+let mergeareaCalcPosx = 3700;
+let mergeareaCalcPosy = 500;
+let mergeareaCalcheight = 200;
+let mergeareaCalcwidth = 450;
+
+mergearea.style.left = `${mergeareaCalcPosx * (window.innerHeight / 736)}px`
+mergearea.style.top = `${mergeareaCalcPosy * (window.innerHeight / 736)}px`
+mergearea.style.height = `${mergeareaCalcheight * (window.innerHeight / 736)}px`
+mergearea.style.width = `${mergeareaCalcwidth * (window.innerHeight / 736)}px`
+let cubeCalcPosx = 1500;
+let cubeCalcPosy = 500;
+cube.style.left = `${cubeCalcPosx * (window.innerHeight / 736)}px`
+cube.style.top = `${cubeCalcPosy * (window.innerHeight / 736)}px`
 
 setTimeout(() => {
     arrowhint.style.opacity = 0;
@@ -155,7 +185,8 @@ backgroundImgPos = -astronautLandingPos + window.innerWidth / 2;
 if (backgroundImgPos > backgroundImg.width - window.innerWidth) {
     backgroundImgPos = backgroundImg.width - window.innerWidth
 }
-container.style.left = `${backgroundImgPos*(window.innerHeight / 736)}px`
+backgroundImgPos = backgroundImgPos * (window.innerHeight / 736)
+container.style.left = `${backgroundImgPos}px`
 
 
 
@@ -163,7 +194,7 @@ document.addEventListener("keydown", (data) => {
     if (data.key == "ArrowLeft") {
         astronautImg.src = "/img/astronaut-left.png"
         if (a.calcPosx > 10) {
-            a.applyForce(-1, 0)
+            a.applyForce(-0.5, 0)
         }
     }
     if (data.key == "ArrowUp") {
@@ -174,7 +205,7 @@ document.addEventListener("keydown", (data) => {
     }
     if (data.key == "ArrowRight") {
         if (a.calcPosx < 8006 - astronautImg.getBoundingClientRect().width) {
-            a.applyForce(1, 0)
+            a.applyForce(0.5, 0)
         }
         astronautImg.src = "/img/astronaut-right.png"
     }
@@ -184,6 +215,7 @@ document.addEventListener("keydown", (data) => {
             a.applyForce(0, 0.5)
         }
     }
+    // console.log("roomnumber is " + roomNumber)
     socket.emit("keyInfo", { key: data.key, roomNumber: roomNumber })
 
 })
@@ -227,7 +259,6 @@ setInterval(() => {
     if (astronaut.getBoundingClientRect().left > window.innerWidth - 200 && a.calcPosx < 8006 - 200) {
         backgroundImgPos -= Math.abs(a.velx * window.innerHeight / 736)
         container.style.left = `${backgroundImgPos}px`
-
     }
 
     //stop the users when reach the edge of ground
@@ -258,7 +289,7 @@ setInterval(() => {
                 if (wreckageNum < 3) {
                     wreckageCollected[i] = allWreckages[i]
                     springs[i] = new Spring(a, allWreckages[i], 70)
-                    socket.emit("newWreckageCollected", { wreckageCollected: wreckageCollected, roomNumber: roomNumber })
+                    socket.emit("newWreckageCollected", { wreckageCollected: wreckageCollected, roomNumber: roomNumber, allWreckages: allWreckages })
                     wreckageNum += 1;
                     console.log(wreckageNum)
                 } else {
@@ -280,8 +311,6 @@ setInterval(() => {
                             CollectLimitationHint.style.opacity = 0;
                             addCollectLimitationHint = false
                         }, 5000);
-
-
                     }
                 }
             } else {
@@ -317,6 +346,17 @@ setInterval(() => {
         }
     }
 
+    //define the position of the MessageBox
+    //view port variables
+    let astronautleft = a.posx;
+    let leftviewport = astronaut.getBoundingClientRect().left;
+    let rightviewport = astronaut.getBoundingClientRect().right;
+    let currentviewleft = astronautleft - leftviewport;
+    let currentviewright = currentviewleft + window.innerWidth;
+    let viewpointcenter = (currentviewleft + currentviewright) / 2;
+
+    messageinfobox.style.left = currentviewleft + "px";
+
 }, 50);
 
 function mapRange(value, a, b, c, d) { //Simulating the map function in p5.js
@@ -325,7 +365,106 @@ function mapRange(value, a, b, c, d) { //Simulating the map function in p5.js
 }
 
 
+// interaction for the message box
+cube.addEventListener('click', () => {
+    // clicksNumber += 1;
+    // if (clicksNumber % 2 == 0) {
+    //     messageinfobox.style.animationName = "popdown";
+    //     setTimeout(() => {
+    //         messageinfobox.style.display = "none";
+    //         messageinfobox.style.bottom = "-275px";
+    //         messagetitle.innerHTML = "Leave a message here!";
+    //     }, 1000)
+    // } else {
+    messageinfobox.style.display = "block";
+    messageinfobox.style.animationName = "popup";
+    setTimeout(() => {
+            messageinfobox.style.bottom = "0";
+        }, 1000)
+        // }
+})
 
+closeMessageBox.addEventListener("click", () => {
+    messageinfobox.style.animationName = "popdown";
+    setTimeout(() => {
+        messageinfobox.style.display = "none";
+        messageinfobox.style.bottom = "-275px";
+        messagetitle.innerHTML = "Leave a message here!";
+    }, 1000)
+
+
+})
+
+
+sendButton.addEventListener('click', () => {
+    // messageNum += 1;
+    // messagesCount.innerHTML = messageNum;
+    let messages = messagebox.value;
+    let data = { messages: messages };
+    console.log("roomnumber in message " + roomNumber)
+    socket.emit('message-from-one', data);
+    messagebox.value = "";
+    messagetitle.innerHTML = "Messages successfully stored!";
+})
+
+messagebox.addEventListener('keyup', () => {
+    if (event.keyCode === 13) {
+        sendButton.click();
+    }
+})
+
+//got the new messages from the database
+socket.on('messages-incoming', (messagelist) => {
+    console.log("Got the data", messagelist);
+
+    if (messagelist !== null) {
+        let keys = Object.keys(messagelist);
+        console.log("The user ID's are", keys);
+        for (var i = 0; i < keys.length; i++) {
+            let messages = messagelist[keys[i]];
+            console.log(messages.messages);
+            appendMessage(messages.messages);
+        }
+    }
+
+})
+
+socket.on('message-to-all', (data) => {
+    appendMessage(data.messages);
+})
+
+function appendMessage(message) {
+    let li = document.createElement("li");
+    li.style.margin = "2%";
+    let p = document.createElement("p");
+    p.innerHTML = message;
+    li.appendChild(p);
+
+    // make sure the new messages appear on top of the previous ones:
+    // from: https://developer.mozilla.org/en-US/docs/Web/API/ParentNode/prepend
+    historybox.prepend(li);
+    historybox.scrollTop = 0;
+}
+
+//approach
+setInterval(() => {
+        if (Math.abs(a.calcPosx - cubeCalcPosx) < 50 && Math.abs(a.calcPosy - cubeCalcPosy < 80)) {
+            console.log("message box approached!");
+            infobox.style.animationName = "openbox";
+            infobox.style.left = `${(cubeCalcPosx+ 100)  * (window.innerHeight / 736)}px`
+            infobox.style.top = `${cubeCalcPosy * (window.innerHeight / 736)}px`
+
+            setTimeout(() => {
+                infobox.style.opacity = "1";
+            }, 1000)
+        } else {
+            infobox.style.animationName = "closebox";
+            setTimeout(() => {
+                infobox.style.opacity = "0";
+            }, 1000)
+        }
+    }, 50)
+    // end for the message box interaction
 
 
 
@@ -364,7 +503,7 @@ socket.on("secondUserData", (data) => {
     user2.style.height = "150px"
     console.log(astronaut2.childNodes)
 
-    if (astronaut2.childNodes.length < 2) {
+    if (astronaut2.childNodes.length < 1) {
         astronaut2.appendChild(user2)
     }
     astronaut2Size = mapRange(a2.calcPosy, 465, 586, smallestSize, biggestSize)
@@ -392,7 +531,7 @@ socket.on("User1Info", (data) => {
     user2.style.height = "150px"
     console.log(astronaut2.childNodes)
 
-    if (astronaut2.childNodes.length < 2) {
+    if (astronaut2.childNodes.length < 1) {
         astronaut2.appendChild(user2)
     }
     astronaut2Size = mapRange(a2.calcPosy, 465, 586, smallestSize, biggestSize)
@@ -402,7 +541,7 @@ socket.on("User1Info", (data) => {
     anotherUser = true;
     wreckageCollectedByAnotherUser = data.wreckageCollected
     for (let i = 0; i < allWreckages.length; i++) {
-        console.log(data)
+        // console.log(data)
         allWreckages[i].calcPosx = data.wreckagePos[i].posx;
         allWreckages[i].calcPosy = data.wreckagePos[i].posy;
         wreckageSize = mapRange(allWreckages[i].calcPosy, 490, 736, 70, 130)
@@ -421,7 +560,7 @@ socket.on("anotherUserKeyInfo", (data) => {
     if (data == "ArrowLeft") {
         document.getElementById("astronautImg2").src = "/img/astronaut-left.png"
         if (a2.calcPosx > 0) {
-            a2.applyForce(-1, 0)
+            a2.applyForce(-0.5, 0)
         }
     }
     if (data == "ArrowUp") {
@@ -433,7 +572,7 @@ socket.on("anotherUserKeyInfo", (data) => {
     if (data == "ArrowRight") {
         document.getElementById("astronautImg2").src = "/img/astronaut-right.png"
         if (a2.calcPosx < 8006 - document.getElementById("astronautImg2").getBoundingClientRect().width) {
-            a2.applyForce(1, 0)
+            a2.applyForce(0.5, 0)
         }
     }
     if (data == "ArrowDown") {
@@ -460,4 +599,137 @@ socket.on("quit", (data) => {
     anotherUser = false;
     wreckageCollectedByAnotherUser = []
     console.log("you are now the only user here")
+})
+
+
+socket.on("mergeSpacecraft", () => {
+    console.log("all the powers has been collected");
+    mergearea.style.opacity = 1;
+    mergeinstruction.style.display = "block";
+
+
+    setInterval(() => {
+        //define variables
+        let astronautleft = a.posx;
+        let leftviewport = astronaut.getBoundingClientRect().left;
+        let rightviewport = astronaut.getBoundingClientRect().right;
+        let currentviewleft = astronautleft - leftviewport;
+        let currentviewright = currentviewleft + window.innerWidth;
+
+        let viewpointcenter = (currentviewleft + currentviewright) / 2;
+
+        let instructionleft = viewpointcenter - window.innerWidth * 0.35;
+
+
+        // merge instruction appear
+        mergeinstruction.style.left = instructionleft + 'px'
+        mergeinstruction.style.animationName = "appear";
+
+        // let mergeareaLeft = mergearea.offsetLeft;
+        // let mergeareaRight = mergeareaLeft + mergearea.getBoundingClientRect().width;
+        // let mergeareaTop = mergearea.offsetTop;
+        // let mergeareaBottom = mergeareaTop + mergearea.getBoundingClientRect().height;
+        let astronaut1InMergeArea = false;
+        let astronaut2InMergeArea = false;
+
+        // console.log(mergeareaLeft, mergeareaRight, mergeareaTop, mergeareaBottom);
+
+        if (a.calcPosx > mergeareaCalcPosx && a.calcPosx < mergeareaCalcPosx + mergeareaCalcwidth && a.calcPosy > mergeareaCalcPosy && a.calcPosy < mergeareaCalcPosy + mergeareaCalcheight) {
+            console.log("astronaut1 in the merge area");
+            astronaut1InMergeArea = true;
+        }
+
+
+        if (a2.calcPosx > mergeareaCalcPosx && a2.calcPosx < mergeareaCalcPosx + mergeareaCalcwidth && a2.calcPosy > mergeareaCalcPosy && a2.calcPosy < mergeareaCalcPosy + mergeareaCalcheight) {
+            console.log("astronaut2 in the merge area");
+            astronaut2InMergeArea = true;
+        }
+
+
+        //merge conditions all met!
+        if (astronaut1InMergeArea == true && astronaut2InMergeArea == true) {
+            console.log("can merge now!");
+            mergeinstruction.style.display = "none";
+            mergestart.style.display = "block";
+            mergestart.style.left = instructionleft + "px";
+
+            if (sendMergeinfo == false) {
+                let astid = { astid: socket.id }
+                socket.emit('mergeReady', astid);
+                sendMergeinfo = true;
+            }
+        }
+    }, 50)
+
+
+    //merge now!
+    socket.on('mergeNow', () => {
+        console.log("merge now");
+        let astronautleft = a.posx;
+        let leftviewport = astronaut.getBoundingClientRect().left;
+        let rightviewport = astronaut.getBoundingClientRect().right;
+        let currentviewleft = astronautleft - leftviewport;
+        let currentviewright = currentviewleft + window.innerWidth;
+        let viewpointcenter = (currentviewleft + currentviewright) / 2;
+
+        for (var i = 0; i < allWreckageImgs.length; i++) {
+            allWreckageImgs[i].style.animationName = "disappear";
+        }
+
+        setTimeout(() => {
+            for (var i = 0; i < allWreckageImgs.length; i++) {
+                allWreckageImgs[i].style.opacity = "0";
+            }
+        }, 2000)
+
+        setTimeout(() => {
+            console.log("powers merged, a big power!");
+            let mergedpower = document.createElement('img');
+            mergedpower.src = "/img/wreckage1.png";
+            mergedpower.style.position = "absolute";
+            mergedpower.style.width = "200px";
+            mergedpower.style.left = mergearea.offsetLeft + "px";
+            mergedpower.style.top = "100px";
+            mergedpower.style.display = "block"
+            mergedpower.style.animationName = "appear";
+            mergedpower.style.animationDuration = "2s";
+            container.appendChild(mergedpower);
+
+            setTimeout(() => {
+                mergedpower.style.animationName = "disappear";
+                mergedpower.style.animationDuration = "2s";
+                setTimeout(() => {
+                    mergedpower.style.display = "none";
+                    spacecraft.style.display = "block";
+                    spacecraft.style.left = mergearea.offsetLeft + "px";
+                    spacecraft.style.animationName = "landing";
+
+                    setTimeout(() => {
+                        spacecraft.style.display = "block";
+                        spacecraft.style.animationName = "float";
+                        spacecraft.style.animationDirection = "alternate";
+                        spacecraft.style.animationIterationCount = "infinite";
+                    }, 4000)
+
+                }, 2000)
+            }, 3000)
+
+        }, 3500)
+    })
+
+    let spacecraftapproach = false;
+
+    setInterval(() => {
+        if (Math.abs(a.calcPosx - spacecraft.offsetLeft) < 250 && Math.abs(a.calcPosy - spacecraft.offsetTop < 280)) {
+            console.log("spacecraft approached");
+            spacecraftapproach = true;
+            let userid = socket.id;
+            socket.emit('spacecraftapproached', userid);
+        }
+    }, 1000)
+
+    socket.on('launch', () => {
+        console.log("launch now!");
+
+    })
 })

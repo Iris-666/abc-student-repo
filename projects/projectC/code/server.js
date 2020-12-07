@@ -2,8 +2,13 @@ var express = require('express')
 var app = require('express')();
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
+let firebase = require('firebase');
 let userNum = 0;
 let allUsers = [];
+let astronautids = [];
+let usersid = []
+
+// let wreckageCollectedArray = [];
 
 
 app.use(express.static('public'));
@@ -11,6 +16,24 @@ app.use(express.static('public'));
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
 });
+
+//connection to the database
+let firebaseConfig = {
+    apiKey: "AIzaSyAchvhSZ69lsBio90gHXePFgfLfg3MFXJY",
+    authDomain: "abc-project-c.firebaseapp.com",
+    databaseURL: "https://abc-project-c.firebaseio.com",
+    projectId: "abc-project-c",
+    storageBucket: "abc-project-c.appspot.com",
+    messagingSenderId: "873084013315",
+    appId: "1:873084013315:web:9bbc46046ee102e7efb736",
+    measurementId: "G-HGKKHMGZVV"
+};
+
+//initialize firebase
+let firebaseapp = firebase.initializeApp(firebaseConfig);
+let database = firebaseapp.database();
+let messagelistref = database.ref('messages');
+
 
 io.on('connection', (socket) => {
     userNum += 1;
@@ -52,13 +75,11 @@ io.on('connection', (socket) => {
         io.to(socket.id).emit("secondUser", message);
 
         //send info to the first user
-        // socket.broadcast.emit("sendDataToNewUser")
         socket.to(`room${roomNumber}`).emit('sendDataToNewUser');
 
     }
     socket.on("toFirstUser", (data) => {
         socket.to(`room${data.roomNumber}`).emit("secondUserData", data);
-        // socket.broadcast.emit("secondUserData", data)
     })
 
     socket.on("anotherUserInfo", (data) => {
@@ -68,16 +89,74 @@ io.on('connection', (socket) => {
 
     socket.on("keyInfo", (data) => {
         socket.to(`room${data.roomNumber}`).emit('anotherUserKeyInfo', data.key);
-        // socket.broadcast.emit("anotherUserKeyInfo", data)
     })
 
     socket.on("newWreckageCollected", (data) => {
+        let userWreckageArray = data.wreckageCollected;
+        let wreckageArray = data.allWreckages;
+
+        console.log("received wreckage array", userWreckageArray);
+        console.log("wreackges are", wreckageArray);
+
+        let wreckageCollectedArray = []
+
+        for (var i = 0; i < userWreckageArray.length; i++) {
+            if (userWreckageArray[i] != null || userWreckageArray[i] != undefined) {
+                wreckageCollectedArray[i] = userWreckageArray[i];
+                console.log("wreckage array is ", wreckageCollectedArray);
+            }
+        }
+
+        let sharedWreckages = 0;
+
+        for (let i = 0; i < wreckageArray.length; i++) {
+            if (wreckageCollectedArray[i] != undefined) {
+                if (wreckageCollectedArray[i].className == wreckageArray[i].className) {
+                    sharedWreckages += 1;
+                    console.log(sharedWreckages + "shared wreckage has been collected");
+
+                }
+            }
+        }
+
+
+        if (sharedWreckages == 1) {
+            console.log("all the powers have been collected");
+            sharedWreckages = 0;
+            io.to(`room${data.roomNumber}`).emit("mergeSpacecraft");
+        }
+
         socket.to(`room${data.roomNumber}`).emit("updateWreckageCollected", data.wreckageCollected);
     })
+
+
+    socket.on('mergeReady', (astid) => {
+        let astronautid = astid.astid;
+        astronautids.push(astronautid);
+        console.log(astronautids);
+
+        const allEqual = astronautids => astronautids.every(check => check === astronautids[0]);
+        const result = allEqual(astronautids);
+        console.log("astronautids", result);
+        if (result == false) {
+            io.emit("mergeNow")
+        }
+    })
+
+    socket.on('spacecraftapproached', (userid) => {
+        usersid.push(userid);
+        const allEqual = usersid => usersid.every(checkid => checkid === usersid[0]);
+        const result = allEqual(usersid);
+        console.log(result);
+        if (result == false) {
+            console.log("launch now!");
+            io.emit('launch')
+        }
+    })
+
     socket.on("disconnect", () => {
         userNum -= 1
-        console.log("quit" + allUsers)
-        console.log('quit' + roomNumber)
+            // console.log("quit" + allUsers)
         for (let i = 0; i < allUsers.length; i++) {
             if (allUsers[i] == socket.id) {
                 console.log("socket.id" + socket.id)
@@ -89,13 +168,27 @@ io.on('connection', (socket) => {
                 }
             }
         }
-        console.log("quit2" + allUsers)
-
         io.to(`room${thisRoomNumber}`).emit("quit", socket.id);
-
-        // socket.to(`room${roomNumber}`).emit("quit", socket.id);
-        // socket.broadcast.emit("quit", socket.id)
     })
+
+    //get all archived messages from the database and send them to the person just connected
+    messagelistref.once('value').then((snapshot) => {
+        console.log("database value is ", snapshot.val());
+        let messagelist = snapshot.val();
+        if (messagelist !== undefined) {
+            socket.emit('messages-incoming', messagelist);
+        }
+    })
+
+
+    //get messages from the messages box
+    socket.on('message-from-one', (data) => {
+        //save the message to the database
+        messagelistref.push(data);
+        console.log("message list is", data);
+        io.emit('message-to-all', data);
+    })
+
 })
 
 http.listen(3000, () => {
