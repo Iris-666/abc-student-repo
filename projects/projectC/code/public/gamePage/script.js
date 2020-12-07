@@ -400,7 +400,7 @@ sendButton.addEventListener('click', () => {
     // messageNum += 1;
     // messagesCount.innerHTML = messageNum;
     let messages = messagebox.value;
-    let data = { messages: messages };
+    let data = { messages: messages, roomNumber: roomNumber };
     console.log("roomnumber in message " + roomNumber)
     socket.emit('message-from-one', data);
     messagebox.value = "";
@@ -421,16 +421,21 @@ socket.on('messages-incoming', (messagelist) => {
         let keys = Object.keys(messagelist);
         console.log("The user ID's are", keys);
         for (var i = 0; i < keys.length; i++) {
-            let messages = messagelist[keys[i]];
-            console.log(messages.messages);
-            appendMessage(messages.messages);
+            let messages = messagelist[keys[i]].messages;
+            let dataroomNum = messagelist[keys[i]].roomNumber;
+            console.log("database messages", messages, "database room number", dataroomNum);
+            if (dataroomNum == roomNumber) {
+                console.log("got the room messages");
+                appendMessage(messages);
+            }
         }
     }
 
 })
 
-socket.on('message-to-all', (data) => {
-    appendMessage(data.messages);
+socket.on('message-to-all', (info) => {
+    appendMessage(info.messages);
+    console.log("message received", info.messages);
 })
 
 function appendMessage(message) {

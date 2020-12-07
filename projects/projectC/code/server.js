@@ -171,22 +171,26 @@ io.on('connection', (socket) => {
         io.to(`room${thisRoomNumber}`).emit("quit", socket.id);
     })
 
+    //get messages from the messages box
+    socket.on('message-from-one', (data) => {
+        //save the message and roomnumber to the database
+        messagelistref.push(data);
+        console.log("message list is", data.messages, "room is", roomNumber);
+        // send the message to the specific room
+        let info = { messages: data.messages };
+        io.to(`room${roomNumber}`).emit('message-to-all', info);
+    })
+
+
     //get all archived messages from the database and send them to the person just connected
     messagelistref.once('value').then((snapshot) => {
         console.log("database value is ", snapshot.val());
         let messagelist = snapshot.val();
         if (messagelist !== undefined) {
-            socket.emit('messages-incoming', messagelist);
+            //sort data
+            io.to(`room${roomNumber}`).emit('messages-incoming', messagelist);
+            console.log("messages retrieved are", messagelist);
         }
-    })
-
-
-    //get messages from the messages box
-    socket.on('message-from-one', (data) => {
-        //save the message to the database
-        messagelistref.push(data);
-        console.log("message list is", data);
-        io.emit('message-to-all', data);
     })
 
 })
