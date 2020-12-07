@@ -22,6 +22,10 @@ let allWreckages = [];
 let springs = [];
 let allWreckageImgs = [];
 
+let spacecraftappear = false;
+
+let launchConfirmBox = document.getElementById("launchConfirm");
+
 let addCollectLimitationHint = false;
 let CollectLimitationHint = document.getElementById("CollectLimitationHint")
 let astronautLandingPos = Math.random() * (8006 - 2 * window.innerWidth) + window.innerWidth
@@ -52,8 +56,9 @@ let sendMergeinfo = false;
 
 let mergeinstruction = document.getElementById('merge');
 let mergearea = document.getElementById('mergearea');
+let endingVideo = document.getElementById("endingVideo");
 
-
+let allWreckageCollected = [];
 class Astronaut {
     constructor(x, y) {
         //here with calcPosx, I calculate the position of each element on the screen
@@ -291,6 +296,7 @@ setInterval(() => {
                     springs[i] = new Spring(a, allWreckages[i], 70)
                     socket.emit("newWreckageCollected", { wreckageCollected: wreckageCollected, roomNumber: roomNumber, allWreckages: allWreckages })
                     wreckageNum += 1;
+                    allWreckageCollected[i] = allWreckages[i]
                     console.log(wreckageNum)
                 } else {
                     if (addCollectLimitationHint == false) {
@@ -312,6 +318,8 @@ setInterval(() => {
                             addCollectLimitationHint = false
                         }, 5000);
                     }
+                    socket.emit("hasCollectedThree", { roomNumber: roomNumber })
+
                 }
             } else {
                 // addCollectLimitationHint = false;
@@ -356,6 +364,17 @@ setInterval(() => {
     let viewpointcenter = (currentviewleft + currentviewright) / 2;
 
     messageinfobox.style.left = currentviewleft + "px";
+
+    // console.log(allWreckageCollected)
+    let collectedNum = 0;
+    for (let i = 0; i < 6; i++) {
+        if (allWreckageCollected[i] != undefined) {
+            collectedNum += 1;
+        }
+    }
+    if (collectedNum == 6) {
+        socket.emit("allWreckagesCollected", { roomNumber: roomNumber })
+    }
 
 }, 50);
 
@@ -487,14 +506,14 @@ socket.on("firstUser", (data) => {
     socketid = data.socketid;
     roomNumber = data.roomNumber;
     thisIndex = data.thisIndex;
-    console.log('you are the first user here')
+    console.log('you are the first user here in room', roomNumber)
 })
 
 socket.on("secondUser", (data) => {
     socketid = data.socketid;
     roomNumber = data.roomNumber;
     thisIndex = data.thisIndex;
-    console.log("you are the second user here")
+    console.log("you are the second user here in room", roomNumber)
     info = { roomNumber: data.roomNumber, socketid: socketid, acalcPosx: a.calcPosx, acalcPosy: a.calcPosy, aposx: a.posx, aposy: a.posy, w1podx: w1.posx, w1pody: w1.posy, w2podx: w2.posx, w2pody: w2.posy, w3podx: w3.posx, w3pody: w3.posy, w4podx: w4.posx, w4pody: w4.posy, w5podx: w5.posx, w5pody: w5.posy, w6podx: w6.posx, w6pody: w6.posy, windowWidth: window.innerWidth, windowHeight: window.innerHeight }
     socket.emit("toFirstUser", info)
     console.log(info)
@@ -594,6 +613,7 @@ socket.on("updateWreckageCollected", (data) => {
     for (let i = 0; i < allWreckages.length; i++) {
         if (wreckageCollectedByAnotherUser[i] != undefined && wreckageCollectedByAnotherUser[i].className == allWreckages[i].className) {
             springs[i] = new Spring(a2, allWreckages[i], 70)
+            allWreckageCollected[i] = allWreckages[i];
             console.log(springs)
         }
     }
@@ -608,7 +628,7 @@ socket.on("quit", (data) => {
 
 
 socket.on("mergeSpacecraft", () => {
-    console.log("all the powers has been collected");
+    // console.log("all the powers has been collected");
     mergearea.style.opacity = 1;
     mergeinstruction.style.display = "block";
 
@@ -628,7 +648,7 @@ socket.on("mergeSpacecraft", () => {
 
         // merge instruction appear
         mergeinstruction.style.left = instructionleft + 'px'
-        mergeinstruction.style.animationName = "appear";
+        mergeinstruction.style.animationName = "blinker";
 
         // let mergeareaLeft = mergearea.offsetLeft;
         // let mergeareaRight = mergeareaLeft + mergearea.getBoundingClientRect().width;
@@ -640,13 +660,13 @@ socket.on("mergeSpacecraft", () => {
         // console.log(mergeareaLeft, mergeareaRight, mergeareaTop, mergeareaBottom);
 
         if (a.calcPosx > mergeareaCalcPosx && a.calcPosx < mergeareaCalcPosx + mergeareaCalcwidth && a.calcPosy > mergeareaCalcPosy && a.calcPosy < mergeareaCalcPosy + mergeareaCalcheight) {
-            console.log("astronaut1 in the merge area");
+            // console.log("astronaut1 in the merge area");
             astronaut1InMergeArea = true;
         }
 
 
         if (a2.calcPosx > mergeareaCalcPosx && a2.calcPosx < mergeareaCalcPosx + mergeareaCalcwidth && a2.calcPosy > mergeareaCalcPosy && a2.calcPosy < mergeareaCalcPosy + mergeareaCalcheight) {
-            console.log("astronaut2 in the merge area");
+            // console.log("astronaut2 in the merge area");
             astronaut2InMergeArea = true;
         }
 
@@ -657,6 +677,8 @@ socket.on("mergeSpacecraft", () => {
             mergeinstruction.style.display = "none";
             mergestart.style.display = "block";
             mergestart.style.left = instructionleft + "px";
+            mergearea.style.backgroundColor = "#eee8a1a1";
+            mergearea.style.boxShadow = "0 0 20px 0px #dfff2f";
 
             if (sendMergeinfo == false) {
                 let astid = { astid: socket.id }
@@ -693,7 +715,7 @@ socket.on("mergeSpacecraft", () => {
             mergedpower.src = "/img/wreckage1.png";
             mergedpower.style.position = "absolute";
             mergedpower.style.width = "200px";
-            mergedpower.style.left = mergearea.offsetLeft + "px";
+            mergedpower.style.left = mergearea.offsetLeft + 100 + "px";
             mergedpower.style.top = "100px";
             mergedpower.style.display = "block"
             mergedpower.style.animationName = "appear";
@@ -714,6 +736,12 @@ socket.on("mergeSpacecraft", () => {
                         spacecraft.style.animationName = "float";
                         spacecraft.style.animationDirection = "alternate";
                         spacecraft.style.animationIterationCount = "infinite";
+
+
+                        setTimeout(() => {
+                            spacecraftappear = true;
+                        }, 2000)
+
                     }, 4000)
 
                 }, 2000)
@@ -722,19 +750,54 @@ socket.on("mergeSpacecraft", () => {
         }, 3500)
     })
 
-    let spacecraftapproach = false;
+
+    let getonspacecraft = false;
 
     setInterval(() => {
-        if (Math.abs(a.calcPosx - spacecraft.offsetLeft) < 250 && Math.abs(a.calcPosy - spacecraft.offsetTop < 280)) {
+
+        // if (Math.abs(a.calcPosx - spacecraft.offsetLeft) < 300 && Math.abs(a.calcPosy - spacecraft.offsetTop < 420 || spacecraftappear == true)) {
+        if (spacecraftappear == true) {
+
             console.log("spacecraft approached");
-            spacecraftapproach = true;
-            let userid = socket.id;
-            socket.emit('spacecraftapproached', userid);
+            launchConfirmBox.style.display = "block";
+            launchConfirmBox.style.animationName = "blinker";
+            launchConfirmBox.style.left = mergearea.offsetLeft + 100 + "px";
+            mergestart.innerHTML = "Success! Now let's get back to earth!";
+
+            if (getonspacecraft == false) {
+                document.body.addEventListener('keyup', (event) => {
+                    if (event.keyCode === 13) {
+                        let userid = socket.id;
+                        astronaut.removeChild(document.getElementById("astronautImg"));
+                        socket.emit('spacecraftapproached', userid);
+                        socket.emit('astronautin');
+                        launchConfirmBox.style.display = "none";
+                    }
+                })
+                getonspacecraft = true;
+            }
+
+
         }
     }, 1000)
 
     socket.on('launch', () => {
-        console.log("launch now!");
+        //make sure the instruction doesn't appear again
+        setInterval(() => {
+            mergeinstruction.style.display = "none";
+        })
 
+        // let astronautleft = a.posx;
+        // let leftviewport = astronaut.getBoundingClientRect().left;
+        // let currentviewleft = astronautleft - leftviewport;
+        console.log("video ready!");
+        endingVideo.style.display = "block";
+        // endingVideo.style.left = currentviewleft + "px";
+        endingVideo.play();
+    })
+
+    socket.on('astronautRemove', () => {
+        astronaut2.removeChild(document.getElementById("astronautImg2"));
+        console.log("another astronaut has got on the spacecraft");
     })
 })

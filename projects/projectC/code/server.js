@@ -95,8 +95,8 @@ io.on('connection', (socket) => {
         let userWreckageArray = data.wreckageCollected;
         let wreckageArray = data.allWreckages;
 
-        console.log("received wreckage array", userWreckageArray);
-        console.log("wreackges are", wreckageArray);
+        // console.log("received wreckage array", userWreckageArray);
+        // console.log("wreackges are", wreckageArray);
 
         let wreckageCollectedArray = []
 
@@ -120,7 +120,7 @@ io.on('connection', (socket) => {
         }
 
 
-        if (sharedWreckages == 1) {
+        if (sharedWreckages == 6) {
             console.log("all the powers have been collected");
             sharedWreckages = 0;
             io.to(`room${data.roomNumber}`).emit("mergeSpacecraft");
@@ -129,6 +129,10 @@ io.on('connection', (socket) => {
         socket.to(`room${data.roomNumber}`).emit("updateWreckageCollected", data.wreckageCollected);
     })
 
+
+    socket.on("allWreckagesCollected", (data) => {
+        io.to(`room${data.roomNumber}`).emit("mergeSpacecraft");
+    })
 
     socket.on('mergeReady', (astid) => {
         let astronautid = astid.astid;
@@ -139,7 +143,7 @@ io.on('connection', (socket) => {
         const result = allEqual(astronautids);
         console.log("astronautids", result);
         if (result == false) {
-            io.emit("mergeNow")
+            io.to(`room${roomNumber}`).emit("mergeNow")
         }
     })
 
@@ -150,8 +154,12 @@ io.on('connection', (socket) => {
         console.log(result);
         if (result == false) {
             console.log("launch now!");
-            io.emit('launch')
+            io.to(`room${roomNumber}`).emit('launch')
         }
+    })
+
+    socket.on('astronautin', () => {
+        socket.to(`room${roomNumber}`).emit("astronautRemove", socket.id)
     })
 
     socket.on("disconnect", () => {

@@ -10,6 +10,15 @@ html {
     overflow: hidden;
 }
 
+#startbt {
+    z-index: 5;
+    position: absolute;
+    left: 50vw;
+    color: white;
+    top: 50vh;
+    cursor: pointer;
+}
+
 #introVideo {
     /* absolute position let the element overlay others */
     position: absolute;

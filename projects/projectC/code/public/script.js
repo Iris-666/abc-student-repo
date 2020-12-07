@@ -13,22 +13,28 @@ let clickme = document.getElementById('clickme');
 let clickTocontinue = document.getElementById('continue');
 
 let start = document.getElementById('start');
+let startbt = document.getElementById("startbt")
 
 if (document.images) {
     img1 = new Image();
     img1.src = "img/backgroundLongLow.jpg";
     img2 = new Image();
-    img2.src = "img/astronaut-back.jpg";
+    img2.src = "img/astronaut-back.png";
     img3 = new Image();
-    img3.src = "img/astronaut-front.jpg";
+    img3.src = "img/astronaut-front.png";
     img4 = new Image();
-    img4.src = "img/astronaut-left.jpg";
+    img4.src = "img/astronaut-left.png";
     img5 = new Image();
-    img5.src = "img/astronaut-right.jpg";
+    img5.src = "img/astronaut-right.png";
     img6 = new Image();
     img6.src = "img/wreckage1.png";
 }
 
+
+startbt.addEventListener("click", () => {
+    introVideo.play();
+    startbt.style.display = 'none'
+})
 
 
 introVideo.addEventListener('click', () => {

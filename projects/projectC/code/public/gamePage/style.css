@@ -16,6 +16,7 @@ body {
 .wreckageImg {
     position: absolute;
     width: 80px;
+    z-index: 1;
 }
 
 #astronautContainer {
@@ -24,6 +25,7 @@ body {
     position: absolute;
     top: 60vh;
     left: 900px;
+    z-index: 1;
 }
 
 #astronautContainer2 {
@@ -32,10 +34,12 @@ body {
     position: absolute;
     top: 60vh;
     left: 900px;
+    z-index: 1;
 }
 
 #astronautImg {
     height: 50px;
+    z-index: 1;
 }
 
 #arrowHint {
@@ -317,7 +321,7 @@ body {
     text-align: center;
     /* -webkit-animation: glow 1s ease-in-out infinite alternate;
     -moz-animation: glow 1s ease-in-out infinite alternate; */
-    animation: glow 1s ease-in-out infinite alternate;
+    animation: blinker 2s linear infinite;
 }
 
 #mergestart {
@@ -435,6 +439,7 @@ body {
     /* left: 400px;
     top: 550px; */
     box-shadow: 0 0 20px 0px #2ffff9;
+    background-color: #a1eee3a1;
     /* height: 200px; */
     /* width: 450px; */
     border-radius: 50%;
@@ -458,7 +463,44 @@ body {
     position: absolute;
     right: 0;
     bottom: 0;
-    width: 1440px;
+    /* width: 100vw; */
     min-height: 100%;
     z-index: 2;
+    display: none;
+}
+
+#launchConfirm {
+    display: none;
+    position: absolute;
+    font-family: fantasy;
+    top: 420px;
+    width: 100%;
+    color: white;
+    font-size: 20px;
+    z-index: 2;
+    animation: 2s linear infinite;
+}
+
+@keyframes blinker {
+    50% {
+        opacity: 0;
+    }
+}
+
+@keyframes appear {
+    from {
+        opacity: 0
+    }
+    to {
+        opacity: 1
+    }
+}
+
+@keyframes disappear {
+    from {
+        opacity: 1
+    }
+    to {
+        opacity: 0
+    }
 }
