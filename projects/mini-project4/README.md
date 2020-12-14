@@ -1,5 +1,7 @@
 ### Translator
 
+Click [here](https://github.com/Iris-666/abc-student-repo/raw/master/projects/mini-project4/bug-project.zip) to download
+
 This chrome extension is a translator that can help to translate the whole web page from English to Chinese, however, in a transliterating way. 
 
 I referred to this chart ⬇️
