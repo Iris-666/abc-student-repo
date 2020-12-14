@@ -673,7 +673,7 @@ socket.on("mergeSpacecraft", () => {
 
         //merge conditions all met!
         if (astronaut1InMergeArea == true && astronaut2InMergeArea == true) {
-            console.log("can merge now!");
+            // console.log("can merge now!");
             mergeinstruction.style.display = "none";
             mergestart.style.display = "block";
             mergestart.style.left = instructionleft + "px";

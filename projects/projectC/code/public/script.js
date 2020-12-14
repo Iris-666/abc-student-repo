@@ -34,11 +34,6 @@ if (document.images) {
 startbt.addEventListener("click", () => {
     introVideo.play();
     startbt.style.display = 'none'
-})
-
-
-introVideo.addEventListener('click', () => {
-    introVideo.play();
     setTimeout(() => {
         introVideo.style.display = "none";
     }, 20000)
@@ -51,7 +46,9 @@ introVideo.addEventListener('click', () => {
         text.style.opacity = "1";
         clickme.style.opacity = "1";
     }, 20000)
+
 })
+
 
 w1container.addEventListener('click', () => {
 

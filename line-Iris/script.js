@@ -14,11 +14,11 @@ let scrollingText = document.getElementById("scrollingText")
 
 links.forEach(function(element) {
         element.addEventListener("click", () => {
-            scrollingText.innerHTML = `Welcome to the metro line Iris &nbsp;&nbsp;&nbsp;&nbsp; The terminal station is Project C &nbsp;&nbsp;&nbsp;&nbsp; Next stop is ${element.id} &nbsp;&nbsp;&nbsp;&nbsp; please get ready to Exit, from the left side.`
+            scrollingText.innerHTML = `Welcome to the metro line Iris &nbsp;&nbsp;&nbsp;&nbsp; The terminal station is On The Moon &nbsp;&nbsp;&nbsp;&nbsp; Next stop is ${element.innerHTML} &nbsp;&nbsp;&nbsp;&nbsp; please get ready to Exit, from the left side.`
             console.log(element.id)
         })
     })
     // mini1.addEventListener("click", () => {
     //     console.log(scrollingText.innerHTML)
-    //     scrollingText.innerHTML = `Welcome to the metro line Iris &nbsp;&nbsp;&nbsp;&nbsp; The terminal station is Project C &nbsp;&nbsp;&nbsp;&nbsp; Next stop is Mini Project #6 &nbsp;&nbsp;&nbsp;&nbsp; please get ready to Exit, from the left side.`
+    //     scrollingText.innerHTML = `Welcome to the metro line Iris &nbsp;&nbsp;&nbsp;&nbsp; The terminal station is On The Moon &nbsp;&nbsp;&nbsp;&nbsp; Next stop is Mini Project #6 &nbsp;&nbsp;&nbsp;&nbsp; please get ready to Exit, from the left side.`
     // })
